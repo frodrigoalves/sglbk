@@ -1,0 +1,41 @@
+{
+  "name": "capsule-unlock-check",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "hours": 0,
+              "minutes": 5
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.cron",
+      "name": "Cron"
+    },
+    {
+      "parameters": {
+        "url": "http://singulai-api:8080/internal/cron/unlock-check",
+        "method": "POST"
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "name": "HTTP Unlock"
+    }
+  ],
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "HTTP Unlock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,1 @@
+[{"inputs": [{"internalType": "uint256", "name": "avatarId", "type": "uint256"}, {"internalType": "address", "name": "wallet", "type": "address"}], "name": "link", "outputs": [], "stateMutability": "nonpayable", "type": "function"}]

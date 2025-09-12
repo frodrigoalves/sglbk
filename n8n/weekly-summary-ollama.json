@@ -1,0 +1,71 @@
+{
+  "name": "weekly-summary-ollama",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyWeek",
+              "hour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.cron",
+      "name": "Cron Weekly"
+    },
+    {
+      "parameters": {
+        "url": "${SUPABASE_URL}/rest/v1/capsules?select=id,avatar_id,unlock_at,status&limit=100",
+        "options": {
+          "headers": {
+            "apikey": "${SUPABASE_SERVICE_KEY}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "name": "Fetch Supabase"
+    },
+    {
+      "parameters": {
+        "url": "http://stack-ollama-1:11434/api/generate",
+        "method": "POST",
+        "jsonParameters": true,
+        "options": {
+          "body": {
+            "model": "llama3.1",
+            "prompt": "Resuma o status das c\u00e1psulas: {{$json}}",
+            "stream": false
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "name": "Ollama Summarize"
+    }
+  ],
+  "connections": {
+    "Cron Weekly": {
+      "main": [
+        [
+          {
+            "node": "Fetch Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Supabase": {
+      "main": [
+        [
+          {
+            "node": "Ollama Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+services:
+  singulai-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    depends_on:
+      - ipfs
+      - stack-supabase
+    networks:
+      - default
+    ports:
+      - "8080:8080"
+  ipfs:
+    image: ipfs/kubo:latest
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+      - "8080:8080"
+    volumes:
+      - ipfs-data:/data/ipfs
+volumes:
+  ipfs-data:

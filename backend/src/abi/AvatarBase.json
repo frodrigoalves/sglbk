@@ -1,0 +1,1 @@
+[{"inputs": [{"internalType": "address", "name": "to", "type": "address"}, {"internalType": "string", "name": "attrs", "type": "string"}], "name": "mint", "outputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}], "stateMutability": "nonpayable", "type": "function"}]
