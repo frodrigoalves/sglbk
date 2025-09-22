@@ -1,0 +1,10 @@
+services:
+  contracts:
+    image: contracts
+    build:
+      context: contracts-1
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
