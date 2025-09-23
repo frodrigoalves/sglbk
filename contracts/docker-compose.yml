@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: singulai-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: singulai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: singulai-backend
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/singulai
+      JWT_SECRET: ${JWT_SECRET}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+      AVATAR_BASE_ADDRESS: ${AVATAR_BASE_ADDRESS}
+      AVATAR_WALLET_LINK_ADDRESS: ${AVATAR_WALLET_LINK_ADDRESS}
+      TIME_CAPSULE_ADDRESS: ${TIME_CAPSULE_ADDRESS}
+      DIGITAL_LEGACY_ADDRESS: ${DIGITAL_LEGACY_ADDRESS}
+      CONTRACT_ADDRESS: ${CONTRACT_ADDRESS}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  n8n:
+    image: n8nio/n8n
+    container_name: singulai-n8n
+    environment:
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - NODE_ENV=production
+      - WEBHOOK_URL=${N8N_WEBHOOK_URL:-http://localhost:5678/}
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  postgres_data:
+  n8n_data:

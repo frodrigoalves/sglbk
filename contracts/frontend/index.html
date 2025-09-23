@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI - MVP Frontend</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .status {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        
+        .contracts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .contract-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .contract-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contract-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .contract-address {
+            font-family: monospace;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .result {
+            background: rgba(0,255,0,0.2);
+            border: 1px solid rgba(0,255,0,0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .error {
+            background: rgba(255,0,0,0.2);
+            border: 1px solid rgba(255,0,0,0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+            color: #ffa500;
+            font-style: italic;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+        
+        footer {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+        
+        .footer-title {
+            margin-bottom: 15px;
+            color: #ffa500;
+        }
+        
+        .footer-text {
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .footer-subtext {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+        }
+        
+        .footer-disclaimer {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 SingulAI</h1>
+            <p class="subtitle">MVP Frontend - SGL Token (Sepolia Testnet)</p>
+        </header>
+
+        <div class="status">
+            <h3>🔗 Status da Conexão</h3>
+            <p id="connection-status">Conectando...</p>
+            <p id="account-info"></p>
+            <button id="connect-wallet" class="btn">🦊 Conectar MetaMask</button>
+        </div>
+
+        <div class="contracts-grid">
+            <!-- AvatarBase Card -->
+            <div class="contract-card">
+                <h3 class="contract-title">🎭 Avatar Base</h3>
+                <div class="contract-address">0x388D16b79fAff27A45F714838F029BC34aC60c48</div>
+                
+                <div class="input-group">
+                    <label>Atributos do Avatar:</label>
+                    <textarea id="avatar-attrs" placeholder="Descrição do seu avatar..." rows="3"></textarea>
+                </div>
+                
+                <button id="mint-avatar" class="btn">✨ Criar Avatar</button>
+                <button id="check-next-id" class="btn">🔍 Próximo ID</button>
+                
+                <div id="avatar-loading" class="loading">Criando avatar...</div>
+                <div id="avatar-result" class="result"></div>
+                <div id="avatar-error" class="error"></div>
+            </div>
+
+            <!-- TimeCapsule Card -->
+            <div class="contract-card">
+                <h3 class="contract-title">⏰ Time Capsule</h3>
+                <div class="contract-address">0x1CE74AA25698312e150E3d0Aa2657Cc1B1cBeC93</div>
+                
+                <div class="input-group">
+                    <label>Avatar ID:</label>
+                    <input type="number" id="capsule-avatar-id" placeholder="1" value="1">
+                </div>
+                
+                <div class="input-group">
+                    <label>Horas para desbloqueio:</label>
+                    <input type="number" id="capsule-hours" placeholder="24" value="1">
+                </div>
+                
+                <div class="input-group">
+                    <label>Conteúdo (CID):</label>
+                    <input type="text" id="capsule-cid" placeholder="QmTestCID123">
+                </div>
+                
+                <button id="create-capsule" class="btn">📦 Criar Cápsula</button>
+                
+                <div id="capsule-loading" class="loading">Criando cápsula...</div>
+                <div id="capsule-result" class="result"></div>
+                <div id="capsule-error" class="error"></div>
+            </div>
+
+            <!-- DigitalLegacy Card -->
+            <div class="contract-card">
+                <h3 class="contract-title">🏛️ Digital Legacy</h3>
+                <div class="contract-address">0x91E67E1592e66C347C3f615d71927c05a1951057</div>
+                
+                <div class="input-group">
+                    <label>Avatar ID:</label>
+                    <input type="number" id="legacy-avatar-id" placeholder="1" value="1">
+                </div>
+                
+                <div class="input-group">
+                    <label>Conteúdo (CID):</label>
+                    <input type="text" id="legacy-cid" placeholder="QmLegacyCID456">
+                </div>
+                
+                <div class="input-group">
+                    <label>Regras de Desbloqueio:</label>
+                    <textarea id="legacy-rules" placeholder="Condições para desbloqueio..." rows="3"></textarea>
+                </div>
+                
+                <button id="create-legacy" class="btn">🏛️ Criar Legado</button>
+                
+                <div id="legacy-loading" class="loading">Criando legado...</div>
+                <div id="legacy-result" class="result"></div>
+                <div id="legacy-error" class="error"></div>
+            </div>
+
+            <!-- AvatarWalletLink Card -->
+            <div class="contract-card">
+                <h3 class="contract-title">💼 Wallet Link</h3>
+                <div class="contract-address">0x803DE61049d1b192828A46e5952645C3f5b352B0</div>
+                
+                <p>Contrato para vincular carteiras aos avatares</p>
+                
+                <button id="check-wallet-link" class="btn">🔗 Verificar Status</button>
+                
+                <div id="wallet-loading" class="loading">Verificando...</div>
+                <div id="wallet-result" class="result"></div>
+                <div id="wallet-error" class="error"></div>
+            </div>
+        </div>
+
+        <!-- Rodapé com informações SGL Token -->
+        <footer>
+            <h3 class="footer-title">💰 SGL Token - Teste na Sepolia</h3>
+            <p class="footer-text">
+                Este MVP utiliza <strong>SGL Token</strong> como moeda de teste para familiarizar usuários com o ecossistema SingulAI.
+            </p>
+            <p class="footer-subtext">
+                🧪 <strong>Ambiente de Teste:</strong> Todas as transações são executadas na rede Sepolia Testnet
+            </p>
+            <div class="footer-links">
+                <a href="https://sepoliafaucet.com/" target="_blank" rel="noopener" class="btn">
+                    💧 Faucet Sepolia
+                </a>
+                <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn">
+                    🔍 Explorer Sepolia
+                </a>
+                <button id="check-sgl-balance" class="btn">💰 Ver Saldo SGL</button>
+            </div>
+            <p class="footer-disclaimer">
+                💡 <em>Os SGL Tokens utilizados aqui não possuem valor real e são apenas para demonstração do MVP</em>
+            </p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

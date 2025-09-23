@@ -1,18 +1,62 @@
 {
   "name": "singulai-contracts",
+  "version": "1.0.0",
+  "description": "SingulAI MVP Backend - Smart Contracts for Digital Avatars, Time Capsules and Digital Legacy",
   "private": true,
-  "version": "0.1.0",
+  "main": "hardhat.config.js",
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy": "hardhat run scripts/deploy.js --network sepolia"
+    "test:coverage": "hardhat coverage",
+    "test:gas": "REPORT_GAS=true hardhat test",
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:localhost": "hardhat run scripts/deploy.js --network localhost",
+    "check-balance": "hardhat run scripts/check-balance.js",
+    "check-balance:sepolia": "hardhat run scripts/check-balance.js --network sepolia",
+    "verify": "hardhat verify",
+    "clean": "hardhat clean",
+    "node": "hardhat node",
+    "help": "hardhat help"
+  },
+  "keywords": [
+    "ethereum",
+    "smart-contracts",
+    "solidity",
+    "hardhat",
+    "nft",
+    "erc721",
+    "avatar",
+    "digital-legacy",
+    "time-capsule",
+    "blockchain",
+    "web3",
+    "defi"
+  ],
+  "author": "Rodrigo Alves <rodrigo@singulai.com> (https://github.com/frodrigoalves)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frodrigoalves/sglbk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frodrigoalves/sglbk/issues"
+  },
+  "homepage": "https://github.com/frodrigoalves/sglbk#readme",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   },
   "devDependencies": {
-    "hardhat": "^2.22.5",
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0"
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.22.5"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "@openzeppelin/contracts": "^4.9.6"
-  }
+    "@openzeppelin/contracts": "4.9.6",
+    "dotenv": "^16.4.5"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "type": "commonjs"
 }
