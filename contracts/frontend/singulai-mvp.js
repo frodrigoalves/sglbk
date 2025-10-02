@@ -119,7 +119,10 @@ async function connectWallet() {
         
         updateConnectionStatus();
         showMessage('connection', 'success', '✅ Carteira conectada com sucesso!');
-        
+
+        // Configurar automaticamente o token SGL
+        await configureSGLToken();
+
         console.log('✅ Wallet conectada:', userAccount);
         
     } catch (error) {
@@ -358,10 +361,76 @@ if (window.ethereum) {
     });
 }
 
+// Configurar automaticamente o token SGL no MetaMask
+async function configureSGLToken() {
+    try {
+        if (!userAccount) {
+            console.log('⚠️  Nenhuma carteira conectada para configurar SGL');
+            return;
+        }
+
+        // Verificar se o usuário está logado no backend
+        const token = localStorage.getItem('singulai_token');
+        if (!token) {
+            console.log('⚠️  Usuário não autenticado, pulando configuração SGL');
+            return;
+        }
+
+        console.log('🔄 Configurando token SGL automaticamente...');
+
+        // Chamar endpoint do backend para obter configuração do token
+        const response = await fetch('http://localhost:3000/api/token/config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                walletAddress: userAccount
+            })
+        });
+
+        if (!response.ok) {
+            console.log('⚠️  Não foi possível obter configuração SGL do backend');
+            return;
+        }
+
+        const config = await response.json();
+
+        if (config.sglToken) {
+            // Adicionar token ao MetaMask
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: config.sglToken.address,
+                            symbol: config.sglToken.symbol,
+                            decimals: config.sglToken.decimals,
+                            image: config.sglToken.image
+                        }
+                    }
+                });
+
+                console.log('✅ Token SGL adicionado ao MetaMask automaticamente!');
+                showMessage('connection', 'success', '✅ Token SGL configurado automaticamente!');
+
+            } catch (addError) {
+                console.log('ℹ️  Token SGL já existe no MetaMask ou usuário cancelou');
+            }
+        }
+
+    } catch (error) {
+        console.error('❌ Erro ao configurar token SGL:', error);
+        // Não mostrar erro para o usuário, apenas log
+    }
+}
+
 // Log de inicialização
 console.log(`
 🤖 SingulAI MVP carregado!
-🌐 Site: https://www.singulai.site
+🌐 Site: https://www.singulai.live
 📱 Assistente: https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai
 🔗 Contratos na Sepolia Testnet
 `);

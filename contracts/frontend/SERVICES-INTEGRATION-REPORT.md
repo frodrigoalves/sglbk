@@ -12,38 +12,38 @@
 ### ✅ **Serviços Configurados (Apenas Setup)**
 
 #### **1. Supabase Database** 
-- **Domínio**: `sb.singulai.site`
+- **Domínio**: `sb.singulai.live`
 - **IP Resolvido**: `72.60.147.56`
 - **Status DNS**: ✅ Resolve corretamente
 - **Status HTTP**: ❌ Não acessível (timeout)
 - **Configuração MVP**: ⚠️ Variáveis definidas, sem integração ativa
 - **Variables .env**:
   ```bash
-  SUPABASE_URL=https://sb.singulai.site
+  SUPABASE_URL=https://sb.singulai.live
   SUPABASE_API_KEY=your_supabase_api_key
   SUPABASE_DB_URL=postgres://postgres:postgres@localhost:5432/singulai
   ```
 
 #### **2. n8n Automation Platform**
-- **Domínio**: `n8.singulai.site`  
+- **Domínio**: `n8.singulai.live`  
 - **IP Resolvido**: `72.60.147.56`
 - **Status DNS**: ✅ Resolve corretamente
 - **Status HTTP**: ❌ Não acessível (timeout)
 - **Configuração MVP**: ⚠️ Webhooks definidos, sem implementação
 - **Variables .env**:
   ```bash
-  N8N_WEBHOOK_URL=https://n8.singulai.site/webhook/singulai
+  N8N_WEBHOOK_URL=https://n8.singulai.live/webhook/singulai
   N8N_API_KEY=your_n8n_api_key
   ```
 
 #### **3. MinIO Storage**
-- **Domínio**: `mi.singulai.site`
+- **Domínio**: `mi.singulai.live`
 - **IP Estimado**: `72.60.147.56` (mesmo IP range)
 - **Status**: ⚠️ Configurado mas não testado
 - **Configuração MVP**: ⚠️ Variáveis de ambiente definidas
 - **Variables .env**:
   ```bash
-  MINIO_ENDPOINT=mi.singulai.site
+  MINIO_ENDPOINT=mi.singulai.live
   MINIO_PORT=443
   MINIO_USE_SSL=true
   MINIO_ACCESS_KEY=admin
@@ -52,14 +52,14 @@
   ```
 
 #### **4. Keycloak Authentication**
-- **Domínio**: `id.singulai.site`
+- **Domínio**: `id.singulai.live`
 - **Status**: ⚠️ Configurado mas não implementado no MVP
 - **Configuração MVP**: ⚠️ URLs definidas, sem uso ativo
 - **Variables .env**:
   ```bash
-  KEYCLOAK_ISSUER_URL=https://id.singulai.site/realms/singulai
+  KEYCLOAK_ISSUER_URL=https://id.singulai.live/realms/singulai
   KEYCLOAK_AUDIENCE=singulai-api
-  KEYCLOAK_JWKS_URL=https://id.singulai.site/realms/singulai/protocol/openid-connect/certs
+  KEYCLOAK_JWKS_URL=https://id.singulai.live/realms/singulai/protocol/openid-connect/certs
   ```
 
 ---
@@ -69,22 +69,22 @@
 ### **Serviços Adicionais Configurados (Sem Integração)**
 
 #### **5. Ollama AI**
-- **Domínio**: `ol.singulai.site`
+- **Domínio**: `ol.singulai.live`
 - **Status**: ⚠️ Definido mas não usado no MVP atual
 - **Uso Potencial**: Processamento de IA para avatares
 
 #### **6. Directus CMS**
-- **Domínio**: `cm.singulai.site`  
+- **Domínio**: `cm.singulai.live`  
 - **Status**: ⚠️ Definido mas não integrado
 - **Uso Potencial**: Gerenciamento de conteúdo
 
 #### **7. Typebot Chatbot**
-- **Domínio**: `tb.singulai.site`
+- **Domínio**: `tb.singulai.live`
 - **Status**: ⚠️ Definido mas não implementado
 - **Uso Potencial**: Interface conversacional
 
 #### **8. Event Webhook Server**
-- **Domínio**: `ev.singulai.site`
+- **Domínio**: `ev.singulai.live`
 - **Status**: ⚠️ Definido mas não usado
 - **Uso Potencial**: Processamento de eventos blockchain
 
@@ -107,8 +107,8 @@
    - MetaMask Integration: Totalmente funcional
 
 3. **DNS Resolution** - ✅ Todos os domínios resolvem corretamente
-   - Domínio principal: `singulai.site` → `54.232.119.62`
-   - Subdomínios: `*.singulai.site` → `72.60.147.56`
+   - Domínio principal: `singulai.live` → `54.232.119.62`
+   - Subdomínios: `*.singulai.live` → `72.60.147.56`
 
 ### **❌ O que NÃO está funcionando:**
 
@@ -133,7 +133,7 @@
 // STATUS: Configurado mas não integrado
 
 // Configuração Existente:
-SUPABASE_URL=https://sb.singulai.site
+SUPABASE_URL=https://sb.singulai.live
 SUPABASE_API_KEY=your_supabase_api_key
 
 // Problema: MVP não faz chamadas para Supabase
@@ -146,7 +146,7 @@ SUPABASE_API_KEY=your_supabase_api_key
 // STATUS: Definido mas não usado
 
 // Configuração Existente:
-N8N_WEBHOOK_URL=https://n8.singulai.site/webhook/singulai
+N8N_WEBHOOK_URL=https://n8.singulai.live/webhook/singulai
 N8N_API_KEY=your_n8n_api_key
 
 // Problema: Nenhum webhook implementado no MVP
@@ -159,7 +159,7 @@ N8N_API_KEY=your_n8n_api_key
 // STATUS: Configurado mas não utilizado
 
 // Configuração Existente:
-MINIO_ENDPOINT=mi.singulai.site
+MINIO_ENDPOINT=mi.singulai.live
 MINIO_BUCKET=singulai-test
 
 // Problema: MVP usa apenas IPFS CID placeholders
@@ -172,7 +172,7 @@ MINIO_BUCKET=singulai-test
 // STATUS: URLs definidas, sem implementação
 
 // Configuração Existente:
-KEYCLOAK_ISSUER_URL=https://id.singulai.site/realms/singulai
+KEYCLOAK_ISSUER_URL=https://id.singulai.live/realms/singulai
 
 // Problema: MVP usa apenas MetaMask
 // Nenhuma autenticação tradicional implementada
@@ -191,7 +191,7 @@ KEYCLOAK_ISSUER_URL=https://id.singulai.site/realms/singulai
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
-  'https://sb.singulai.site',
+  'https://sb.singulai.live',
   'your_supabase_api_key'
 )
 
@@ -207,7 +207,7 @@ async function saveTransaction(txData) {
 ```javascript
 // Adicionar no JavaScript do MVP:
 async function notifyN8N(event, data) {
-  await fetch('https://n8.singulai.site/webhook/singulai', {
+  await fetch('https://n8.singulai.live/webhook/singulai', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ event, data, timestamp: Date.now() })
@@ -228,7 +228,7 @@ async function notifyN8N(event, data) {
 import { S3Client } from '@aws-sdk/client-s3'
 
 const minioClient = new S3Client({
-  endpoint: 'https://mi.singulai.site',
+  endpoint: 'https://mi.singulai.live',
   credentials: {
     accessKeyId: 'admin',
     secretAccessKey: 'admin123'
@@ -345,7 +345,7 @@ docker run -p 9000:9000 minio/minio server /data
 # /etc/nginx/sites-available/singulai
 server {
     listen 443 ssl;
-    server_name sb.singulai.site;
+    server_name sb.singulai.live;
     location / {
         proxy_pass http://localhost:3000;
     }
@@ -353,7 +353,7 @@ server {
 
 server {
     listen 443 ssl;
-    server_name n8.singulai.site;
+    server_name n8.singulai.live;
     location / {
         proxy_pass http://localhost:5678;
     }

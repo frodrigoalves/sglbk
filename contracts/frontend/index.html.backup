@@ -6,7 +6,7 @@
     <title>SingulAI - Digital Legacy Infrastructure</title>
     <meta name="description" content="Plataforma enterprise de legado digital com blockchain Ethereum, smart contracts auditados e interface profissional para gestão de ativos digitais.">
     <meta name="keywords" content="blockchain, ethereum, smart contracts, legado digital, criptografia, segurança">
-    <link rel="icon" href="https://www.singulai.live/favicon.ico">
+    <link rel="icon" href="https://www.singulai.site/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -738,6 +738,7 @@
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#technology">Tecnologia</a></li>
+                <li><a href="singulai-mvp.html">Dashboard</a></li>
                 <li><a href="#start">Começar</a></li>
             </ul>
             <a href="login.html" class="cta-header">Entrar</a>
@@ -1536,7 +1537,7 @@
 </head>
 <body>
     <header>
-        <img src="https://www.singulai.live/logo-singulai.png" alt="SingulAI Logo" class="logo">
+        <img src="https://www.singulai.site/logo-singulai.png" alt="SingulAI Logo" class="logo">
         <h1>SINGULAI</h1>
         <p class="subtitle">O futuro registrado</p>
         <div class="version-badge">MVP Demo v2.0</div>
@@ -1749,7 +1750,7 @@
                     <h3>🔗 Links Úteis</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
                         <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn btn-secondary btn-small">📊 Etherscan</a>
-                        <a href="https://www.singulai.live" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🌐 Site Principal</a>
+                        <a href="https://www.singulai.site" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🌐 Site Principal</a>
                         <a href="https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🤖 Assistente</a>
                         <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🚰 Faucet ETH</a>
                     </div>
@@ -1761,10 +1762,10 @@
     <footer>
         <div class="container">
             <div class="footer-links">
-                <a href="https://www.singulai.live">Site Principal</a>
+                <a href="https://www.singulai.site">Site Principal</a>
                 <a href="https://sepolia.etherscan.io/">Etherscan Sepolia</a>
                 <a href="https://github.com/frodrigoalves/sglbk">GitHub</a>
-                <a href="https://docs.singulai.live">Documentação</a>
+                <a href="https://docs.singulai.site">Documentação</a>
             </div>
             <p style="color: #666;">© 2025 SingulAI – O futuro registrado | MVP Demo Completo</p>
             <p style="color: #444; font-size: 0.9rem; margin-top: 10px;">

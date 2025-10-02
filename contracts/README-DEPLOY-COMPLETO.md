@@ -94,9 +94,9 @@ deploy.bat status
 - [ ] Configurar HTTPS
 
 ### 4. Integração Site Principal
-- [ ] Subdomain: mvp.singulai.site
-- [ ] Subpath: singulai.site/mvp
-- [ ] Menu link: singulai.site → MVP
+- [ ] Subdomain: mvp.singulai.live
+- [ ] Subpath: singulai.live/mvp
+- [ ] Menu link: singulai.live → MVP
 
 ## 🔧 Configuração MetaMask
 
@@ -176,7 +176,7 @@ contracts/
 - 📡 [Infura](https://infura.io/)
 
 ### Links Importantes
-- 🌐 **Site Principal:** https://www.singulai.site
+- 🌐 **Site Principal:** https://www.singulai.live
 - 💻 **MVP Local:** http://localhost:8000/singulai-complete.html
 - 📱 **Interface Mobile:** Responsiva automática
 

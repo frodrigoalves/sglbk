@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Layout SingulAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Dashboard Grid - Fixed Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            margin: 40px 0;
+            align-items: start;
+            width: 100%;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid #00ff88;
+            padding: 20px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-height: 600px;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: sticky;
+            top: 20px;
+            width: 320px;
+            height: fit-content;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        /* Contract Cards */
+        .contracts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .contract-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+        }
+
+        .status-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .sidebar {
+                order: -1;
+                position: static;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .dashboard {
+                gap: 30px;
+                margin: 20px 0;
+            }
+
+            .contracts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contract-card {
+                padding: 20px;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin: 40px 0; color: #00ff88;">Teste Layout SingulAI</h1>
+
+        <div class="dashboard">
+            <div class="main-content">
+                <h2>Conteúdo Principal</h2>
+                <p>Esta é a área principal do dashboard onde ficam os contratos.</p>
+
+                <div class="contracts-grid">
+                    <div class="contract-card">
+                        <h3>🎭 Avatar Base</h3>
+                        <p>Contrato para criação de avatares digitais NFT.</p>
+                    </div>
+
+                    <div class="contract-card">
+                        <h3>⏰ Time Capsule</h3>
+                        <p>Cápsulas do tempo com conteúdo bloqueado temporalmente.</p>
+                    </div>
+
+                    <div class="contract-card">
+                        <h3>🏛️ Digital Legacy</h3>
+                        <p>Sistema de herança digital para preservação de dados.</p>
+                    </div>
+
+                    <div class="contract-card">
+                        <h3>🔗 Wallet Link</h3>
+                        <p>Vinculação entre avatares e carteiras Ethereum.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="status-card">
+                    <h3>🔗 Status da Conexão</h3>
+                    <p>MetaMask desconectado</p>
+                </div>
+
+                <div class="status-card">
+                    <h3>📋 Histórico</h3>
+                    <p>Nenhuma transação ainda</p>
+                </div>
+
+                <div class="status-card">
+                    <h3>⚡ Sistema</h3>
+                    <p>Rede: Sepolia</p>
+                    <p>Status: Online</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Teste responsivo
+        window.addEventListener('resize', function() {
+            console.log('Tamanho da tela:', window.innerWidth + 'x' + window.innerHeight);
+        });
+    </script>
+</body>
+</html>

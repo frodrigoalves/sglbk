@@ -82,7 +82,7 @@ echo "📝 Criando nginx.conf..."
 cat > nginx.conf << 'EOF'
 server {
     listen 80;
-    server_name singulai.netlify.app www.singulai.netlify.app;
+    server_name singulai.live www.singulai.live;
 
     location / {
         proxy_pass http://backend:3000;
@@ -96,7 +96,7 @@ server {
 
 server {
     listen 80;
-    server_name n8n.singulai.netlify.app;
+    server_name n8n.singulai.live;
 
     location / {
         proxy_pass http://n8n:5678;
@@ -142,9 +142,9 @@ DIGITAL_LEGACY_ADDRESS=0x0Ee8f5dC7E9BC9AF344eB987B8363b33E737b757
 CONTRACT_ADDRESS=0x91ac15bCB70Aa9004FbFBE52e8420fa6b7d960Cb
 
 # N8N Configuration
-N8N_HOST=n8n.singulai.netlify.app
+N8N_HOST=n8n.singulai.live
 N8N_PROTOCOL=http
-N8N_WEBHOOK_URL=http://n8n.singulai.netlify.app/
+N8N_WEBHOOK_URL=http://n8n.singulai.live/
 EOF
 
 # Instalar Docker se necessário
@@ -175,5 +175,5 @@ echo "📊 Status dos serviços:"
 docker-compose ps
 
 echo "✅ Setup completo!"
-echo "Backend: http://singulai.netlify.app"
-echo "N8N: http://n8n.singulai.netlify.app"
+echo "Backend: http://singulai.live"
+echo "N8N: http://n8n.singulai.live"

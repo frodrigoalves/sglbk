@@ -50,7 +50,7 @@ function Install-Project {
 }
 
 # Compilar contratos
-function Invoke-CompileContracts {
+function Build-Contracts {
     Write-Info "Compilando contratos..."
     npx hardhat compile
     if ($LASTEXITCODE -eq 0) {
@@ -63,7 +63,7 @@ function Invoke-CompileContracts {
 }
 
 # Deploy contratos
-function Invoke-PublishContracts {
+function Deploy-Contracts {
     $deploy = Read-Host "Deploy dos contratos? (y/N)"
     if ($deploy -eq "y") {
         $network = Read-Host "Rede (localhost/sepolia) [sepolia]"
@@ -191,8 +191,8 @@ switch ($Command.ToLower()) {
         Write-Success "Instalação concluída!"
     }
     "deploy" {
-        Invoke-CompileContracts
-        Invoke-PublishContracts
+        Build-Contracts
+        Deploy-Contracts
     }
     "start" {
         Start-Server -ServerPort $Port
@@ -210,8 +210,8 @@ switch ($Command.ToLower()) {
     "full" {
         Write-Info "Deploy completo..."
         Install-Project
-        Invoke-CompileContracts
-        Invoke-PublishContracts
+        Build-Contracts
+        Deploy-Contracts
         Start-Server -ServerPort $Port
         $open = Read-Host "Abrir navegador? (Y/n)"
         if ($open -ne "n") {

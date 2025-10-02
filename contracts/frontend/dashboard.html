@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI - Dashboard MVP</title>
+    <link rel="icon" href="https://www.singulai.live/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ux-improvements.css">
+    <script>
+        // Authentication check - must be at the top
+        class AuthManager {
+            constructor() {
+                this.token = localStorage.getItem('authToken');
+                this.user = JSON.parse(localStorage.getItem('userData') || 'null');
+                this.checkAuth();
+            }
+
+            checkAuth() {
+                if (!this.token || !this.user) {
+                    // User not logged in, redirect to login
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Optional: Verify token with backend
+                this.verifyToken();
+            }
+
+            async verifyToken() {
+                try {
+                    const response = await fetch('http://localhost:3000/api/auth/verify', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        // Token invalid, redirect to login
+                        this.logout();
+                        window.location.href = 'login.html';
+                    }
+                } catch (error) {
+                    console.warn('Token verification failed:', error);
+                    // For now, allow access if verification fails but token exists
+                    // In production, you might want to redirect
+                }
+            }
+
+            logout() {
+                this.token = null;
+                this.user = null;
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+            }
+        }
+
+        // Initialize auth check immediately
+        const auth = new AuthManager();
+
+        // Logout functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    auth.logout();
+                    window.location.href = 'login.html';
+                });
+            }
+        });
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.02"><circle cx="30" cy="30" r="2"/></g></svg>');
+            animation: float 20s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-60px) translateY(-60px); }
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #00ff88, #00ccff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #888;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Status Cards */
+        .status-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .status-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+
+        .connection-status {
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-connected {
+            background: #00ff88;
+            box-shadow: 0 0 20px rgba(0,255,136,0.5);
+        }
+        .status-disconnected {
+            background: #ff4444;
+            box-shadow: 0 0 20px rgba(255,68,68,0.5);
+        }
+
+        .user-info {
+            margin: 15px 0;
+        }
+
+        .balance-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .balance-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+
+        .balance-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .balance-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Contract Sections */
+        .contracts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .contract-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contract-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .contract-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .contract-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0,255,136,0.1);
+        }
+
+        .contract-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contract-icon {
+            font-size: 3rem;
+            margin-right: 15px;
+        }
+
+        .contract-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+
+        .contract-subtitle {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .contract-description {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .contract-address {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            word-break: break-all;
+            color: #666;
+            border-left: 3px solid #00ff88;
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #00ff88;
+            font-size: 0.95rem;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0,255,136,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .input-group input::placeholder,
+        .input-group textarea::placeholder {
+            color: #666;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,136,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.1);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Messages */
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .message.success {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .message.error {
+            background: rgba(255,68,68,0.1);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+
+        .message.info {
+            background: rgba(0,204,255,0.1);
+            border: 1px solid #00ccff;
+            color: #00ccff;
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid #333;
+            margin-top: 80px;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #00ff88;
+            text-decoration: none;
+            margin: 0 20px;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .contracts-grid { grid-template-columns: 1fr; }
+            .contract-card { padding: 20px; }
+            .container { padding: 15px; }
+
+            .balance-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://www.singulai.live/logo-singulai.png" alt="SingulAI Logo" class="logo">
+        <h1>SINGULAI</h1>
+        <p class="subtitle">O futuro registrado</p>
+        <div class="version-badge">MVP Demo v2.0</div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="main-content">
+                <!-- Contracts Grid -->
+                <div class="contracts-grid">
+                    <!-- Avatar Base -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">🎭</span>
+                            <div>
+                                <h3 class="contract-title">Avatar Base</h3>
+                                <p class="contract-subtitle">NFT Personalities</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Crie avatares únicos na blockchain. Cada avatar é um NFT que representa
+                            uma personalidade digital imutável para cuidar do seu legado digital.
+                        </p>
+                        <div class="contract-address">0x388D16b79fAff27A45F714838F029BC34aC60c48</div>
+
+                        <div class="input-group">
+                            <label>Personalidade do Avatar:</label>
+                            <textarea id="avatar-attrs" placeholder="Ex: Laura - Ética, precisão e memória familiar. Especialista em cuidar de recordações e orientar decisões familiares com base em valores tradicionais..." rows="4"></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="mint-avatar" class="btn">✨ Criar Avatar</button>
+                            <button id="check-next-id" class="btn btn-secondary btn-small">🔍 Próximo ID</button>
+                            <button id="check-my-avatars" class="btn btn-secondary btn-small">👤 Meus Avatares</button>
+                        </div>
+
+                        <div id="avatar-message" class="message"></div>
+                    </div>
+
+                    <!-- Time Capsule -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">⏰</span>
+                            <div>
+                                <h3 class="contract-title">Time Capsule</h3>
+                                <p class="contract-subtitle">Programmed Messages</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Crie cápsulas do tempo que serão desbloqueadas automaticamente no futuro.
+                            Perfeito para mensagens póstumas e instruções programadas.
+                        </p>
+                        <div class="contract-address">0x1CE74AA25698312e150E3d0Aa2657Cc1B1cBeC93</div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label>Avatar ID:</label>
+                                <input type="number" id="capsule-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label>Data de abertura:</label>
+                                <input type="datetime-local" id="capsule-unlock-time">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Mensagem:</label>
+                            <textarea id="capsule-message" placeholder="Digite sua mensagem para o futuro..." rows="4"></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-capsule" class="btn">📦 Criar Cápsula</button>
+                            <button id="check-my-capsules" class="btn btn-secondary btn-small">📋 Minhas Cápsulas</button>
+                            <button id="check-capsule-count" class="btn btn-secondary btn-small">🔢 Contador</button>
+                        </div>
+
+                        <div id="capsule-message-display" class="message"></div>
+                    </div>
+
+                    <!-- Digital Legacy -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">📜</span>
+                            <div>
+                                <h3 class="contract-title">Digital Legacy</h3>
+                                <p class="contract-subtitle">Automated Inheritance</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Configure heranças digitais automáticas. Defina beneficiários e condições
+                            de liberação. A execução é garantida pelos smart contracts.
+                        </p>
+                        <div class="contract-address">0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label>Avatar ID:</label>
+                                <input type="number" id="legacy-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label>Endereço do Beneficiário:</label>
+                                <input type="text" id="legacy-beneficiary" placeholder="0x...">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Valor (ETH):</label>
+                            <input type="number" id="legacy-amount" placeholder="0.1" step="0.01" min="0">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Condições de Liberação:</label>
+                            <textarea id="legacy-conditions" placeholder="Ex: Após 1 ano de inatividade, liberar automaticamente para beneficiário..." rows="3"></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-legacy" class="btn">⚖️ Criar Legado</button>
+                            <button id="check-my-legacies" class="btn btn-secondary btn-small">📄 Meus Legados</button>
+                            <button id="execute-legacy" class="btn btn-secondary btn-small">▶️ Executar</button>
+                        </div>
+
+                        <div id="legacy-message-display" class="message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Connection Status -->
+                <div class="status-card">
+                    <div class="connection-status">
+                        <span class="status-indicator status-disconnected" id="connection-status"></span>
+                        <span id="connection-text">Desconectado</span>
+                    </div>
+
+                    <div class="user-info">
+                        <div id="user-address">Endereço não conectado</div>
+                    </div>
+
+                    <div class="balance-info">
+                        <div class="balance-item">
+                            <div class="balance-value" id="eth-balance">0.00</div>
+                            <div class="balance-label">ETH</div>
+                        </div>
+                        <div class="balance-item">
+                            <div class="balance-value" id="sgl-balance">0.00</div>
+                            <div class="balance-label">SGL</div>
+                        </div>
+                    </div>
+
+                    <button id="connect-wallet" class="btn" style="width: 100%; margin-top: 20px;">🔗 Conectar Carteira</button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="status-card">
+                    <h3 style="color: #00ff88; margin-bottom: 15px;">⚡ Ações Rápidas</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button id="get-test-eth" class="btn btn-secondary btn-small" style="width: 100%;">🚰 Obter ETH de Teste</button>
+                        <button id="get-test-sgl" class="btn btn-secondary btn-small" style="width: 100%;">🪙 Obter SGL de Teste</button>
+                        <button id="check-contracts" class="btn btn-secondary btn-small" style="width: 100%;">🔍 Verificar Contratos</button>
+                    </div>
+                </div>
+
+                <!-- Links Úteis -->
+                <div class="status-card">
+                    <h3 style="color: #00ff88; margin-bottom: 15px;">🔗 Links Úteis</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn btn-secondary btn-small">📊 Etherscan</a>
+                        <a href="https://www.singulai.live" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🌐 Site Principal</a>
+                        <a href="https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🤖 Assistente</a>
+                        <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🚰 Faucet ETH</a>
+                    </div>
+                </div>
+
+                <!-- Account Actions -->
+                <div class="status-card">
+                    <h3 style="color: #00ff88; margin-bottom: 15px;">👤 Conta</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button id="logout-btn" class="btn btn-secondary btn-small" style="width: 100%; background: rgba(255,68,68,0.1); border-color: #ff4444; color: #ff4444;">🚪 Sair da Conta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://www.singulai.live">Site Principal</a>
+                <a href="https://sepolia.etherscan.io/">Etherscan Sepolia</a>
+                <a href="https://github.com/frodrigoalves/sglbk">GitHub</a>
+                <a href="https://docs.singulai.live">Documentação</a>
+            </div>
+            <p style="color: #666;">© 2025 SingulAI – O futuro registrado | MVP Demo Completo</p>
+            <p style="color: #444; font-size: 0.9rem; margin-top: 10px;">
+                Testnet Sepolia | Versão 2.0 | Última atualização: 22/09/2025
+            </p>
+        </div>
+    </footer>
+
+    <script src="singulai-advanced.js"></script>
+    <script src="ux-improvements.js"></script>
+</body>
+</html>

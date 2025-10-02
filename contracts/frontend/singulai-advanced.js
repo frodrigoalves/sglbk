@@ -669,15 +669,154 @@ class SingulAIApp {
         setTimeout(() => location.reload(), 1000);
     }
 
+    // ===== WALLET CONNECTION METHODS =====
+    async connectWallet() {
+        try {
+            this.showMessage('connection', 'loading', '🔄 Conectando à MetaMask...');
+
+            // Request account access
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            this.userAccount = accounts[0];
+
+            // Ensure correct network
+            await this.ensureCorrectNetwork();
+
+            // Update UI
+            this.updateConnectionStatus();
+            this.loadUserData();
+            this.refreshHeaderData();
+
+            this.showMessage('connection', 'success', '✅ Carteira conectada com sucesso!');
+
+            // Update header if UX improvements are loaded
+            if (window.uxImprovements && window.uxImprovements.updateHeaderStatus) {
+                window.uxImprovements.updateHeaderStatus(true, this.userAccount);
+            }
+
+        } catch (error) {
+            console.error('❌ Erro ao conectar carteira:', error);
+            if (error.code === 4001) {
+                this.showMessage('connection', 'error', '❌ Conexão cancelada pelo usuário');
+            } else {
+                this.showMessage('connection', 'error', '❌ Erro ao conectar: ' + this.parseError(error));
+            }
+
+            // Update header status
+            if (window.uxImprovements && window.uxImprovements.updateHeaderStatus) {
+                window.uxImprovements.updateHeaderStatus(false);
+            }
+        }
+    }
+
+    async disconnectWallet() {
+        this.userAccount = null;
+        this.updateConnectionStatus();
+
+        // Clear transaction history
+        this.clearTransactionHistory();
+
+        this.showMessage('connection', 'info', '🔌 Carteira desconectada');
+
+        // Update header
+        if (window.uxImprovements && window.uxImprovements.updateHeaderStatus) {
+            window.uxImprovements.updateHeaderStatus(false);
+        }
+    }
+
+    async updateConnectionStatus() {
+        const statusElement = document.getElementById('connection-status');
+        const accountElement = document.getElementById('account-info');
+        const connectBtn = document.getElementById('connect-wallet');
+        const disconnectBtn = document.getElementById('disconnect-wallet');
+
+        if (!statusElement) return;
+
+        if (this.userAccount) {
+            // Connected
+            statusElement.innerHTML = `
+                <span class="status-indicator status-connected"></span>
+                Conectado à Sepolia
+            `;
+            accountElement.innerHTML = `
+                <strong>Conta:</strong> ${this.userAccount.slice(0, 6)}...${this.userAccount.slice(-4)}<br>
+                <small style="color: #888;">Clique para copiar</small>
+            `;
+            accountElement.style.cursor = 'pointer';
+            accountElement.onclick = () => this.copyToClipboard(this.userAccount);
+
+            connectBtn.style.display = 'none';
+            disconnectBtn.style.display = 'inline-block';
+
+            // Update header
+            if (window.uxImprovements && window.uxImprovements.updateHeaderStatus) {
+                window.uxImprovements.updateHeaderStatus(true, this.userAccount);
+            }
+        } else {
+            // Disconnected
+            statusElement.innerHTML = `
+                <span class="status-indicator status-disconnected"></span>
+                Conecte sua carteira MetaMask
+            `;
+            accountElement.innerHTML = '';
+            connectBtn.style.display = 'inline-block';
+            disconnectBtn.style.display = 'none';
+
+            // Update header
+            if (window.uxImprovements && window.uxImprovements.updateHeaderStatus) {
+                window.uxImprovements.updateHeaderStatus(false);
+            }
+        }
+    }
+
+    validateConnection() {
+        if (!this.userAccount) {
+            this.showMessage('system', 'error', '❌ Conecte sua carteira MetaMask primeiro!');
+            return false;
+        }
+        return true;
+    }
+
+    // ===== HEADER INTEGRATION =====
+    updateHeaderBalance() {
+        // This will be updated when SGL token is implemented
+        // For now, show placeholder
+        const balance = '--'; // Will be replaced with actual SGL balance
+
+        if (window.uxImprovements && window.uxImprovements.updateHeaderBalance) {
+            window.uxImprovements.updateHeaderBalance(balance);
+        }
+    }
+
+    // Call this when wallet connects or balance changes
+    refreshHeaderData() {
+        this.updateHeaderBalance();
+    }
+
     // Utilitários
     showMessage(section, type, message) {
+        // Use new UX improvements for better feedback
+        if (window.uxImprovements) {
+            if (type === 'loading') {
+                window.showLoading(message.replace('🔄 ', ''));
+            } else if (type === 'success') {
+                window.hideLoading();
+                window.showToast(message.replace('✅ ', ''), 'success');
+            } else if (type === 'error') {
+                window.hideLoading();
+                window.showToast(message.replace('❌ ', ''), 'error');
+            } else {
+                window.showToast(message, 'info');
+            }
+        }
+
+        // Fallback to original implementation
         const messageElement = document.getElementById(`${section}-message`);
         if (!messageElement) return;
-        
+
         messageElement.className = `message ${type}`;
         messageElement.innerHTML = message;
         messageElement.style.display = 'block';
-        
+
         if (type === 'success') {
             setTimeout(() => {
                 if (messageElement.style.display === 'block') {

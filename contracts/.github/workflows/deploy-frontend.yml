@@ -1,0 +1,43 @@
+name: Deploy Frontend to VPS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Deploy frontend to VPS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create frontend archive
+        run: |
+          cd frontend
+          tar -czf ../frontend-deploy.tar.gz .
+
+      - name: Upload frontend archive to VPS
+        uses: appleboy/scp-action@v0.1.5
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || '22' }}
+          source: "frontend-deploy.tar.gz"
+          target: "/tmp"
+
+      - name: Extract archive and reload nginx on VPS
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || '22' }}
+          script: |
+            set -e
+            sudo mkdir -p /opt/singulai/frontend
+            sudo tar -C /opt/singulai/frontend -xzf /tmp/frontend-deploy.tar.gz
+            sudo chown -R www-data:www-data /opt/singulai/frontend || true
+            sudo nginx -t
+            sudo systemctl reload nginx

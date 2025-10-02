@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI - MVP Demo Completo</title>
+    <link rel="icon" href="https://www.singulai.live/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fo        <div>
+            <img src="https://www.singulai.live/logo-singulai.png" alt="SingulAI Logo" class="logo">
+            <h1>SingulAI</h1>
+            <p class="subtitle">O futuro registrado</p>
+            <div class="version-badge">MVP v1.0</div>
+        </div>ogleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ux-improvements.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Header - Fixed Layout */
+        header {
+            display: block;
+            text-align: center;
+            padding: 80px 20px 40px 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-bottom: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        header > * {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #00ff88, #00ccff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+            text-align: center;
+            display: block;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            display: block;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Dashboard Grid - Fixed Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            margin: 40px 0;
+            align-items: start;
+            width: 100%;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-height: 600px;
+            width: 100%;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: sticky;
+            top: 20px;
+            width: 320px;
+            height: fit-content;
+        }
+
+        /* Status Cards */
+        .status-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .status-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+
+        .connection-status {
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-connected {
+            background: #00ff88;
+            box-shadow: 0 0 20px rgba(0,255,136,0.5);
+        }
+        .status-disconnected {
+            background: #ff4444;
+            box-shadow: 0 0 20px rgba(255,68,68,0.5);
+        }
+
+        .user-info {
+            margin: 15px 0;
+        }
+
+        .balance-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .balance-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+
+        .balance-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .balance-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Contract Sections - Improved Grid */
+        .contracts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .contract-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .contract-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .contract-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .contract-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0,255,136,0.1);
+        }
+
+        .contract-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contract-icon {
+            font-size: 3rem;
+            margin-right: 15px;
+        }
+
+        .contract-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+
+        .contract-subtitle {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .contract-description {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .contract-address {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            word-break: break-all;
+            color: #666;
+            border-left: 3px solid #00ff88;
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #00ff88;
+            font-size: 0.95rem;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0,255,136,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .input-group input::placeholder,
+        .input-group textarea::placeholder {
+            color: #666;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,136,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.1);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Messages */
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .message.success {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .message.error {
+            background: rgba(255,68,68,0.1);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+
+        .message.info {
+            background: rgba(0,204,255,0.1);
+            border: 1px solid #00ccff;
+            color: #00ccff;
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid #333;
+            margin-top: 80px;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #00ff88;
+            text-decoration: none;
+            margin: 0 20px;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive - Improved Layout */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .sidebar {
+                order: -1;
+                position: static;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .dashboard {
+                gap: 30px;
+                margin: 20px 0;
+            }
+
+            .contracts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contract-card {
+                padding: 20px;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+                gap: 15px;
+            }
+            
+            .status-card {
+                padding: 20px;
+            }
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(91, 79, 255, 0.15);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #5B4FFF, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #8B92B0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links a:hover {
+            color: #FFFFFF;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #5B4FFF, #00D4FF);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-auth {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background: transparent;
+            color: #FFFFFF;
+            border: 1px solid rgba(91, 79, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-nav:hover {
+            border-color: #5B4FFF;
+            background: rgba(91, 79, 255, 0.1);
+        }
+
+        .btn-nav-primary {
+            background: linear-gradient(45deg, #5B4FFF, #4A3FE8);
+            color: white;
+            border: none;
+        }
+
+        .btn-nav-primary:hover {
+            background: linear-gradient(45deg, #4A3FE8, #3A2ED9);
+            box-shadow: 0 4px 12px rgba(91, 79, 255, 0.3);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .nav-menu {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-auth {
+                gap: 0.5rem;
+            }
+
+            .btn-nav {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <nav class="nav-menu">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="https://www.singulai.live/logo-singulai.png" alt="SingulAI Logo" class="nav-logo-img">
+                SingulAI
+            </a>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#contracts">Contratos</a></li>
+                <li><a href="#wallet">Carteira</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="login.html" class="btn-nav">Entrar</a>
+                <a href="register.html" class="btn-nav btn-nav-primary">Registrar</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="dashboard">
+        <div>
+            <img src="https://www.singulai.live/logo-singulai.png" alt="SingulAI Logo" class="logo">
+            <h1>SINGULAI</h1>
+            <p class="subtitle">O futuro registrado</p>
+            <div class="version-badge">MVP Demo v2.0</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="main-content">
+                <!-- Contracts Grid -->
+                <div class="contracts-grid">
+                    <!-- Avatar Base -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">🎭</span>
+                            <div>
+                                <h3 class="contract-title">Avatar Base</h3>
+                                <p class="contract-subtitle">NFT Personalities</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Crie avatares únicos na blockchain. Cada avatar é um NFT que representa
+                            uma personalidade digital imutável para cuidar do seu legado digital.
+                        </p>
+                        <div class="contract-address">0x388D16b79fAff27A45F714838F029BC34aC60c48</div>
+
+                        <div class="input-group">
+                            <label>Personalidade do Avatar:</label>
+                            <textarea id="avatar-attrs" placeholder="Ex: Laura - Ética, precisão e memória familiar. Especialista em cuidar de recordações e orientar decisões familiares com base em valores tradicionais..." rows="4"></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="mint-avatar" class="btn">✨ Criar Avatar</button>
+                            <button id="check-next-id" class="btn btn-secondary btn-small">🔍 Próximo ID</button>
+                            <button id="check-my-avatars" class="btn btn-secondary btn-small">👤 Meus Avatares</button>
+                        </div>
+
+                        <div id="avatar-message" class="message"></div>
+                    </div>
+
+                    <!-- Time Capsule -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">⏰</span>
+                            <div>
+                                <h3 class="contract-title">Time Capsule</h3>
+                                <p class="contract-subtitle">Programmed Messages</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Crie cápsulas do tempo que serão desbloqueadas automaticamente no futuro.
+                            Perfeito para mensagens póstumas e instruções programadas.
+                        </p>
+                        <div class="contract-address">0x1CE74AA25698312e150E3d0Aa2657Cc1B1cBeC93</div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label>Avatar ID:</label>
+                                <input type="number" id="capsule-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label>Horas para desbloqueio:</label>
+                                <input type="number" id="capsule-hours" placeholder="24" value="1" min="1">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Conteúdo (IPFS Hash):</label>
+                            <input type="text" id="capsule-cid" placeholder="QmExampleHash123...">
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-capsule" class="btn">📦 Criar Cápsula</button>
+                            <button id="check-capsule" class="btn btn-secondary btn-small">🔍 Verificar</button>
+                        </div>
+
+                        <div id="capsule-message" class="message"></div>
+                    </div>
+
+                    <!-- Digital Legacy -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">🏛️</span>
+                            <div>
+                                <h3 class="contract-title">Digital Legacy</h3>
+                                <p class="contract-subtitle">Inheritance Rules</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Configure legados digitais com regras específicas de desbloqueio.
+                            Perfeito para testamentos digitais e heranças programáveis.
+                        </p>
+                        <div class="contract-address">0x91E67E1592e66C347C3f615d71927c05a1951057</div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label>Avatar ID:</label>
+                                <input type="number" id="legacy-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label>Conteúdo (IPFS Hash):</label>
+                                <input type="text" id="legacy-cid" placeholder="QmLegacyHash456...">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Regras de Desbloqueio:</label>
+                            <textarea id="legacy-rules" placeholder="Ex: Desbloqueio após 1 ano OU com consenso familiar de 3 membros OU em caso de certificado de óbito registrado na blockchain..." rows="3"></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-legacy" class="btn">🏛️ Criar Legado</button>
+                            <button id="check-legacy" class="btn btn-secondary btn-small">🔍 Verificar</button>
+                        </div>
+
+                        <div id="legacy-message" class="message"></div>
+                    </div>
+
+                    <!-- Avatar Wallet Link -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">💼</span>
+                            <div>
+                                <h3 class="contract-title">Avatar Wallet Link</h3>
+                                <p class="contract-subtitle">Identity Management</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Sistema de vinculação entre avatares e carteiras. Permite que avatares
+                            gerenciem múltiplas identidades e acessos de forma segura.
+                        </p>
+                        <div class="contract-address">0x803DE61049d1b192828A46e5952645C3f5b352B0</div>
+
+                        <p style="margin: 20px 0; color: #aaa; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                            💡 Este contrato gerencia as conexões entre avatares e endereços de carteira,
+                            permitindo delegação segura de autoridades e multi-sig familiar.
+                        </p>
+
+                        <button id="check-wallet-link" class="btn">🔗 Verificar Status</button>
+
+                        <div id="wallet-message" class="message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Connection Status -->
+                <div class="status-card connection-status">
+                    <h3>🔗 Status da Conexão</h3>
+                    <p id="connection-status">
+                        <span class="status-indicator status-disconnected"></span>
+                        Conecte sua carteira MetaMask
+                    </p>
+                    <div class="user-info">
+                        <p id="account-info"></p>
+                        <div class="balance-info">
+                            <div class="balance-item">
+                                <div class="balance-value" id="eth-balance">0.0000</div>
+                                <div class="balance-label">ETH</div>
+                            </div>
+                            <div class="balance-item">
+                                <div class="balance-value" id="avatar-balance">0</div>
+                                <div class="balance-label">Avatares</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button id="connect-wallet" class="btn">🦊 Conectar MetaMask</button>
+                        <button id="disconnect-wallet" class="btn btn-secondary" style="display: none;">🔌 Desconectar</button>
+                    </div>
+                    <div id="connection-message" class="message"></div>
+                </div>
+
+                <!-- Transaction History -->
+                <div class="status-card">
+                    <h3>📋 Histórico de Transações</h3>
+                    <div class="transaction-history" id="transaction-history">
+                        <p style="color: #666; text-align: center;">Nenhuma transação ainda</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button id="clear-history" class="btn btn-secondary btn-small">🗑️ Limpar</button>
+                        <button id="refresh-data" class="btn btn-secondary btn-small">🔄 Atualizar</button>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="status-card">
+                    <h3>⚡ Sistema</h3>
+                    <div style="margin: 15px 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Rede:</span>
+                            <span style="color: #00ff88;">Sepolia</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Contratos:</span>
+                            <span style="color: #00ff88;">4 Ativos</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Status:</span>
+                            <span style="color: #00ff88;">🟢 Online</span>
+                        </div>
+                    </div>
+                    <div id="system-message" class="message"></div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="status-card">
+                    <h3>🔗 Links Úteis</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn btn-secondary btn-small">📊 Etherscan</a>
+                        <a href="https://www.singulai.live" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🌐 Site Principal</a>
+                        <a href="https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🤖 Assistente</a>
+                        <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🚰 Faucet ETH</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://www.singulai.live">Site Principal</a>
+                <a href="https://sepolia.etherscan.io/">Etherscan Sepolia</a>
+                <a href="https://github.com/frodrigoalves/sglbk">GitHub</a>
+                <a href="https://docs.singulai.live">Documentação</a>
+            </div>
+            <p style="color: #666;">© 2025 SingulAI – O futuro registrado | MVP Demo Completo</p>
+            <p style="color: #444; font-size: 0.9rem; margin-top: 10px;">
+                Testnet Sepolia | Versão 2.0 | Última atualização: 22/09/2025
+            </p>
+        </div>
+    </footer>
+
+    <script src="singulai-mvp.js"></script>
+    <script src="ux-improvements.js"></script>
+</body>
+</html>
