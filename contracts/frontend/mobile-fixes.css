@@ -1,0 +1,71 @@
+/* SingulAI Mobile Fixes */
+
+/* Ajustes Modal Wallet */
+.wallet-modal {
+    width: 90% !important;
+    max-width: 400px !important;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4) !important;
+    animation: modalSlideIn 0.3s ease-out !important;
+}
+
+.wallet-modal-overlay {
+    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+/* Ajustes Botões */
+.btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Animações */
+@keyframes modalSlideIn {
+    from {
+        transform: translate(-50%, -60%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+/* Responsividade Mobile */
+@media (max-width: 640px) {
+    .container {
+        padding: 1rem !important;
+    }
+    
+    .card {
+        margin: 0.5rem 0 !important;
+        padding: 1rem !important;
+    }
+    
+    .btn {
+        padding: 0.625rem 1.25rem !important;
+        font-size: 0.875rem !important;
+    }
+    
+    .modal-title {
+        font-size: 1.25rem !important;
+    }
+    
+    .modal-content {
+        font-size: 0.875rem !important;
+    }
+}
+
+/* Toast Notifications */
+.toast {
+    bottom: 1rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    max-width: 90% !important;
+    z-index: 2000 !important;
+}

@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI - MVP Demo Completo</title>
+    <link rel="icon" href="https://www.singulai.live/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ux-improvements.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-bottom: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.02"><circle cx="30" cy="30" r="2"/></g></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-60px) translateY(-60px); }
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #00ff88, #00ccff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #888;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.02"><circle cx="30" cy="30" r="2"/></g></svg>');
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-60px) translateY(-60px); }
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #00ff88, #00ccff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -3px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #888;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* Status Cards */
+        .status-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 25px;
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .status-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+        
+        .connection-status {
+            text-align: center;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .status-connected { 
+            background: #00ff88; 
+            box-shadow: 0 0 20px rgba(0,255,136,0.5);
+        }
+        .status-disconnected { 
+            background: #ff4444; 
+            box-shadow: 0 0 20px rgba(255,68,68,0.5);
+        }
+        
+        .user-info {
+            margin: 15px 0;
+        }
+        
+        .balance-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .balance-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        
+        .balance-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+        
+        .balance-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        /* Contract Sections */
+        .contracts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .contract-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contract-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .contract-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .contract-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0,255,136,0.1);
+        }
+        
+        .contract-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contract-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .contract-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+        
+        .contract-subtitle {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .contract-description {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .contract-address {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            word-break: break-all;
+            color: #666;
+            border-left: 3px solid #00ff88;
+        }
+        
+        /* Form Elements */
+        .input-group {
+            margin: 20px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #00ff88;
+            font-size: 0.95rem;
+        }
+        
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0,255,136,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .input-group input::placeholder,
+        .input-group textarea::placeholder {
+            color: #666;
+        }
+        
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,136,0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #00ff88;
+            color: #00ff88;
+        }
+        
+        .btn-secondary:hover {
+            background: #00ff88;
+            color: #000;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            margin: 4px;
+        }
+        
+        /* Messages */
+        .message {
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .message.success {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+        
+        .message.error {
+            background: rgba(255,68,68,0.1);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+        
+        .message.loading {
+            background: rgba(0,204,255,0.1);
+            border: 1px solid #00ccff;
+            color: #00ccff;
+        }
+        
+        .message a {
+            color: inherit;
+            text-decoration: underline;
+        }
+        
+        /* Transaction History */
+        .transaction-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .transaction-item {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid #00ff88;
+        }
+        
+        .tx-type {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .tx-time {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        
+        .tx-hash {
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+        
+        .tx-hash a {
+            color: #00ccff;
+            text-decoration: none;
+        }
+        
+        .tx-hash a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Utilities */
+        .text-center { text-align: center; }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-20 { margin-top: 20px; }
+        
+        /* Loading Animation */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid #333;
+            margin-top: 80px;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #00ff88;
+            text-decoration: none;
+            margin: 0 20px;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .contracts-grid { grid-template-columns: 1fr; }
+            .contract-card { padding: 20px; }
+            .container { padding: 15px; }
+            
+            .balance-info {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Chat Styles */
+        .chat-container {
+            margin-top: 20px;
+        }
+        
+        .chat-messages {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+        }
+        
+        .chat-message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .chat-message:last-child {
+            margin-bottom: 0;
+        }
+        
+        .message-icon {
+            font-size: 1.2rem;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .message-content {
+            flex: 1;
+            line-height: 1.5;
+        }
+        
+        .bot-message .message-content {
+            color: #e0e0e0;
+        }
+        
+        .user-message {
+            flex-direction: row-reverse;
+        }
+        
+        .user-message .message-content {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #fff;
+        }
+        
+        .user-message .message-icon {
+            color: #00ff88;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .chat-input-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        
+        .chat-input-row textarea {
+            flex: 1;
+            resize: vertical;
+            min-height: 50px;
+        }
+        
+        .chat-input-row button {
+            height: 50px;
+            min-width: 80px;
+        }
+        
+        .chat-status {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .chat-status.loading {
+            color: #00ccff;
+        }
+        
+        .chat-status.error {
+            color: #ff6b6b;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .typing-dots span {
+            width: 4px;
+            height: 4px;
+            background: #666;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Additional utility classes for removing inline styles */
+        .text-center {
+            text-align: center;
+        }
+
+        .margin-top-20 {
+            margin-top: 20px;
+        }
+
+        .margin-top-15 {
+            margin-top: 15px;
+        }
+
+        .margin-15 {
+            margin: 15px 0;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .flex-between-last {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .flex-column-gap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .color-green {
+            color: #00ff88 !important;
+        }
+
+        .color-gray {
+            color: #666 !important;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Enhanced Header Styles */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand-text h1 {
+            margin-bottom: 5px;
+        }
+
+        .brand-text .subtitle {
+            margin-bottom: 0;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .version-badge {
+            background: rgba(255,255,255,0.1);
+            color: #888;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .language-selector {
+            display: flex;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: #888;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: #000;
+        }
+
+        /* Enhanced Balance Styles */
+        .balance-info {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .primary-balance {
+            background: linear-gradient(45deg, rgba(0,255,136,0.1), rgba(0,204,255,0.1));
+            border: 1px solid rgba(0,255,136,0.3);
+        }
+
+        .primary-balance .balance-value {
+            font-size: 1.4rem;
+            color: #00ff88;
+        }
+
+        .primary-balance .balance-label {
+            font-weight: 600;
+            color: #00ff88;
+        }
+
+        /* SVG Icons */
+        .icon {
+            display: inline-block;
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: -0.125em;
+            fill: currentColor;
+        }
+
+        .icon-lg {
+            width: 2em;
+            height: 2em;
+        }
+
+        /* Responsive Header */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .brand-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .balance-info {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="brand-section">
+                <img src="https://www.singulai.live/logo-singulai.png" alt="SingulAI Logo" class="logo">
+                <div class="brand-text">
+                    <h1>SINGULAI</h1>
+                    <p class="subtitle">The future, recorded</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <div class="version-badge">v2.0</div>
+                <div class="language-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="pt">PT</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="main-content">
+                <!-- Contracts Grid -->
+                <div class="contracts-grid">
+                    <!-- Avatar Base -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <div class="contract-icon">
+                                <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="contract-title">Avatar Base</h3>
+                                <p class="contract-subtitle">NFT Personalities</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Crie avatares únicos na blockchain. Cada avatar é um NFT que representa 
+                            uma personalidade digital imutável para cuidar do seu legado digital.
+                        </p>
+                        <div class="contract-address">0x388D16b79fAff27A45F714838F029BC34aC60c48</div>
+                        
+                        <div class="input-group">
+                            <label>Personalidade do Avatar:</label>
+                            <textarea id="avatar-attrs" placeholder="Ex: Laura - Ética, precisão e memória familiar. Especialista em cuidar de recordações e orientar decisões familiares com base em valores tradicionais..." rows="4"></textarea>
+                        </div>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="mint-avatar" class="btn">✨ Criar Avatar</button>
+                            <button id="check-next-id" class="btn btn-secondary btn-small">🔍 Próximo ID</button>
+                            <button id="check-my-avatars" class="btn btn-secondary btn-small">👤 Meus Avatares</button>
+                        </div>
+                        
+                        <div id="avatar-message" class="message"></div>
+                    </div>
+
+                    <!-- Time Capsule -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <div class="contract-icon">
+                                <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="contract-title">Time Capsule</h3>
+                                <p class="contract-subtitle">Programmed Messages</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Crie cápsulas do tempo que serão desbloqueadas automaticamente no futuro. 
+                            Perfeito para mensagens póstumas e instruções programadas.
+                        </p>
+                        <div class="contract-address">0x1CE74AA25698312e150E3d0Aa2657Cc1B1cBeC93</div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label>Avatar ID:</label>
+                                <input type="number" id="capsule-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label>Horas para desbloqueio:</label>
+                                <input type="number" id="capsule-hours" placeholder="24" value="1" min="1">
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Conteúdo (IPFS Hash):</label>
+                            <input type="text" id="capsule-cid" placeholder="QmExampleHash123...">
+                        </div>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-capsule" class="btn">📦 Criar Cápsula</button>
+                            <button id="check-capsule" class="btn btn-secondary btn-small">🔍 Verificar</button>
+                        </div>
+                        
+                        <div id="capsule-message" class="message"></div>
+                    </div>
+
+                    <!-- Digital Legacy -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <div class="contract-icon">
+                                <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M3 21h18"/>
+                                    <path d="M5 21V7l8-4v18"/>
+                                    <path d="M19 21V11l-6-4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="contract-title">Digital Legacy</h3>
+                                <p class="contract-subtitle">Inheritance Rules</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Configure legados digitais com regras específicas de desbloqueio. 
+                            Perfeito para testamentos digitais e heranças programáveis.
+                        </p>
+                        <div class="contract-address">0x91E67E1592e66C347C3f615d71927c05a1951057</div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label>Avatar ID:</label>
+                                <input type="number" id="legacy-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label>Conteúdo (IPFS Hash):</label>
+                                <input type="text" id="legacy-cid" placeholder="QmLegacyHash456...">
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Regras de Desbloqueio:</label>
+                            <textarea id="legacy-rules" placeholder="Ex: Desbloqueio após 1 ano OU com consenso familiar de 3 membros OU em caso de certificado de óbito registrado na blockchain..." rows="3"></textarea>
+                        </div>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-legacy" class="btn">🏛️ Criar Legado</button>
+                            <button id="check-legacy" class="btn btn-secondary btn-small">🔍 Verificar</button>
+                        </div>
+                        
+                        <div id="legacy-message" class="message"></div>
+                    </div>
+
+                    <!-- Avatar Wallet Link -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <div class="contract-icon">
+                                <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                    <line x1="8" y1="21" x2="16" y2="21"/>
+                                    <line x1="12" y1="17" x2="12" y2="21"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="contract-title">Avatar Wallet Link</h3>
+                                <p class="contract-subtitle">Identity Management</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Sistema de vinculação entre avatares e carteiras. Permite que avatares 
+                            gerenciem múltiplas identidades e acessos de forma segura.
+                        </p>
+                        <div class="contract-address">0x803DE61049d1b192828A46e5952645C3f5b352B0</div>
+                        
+                        <p style="margin: 20px 0; color: #aaa; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                            💡 Este contrato gerencia as conexões entre avatares e endereços de carteira,
+                            permitindo delegação segura de autoridades e multi-sig familiar.
+                        </p>
+                        
+                        <button id="check-wallet-link" class="btn">🔗 Verificar Status</button>
+                        
+                        <div id="wallet-message" class="message"></div>
+                    </div>
+
+                    <!-- Chat IA SingulAI -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <div class="contract-icon">
+                                <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    <path d="M8 9h8"/>
+                                    <path d="M8 13h6"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="contract-title">AI Assistant SingulAI</h3>
+                                <p class="contract-subtitle">Integrated Artificial Intelligence</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Converse com nossa IA especializada em legado digital e blockchain. 
+                            Obtenha ajuda sobre avatares, cápsulas do tempo, herança digital e mais.
+                        </p>
+                        
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="chat-message bot-message">
+                                    <span class="message-icon">🤖</span>
+                                    <div class="message-content">
+                                        <strong>SingulAI:</strong> Olá! Sou seu assistente de legado digital. 
+                                        Como posso ajudá-lo hoje?
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input-container">
+                                <div class="chat-input-row">
+                                    <textarea 
+                                        id="chat-input" 
+                                        placeholder="Digite sua pergunta sobre legado digital, blockchain, avatares..." 
+                                        rows="2"
+                                    ></textarea>
+                                    <button id="send-chat" class="btn">
+                                        📤 Enviar
+                                    </button>
+                                </div>
+                                <div class="chat-status" id="chat-status"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Connection Status -->
+                <div class="status-card connection-status">
+                    <h3>🔗 Status da Conexão</h3>
+                    <p id="connection-status">
+                        <span class="status-indicator status-disconnected"></span>
+                        Conecte sua carteira MetaMask
+                    </p>
+                    <div class="user-info">
+                        <p id="account-info"></p>
+                        <div class="balance-info">
+                            <div class="balance-item primary-balance">
+                                <div class="balance-value" id="sgl-balance">0.0000</div>
+                                <div class="balance-label">SGL Token</div>
+                            </div>
+                            <div class="balance-item">
+                                <div class="balance-value" id="eth-balance">0.0000</div>
+                                <div class="balance-label">ETH</div>
+                            </div>
+                            <div class="balance-item">
+                                <div class="balance-value" id="avatar-balance">0</div>
+                                <div class="balance-label">Avatars</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button id="connect-wallet" class="btn">🦊 Conectar MetaMask</button>
+                        <button id="disconnect-wallet" class="btn btn-secondary" style="display: none;">🔌 Desconectar</button>
+                    </div>
+                    <div id="connection-message" class="message"></div>
+                </div>
+
+                <!-- Transaction History -->
+                <div class="status-card">
+                    <h3>📋 Histórico de Transações</h3>
+                    <div class="transaction-history" id="transaction-history">
+                        <p style="color: #666; text-align: center;">Nenhuma transação ainda</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button id="clear-history" class="btn btn-secondary btn-small">🗑️ Limpar</button>
+                        <button id="refresh-data" class="btn btn-secondary btn-small">🔄 Atualizar</button>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="status-card">
+                    <h3>⚡ Sistema</h3>
+                    <div style="margin: 15px 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Rede:</span>
+                            <span style="color: #00ff88;">Sepolia</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Contratos:</span>
+                            <span style="color: #00ff88;">4 Ativos</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Status:</span>
+                            <span style="color: #00ff88;">🟢 Online</span>
+                        </div>
+                    </div>
+                    <div id="system-message" class="message"></div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="status-card">
+                    <h3>🔗 Links Úteis</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn btn-secondary btn-small">📊 Etherscan</a>
+                        <a href="https://www.singulai.live" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🌐 Site Principal</a>
+                        <a href="https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🤖 Assistente</a>
+                        <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🚰 Faucet ETH</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://www.singulai.live">Site Principal</a>
+                <a href="https://sepolia.etherscan.io/">Etherscan Sepolia</a>
+                <a href="https://github.com/frodrigoalves/sglbk">GitHub</a>
+                <a href="https://docs.singulai.live">Documentação</a>
+            </div>
+            <p style="color: #666;">© 2025 SingulAI – O futuro registrado | MVP Demo Completo</p>
+            <p style="color: #444; font-size: 0.9rem; margin-top: 10px;">
+                Testnet Sepolia | Versão 2.0 | Última atualização: 22/09/2025
+            </p>
+        </div>
+    </footer>
+
+    <script src="singulai-advanced.js"></script>
+    <script src="ux-improvements.js"></script>
+
+    <script src="singulai-advanced.js"></script>
+    <script>
+        // Global SingulAI App instance
+        let singulaiApp = null;
+
+        // Chat functionality integrated with SingulAI
+        class SingulAIChat {
+            constructor() {
+                this.chatMessages = document.getElementById('chat-messages');
+                this.chatInput = document.getElementById('chat-input');
+                this.sendButton = document.getElementById('send-chat');
+                this.chatStatus = document.getElementById('chat-status');
+                this.isTyping = false;
+                
+                // Initialize SingulAI Web3 app
+                singulaiApp = new SingulAIApp();
+                
+                this.initializeChat();
+                this.setupLanguageSystem();
+                this.setupWalletIntegration();
+                this.setupContractButtons();
+            }
+
+            initializeChat() {
+                // Event listeners
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Welcome message
+                this.addMessage('ai', 'Olá! Sou a IA do SingulAI 🤖\n\nPosso ajudar você com:\n• Legado digital e blockchain\n• Criação de avatares NFT\n• Cápsulas do tempo\n• Herança digital\n• Como usar os contratos\n\nComo posso ajudar você hoje?');
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message || this.isTyping) return;
+
+                // Add user message
+                this.addMessage('user', message);
+                this.chatInput.value = '';
+
+                // Show loading status
+                this.showStatus('loading', '🤖 Pensando...');
+                this.setTyping(true);
+
+                try {
+                    const response = await fetch('http://localhost:3000/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // Support both response formats
+                    const aiResponse = data.response || data.content;
+                    const isSuccess = data.success !== false && aiResponse; // success field is optional
+                    
+                    if (isSuccess && aiResponse) {
+                        this.addMessage('ai', aiResponse);
+                        this.showStatus('success', '✅ Resposta enviada', 2000);
+                    } else {
+                        throw new Error(data.error || 'Resposta inválida da IA');
+                    }
+
+                } catch (error) {
+                    console.error('Chat error:', error);
+                    
+                    let errorMessage = '❌ Erro na comunicação';
+                    if (error.message.includes('Failed to fetch')) {
+                        errorMessage = '🔌 Servidor offline - Verifique se o backend está rodando';
+                    } else if (error.message.includes('HTTP 500')) {
+                        errorMessage = '⚠️ IA temporariamente indisponível';
+                    }
+                    
+                    this.addMessage('ai', `Desculpe, houve um problema: ${error.message}\n\nTente novamente em alguns segundos. Se o erro persistir, verifique se o servidor backend está rodando.`);
+                    this.showStatus('error', errorMessage, 3000);
+                } finally {
+                    this.setTyping(false);
+                }
+            }
+
+            addMessage(type, content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${type}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'avatar';
+                avatar.textContent = type === 'user' ? '👤' : '🤖';
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'content';
+                
+                // Format content with line breaks
+                contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+                
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(contentDiv);
+                
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            showStatus(type, message, duration = 0) {
+                this.chatStatus.className = `chat-status ${type} visible`;
+                this.chatStatus.textContent = message;
+                
+                if (duration > 0) {
+                    setTimeout(() => {
+                        this.chatStatus.classList.remove('visible');
+                    }, duration);
+                }
+            }
+
+            setTyping(isTyping) {
+                this.isTyping = isTyping;
+                this.sendButton.disabled = isTyping;
+                this.chatInput.disabled = isTyping;
+                
+                if (!isTyping) {
+                    this.chatStatus.classList.remove('visible');
+                }
+            }
+
+            scrollToBottom() {
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            // Setup language system
+            setupLanguageSystem() {
+                const langButtons = document.querySelectorAll('.lang-btn');
+                langButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const lang = btn.getAttribute('data-lang');
+                        this.toggleLanguage(lang);
+                    });
+                });
+            }
+
+            // Toggle language
+            toggleLanguage(newLang) {
+                // Update active button
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-lang') === newLang) {
+                        btn.classList.add('active');
+                    }
+                });
+
+                // Update document language
+                const fullLang = newLang === 'pt' ? 'pt-BR' : 'en';
+                document.documentElement.lang = fullLang;
+
+                // Update UI text
+                this.updateUILanguage(newLang);
+            }
+
+            // Update UI language
+            updateUILanguage(lang) {
+                const translations = {
+                    'en': {
+                        'page-title': 'SingulAI - AI Digital Legacy Platform',
+                        'main-title': 'SingulAI',
+                        'mvp-badge': 'MVP Demo',
+                        'balance-title': 'Token Balance',
+                        'eth-label': 'ETH Balance:',
+                        'sgl-label': 'SGL Balance:',
+                        'chat-title': 'AI Assistant',
+                        'chat-placeholder': 'Type your message...',
+                        'send-btn': 'Send',
+                        'connect-wallet': 'Connect MetaMask',
+                        'disconnect-wallet': 'Disconnect'
+                    },
+                    'pt': {
+                        'page-title': 'SingulAI - Plataforma de Legado Digital com IA',
+                        'main-title': 'SingulAI',
+                        'mvp-badge': 'Demo MVP',
+                        'balance-title': 'Saldo de Tokens',
+                        'eth-label': 'Saldo ETH:',
+                        'sgl-label': 'Saldo SGL:',
+                        'chat-title': 'Assistente de IA',
+                        'chat-placeholder': 'Digite sua mensagem...',
+                        'send-btn': 'Enviar',
+                        'connect-wallet': 'Conectar MetaMask',
+                        'disconnect-wallet': 'Desconectar'
+                    }
+                };
+
+                const t = translations[lang];
+                
+                // Update elements
+                document.title = t['page-title'];
+                
+                const mainTitle = document.querySelector('.header-title h1');
+                if (mainTitle) mainTitle.textContent = t['main-title'];
+                
+                const mvpBadge = document.querySelector('.mvp-badge');
+                if (mvpBadge) mvpBadge.textContent = t['mvp-badge'];
+                
+                const balanceTitle = document.querySelector('.balance h3');
+                if (balanceTitle) balanceTitle.textContent = t['balance-title'];
+                
+                const chatTitle = document.querySelector('.chat-header h3');
+                if (chatTitle) chatTitle.textContent = t['chat-title'];
+                
+                const chatInput = document.getElementById('chat-input');
+                if (chatInput) chatInput.placeholder = t['chat-placeholder'];
+                
+                const sendBtn = document.getElementById('send-chat');
+                if (sendBtn) sendBtn.textContent = t['send-btn'];
+                
+                const connectBtn = document.getElementById('connect-wallet');
+                if (connectBtn) connectBtn.innerHTML = `🦊 ${t['connect-wallet']}`;
+                
+                const disconnectBtn = document.getElementById('disconnect-wallet');
+                if (disconnectBtn) disconnectBtn.innerHTML = `🔌 ${t['disconnect-wallet']}`;
+            }
+
+            // Setup wallet integration
+            setupWalletIntegration() {
+                // Connect/Disconnect buttons
+                const connectBtn = document.getElementById('connect-wallet');
+                const disconnectBtn = document.getElementById('disconnect-wallet');
+                
+                if (connectBtn) {
+                    connectBtn.addEventListener('click', async () => {
+                        try {
+                            await singulaiApp.connectWallet();
+                            this.updateSGLBalance();
+                            console.log('🟢 Wallet connected via button');
+                        } catch (error) {
+                            console.error('Error connecting wallet:', error);
+                        }
+                    });
+                }
+                
+                if (disconnectBtn) {
+                    disconnectBtn.addEventListener('click', async () => {
+                        try {
+                            await singulaiApp.disconnectWallet();
+                            document.getElementById('sgl-balance').textContent = '0.0000';
+                            document.getElementById('eth-balance').textContent = '0.0000';
+                            console.log('🔌 Wallet disconnected via button');
+                        } catch (error) {
+                            console.error('Error disconnecting wallet:', error);
+                        }
+                    });
+                }
+
+                // Listen for account changes
+                if (window.ethereum) {
+                    window.ethereum.on('accountsChanged', (accounts) => {
+                        if (accounts.length > 0) {
+                            singulaiApp.userAccount = accounts[0];
+                            this.updateAllBalances();
+                            console.log(`🔄 Account changed to: ${accounts[0]}`);
+                        } else {
+                            singulaiApp.userAccount = null;
+                            document.getElementById('sgl-balance').textContent = '0.0000';
+                            document.getElementById('eth-balance').textContent = '0.0000';
+                            console.log('🔌 Wallet disconnected');
+                        }
+                    });
+
+                    // Listen for network changes
+                    window.ethereum.on('chainChanged', (chainId) => {
+                        console.log(`🌐 Network changed to: ${chainId}`);
+                        this.updateAllBalances();
+                    });
+                }
+
+                // Try to get existing connection on load
+                if (window.ethereum) {
+                    window.ethereum.request({ method: 'eth_accounts' })
+                        .then(accounts => {
+                            if (accounts.length > 0) {
+                                singulaiApp.userAccount = accounts[0];
+                                this.updateAllBalances();
+                                console.log(`🟢 Wallet already connected: ${accounts[0]}`);
+                            }
+                        })
+                        .catch(console.error);
+                }
+
+                // Update balances periodically
+                setInterval(() => {
+                    if (singulaiApp && singulaiApp.userAccount) {
+                        this.updateAllBalances();
+                    }
+                }, 30000); // Every 30 seconds
+            }
+
+            // Update SGL Balance
+            async updateSGLBalance() {
+                try {
+                    if (!singulaiApp || !singulaiApp.userAccount || !singulaiApp.web3) {
+                        document.getElementById('sgl-balance').textContent = '0.0000';
+                        return;
+                    }
+                    
+                    // SGL Token contract on Sepolia
+                    const tokenAddress = '0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1';
+                    
+                    // ERC20 ABI for balance
+                    const erc20ABI = [
+                        {
+                            "constant": true,
+                            "inputs": [{"name": "_owner", "type": "address"}],
+                            "name": "balanceOf",
+                            "outputs": [{"name": "balance", "type": "uint256"}],
+                            "type": "function"
+                        },
+                        {
+                            "constant": true,
+                            "inputs": [],
+                            "name": "decimals",
+                            "outputs": [{"name": "", "type": "uint8"}],
+                            "type": "function"
+                        }
+                    ];
+                    
+                    const tokenContract = new singulaiApp.web3.eth.Contract(erc20ABI, tokenAddress);
+                    
+                    // Get balance
+                    const balance = await tokenContract.methods.balanceOf(singulaiApp.userAccount).call();
+                    const decimals = await tokenContract.methods.decimals().call();
+                    
+                    // Convert from wei to token units
+                    const balanceInSGL = singulaiApp.web3.utils.fromWei(balance, 'ether');
+                    
+                    // Update UI
+                    document.getElementById('sgl-balance').textContent = parseFloat(balanceInSGL).toFixed(4);
+                    console.log(`✅ SGL Balance updated: ${balanceInSGL} SGL for account ${singulaiApp.userAccount}`);
+                    
+                } catch (error) {
+                    console.error('Error fetching SGL balance:', error);
+                    document.getElementById('sgl-balance').textContent = '0.0000';
+                }
+            }
+
+            // Update ETH Balance
+            async updateETHBalance() {
+                try {
+                    if (!singulaiApp || !singulaiApp.userAccount || !singulaiApp.web3) {
+                        document.getElementById('eth-balance').textContent = '0.0000';
+                        return;
+                    }
+
+                    const balance = await singulaiApp.web3.eth.getBalance(singulaiApp.userAccount);
+                    const ethBalance = singulaiApp.web3.utils.fromWei(balance, 'ether');
+                    const balanceFormatted = parseFloat(ethBalance).toFixed(4);
+                    
+                    document.getElementById('eth-balance').textContent = balanceFormatted;
+                    console.log(`✅ ETH Balance updated: ${balanceFormatted} ETH`);
+                    
+                } catch (error) {
+                    console.error('Error fetching ETH balance:', error);
+                    document.getElementById('eth-balance').textContent = '0.0000';
+                }
+            }
+
+            // Update all balances
+            async updateAllBalances() {
+                await Promise.all([
+                    this.updateSGLBalance(),
+                    this.updateETHBalance()
+                ]);
+            }
+
+            // Setup contract interaction buttons
+            setupContractButtons() {
+                // Avatar creation button
+                const mintBtn = document.getElementById('mint-avatar');
+                if (mintBtn) {
+                    mintBtn.addEventListener('click', async () => {
+                        if (!singulaiApp.userAccount) {
+                            alert('Conecte sua carteira primeiro!');
+                            return;
+                        }
+                        try {
+                            await singulaiApp.mintAvatar();
+                        } catch (error) {
+                            console.error('Error minting avatar:', error);
+                            alert('Erro ao criar avatar: ' + error.message);
+                        }
+                    });
+                }
+
+                // Time capsule creation button
+                const capsuleBtn = document.getElementById('create-capsule');
+                if (capsuleBtn) {
+                    capsuleBtn.addEventListener('click', async () => {
+                        if (!singulaiApp.userAccount) {
+                            alert('Conecte sua carteira primeiro!');
+                            return;
+                        }
+                        try {
+                            await singulaiApp.createTimeCapsule();
+                        } catch (error) {
+                            console.error('Error creating time capsule:', error);
+                            alert('Erro ao criar cápsula do tempo: ' + error.message);
+                        }
+                    });
+                }
+
+                // Digital legacy creation button
+                const legacyBtn = document.getElementById('create-legacy');
+                if (legacyBtn) {
+                    legacyBtn.addEventListener('click', async () => {
+                        if (!singulaiApp.userAccount) {
+                            alert('Conecte sua carteira primeiro!');
+                            return;
+                        }
+                        try {
+                            await singulaiApp.createDigitalLegacy();
+                        } catch (error) {
+                            console.error('Error creating digital legacy:', error);
+                            alert('Erro ao criar legado digital: ' + error.message);
+                        }
+                    });
+                }
+
+                // Wallet link check button
+                const linkBtn = document.getElementById('check-wallet-link');
+                if (linkBtn) {
+                    linkBtn.addEventListener('click', async () => {
+                        if (!singulaiApp.userAccount) {
+                            alert('Conecte sua carteira primeiro!');
+                            return;
+                        }
+                        try {
+                            await singulaiApp.checkWalletLink();
+                        } catch (error) {
+                            console.error('Error checking wallet link:', error);
+                            alert('Erro ao verificar link da carteira: ' + error.message);
+                        }
+                    });
+                }
+            }
+        }
+
+        // Initialize chat when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('chat-messages')) {
+                new SingulAIChat();
+            }
+        });
+
+        // Test connection function
+        async function testChatConnection() {
+            try {
+                const response = await fetch('http://localhost:3000/api/health');
+                const data = await response.text();
+                console.log('🟢 Backend conectado:', data);
+                return true;
+            } catch (error) {
+                console.log('🔴 Backend offline:', error.message);
+                return false;
+            }
+        }
+
+        // Auto-test connection on load
+        setTimeout(testChatConnection, 1000);
+
+        // Language System
+        const translations = {
+            en: {
+                subtitle: "The future, recorded",
+                avatarTitle: "Avatar Base",
+                avatarSubtitle: "NFT Personalities", 
+                avatarDesc: "Create unique avatars on the blockchain. Each avatar is an NFT representing an immutable digital personality to care for your digital legacy.",
+                timeCapsuleTitle: "Time Capsule",
+                timeCapsuleSubtitle: "Programmed Messages",
+                timeCapsuleDesc: "Create time capsules that will be automatically unlocked in the future. Perfect for posthumous messages and programmed instructions.",
+                digitalLegacyTitle: "Digital Legacy",
+                digitalLegacySubtitle: "Inheritance Rules",
+                digitalLegacyDesc: "Configure digital legacies with specific unlock rules. Perfect for digital wills and programmable inheritances.",
+                walletLinkTitle: "Avatar Wallet Link",
+                walletLinkSubtitle: "Identity Management",
+                walletLinkDesc: "Linking system between avatars and wallets. Allows avatars to manage multiple identities and accesses securely.",
+                aiAssistantTitle: "AI Assistant SingulAI",
+                aiAssistantSubtitle: "Integrated Artificial Intelligence",
+                aiAssistantDesc: "Chat with our AI specialized in digital legacy and blockchain. Get help with avatars, time capsules, digital inheritance and more.",
+                connectWallet: "Connect MetaMask",
+                disconnect: "Disconnect",
+                transactionHistory: "Transaction History",
+                noTransactions: "No transactions yet",
+                system: "System",
+                network: "Network:",
+                contracts: "Contracts:",
+                status: "Status:",
+                online: "Online",
+                usefulLinks: "Useful Links",
+                mainSite: "Main Site",
+                assistant: "Assistant",
+                copyright: "© 2025 SingulAI – The future, recorded | Complete MVP Demo"
+            },
+            pt: {
+                subtitle: "O futuro registrado",
+                avatarTitle: "Avatar Base", 
+                avatarSubtitle: "Personalidades NFT",
+                avatarDesc: "Crie avatares únicos na blockchain. Cada avatar é um NFT que representa uma personalidade digital imutável para cuidar do seu legado digital.",
+                timeCapsuleTitle: "Cápsula do Tempo",
+                timeCapsuleSubtitle: "Mensagens Programadas",
+                timeCapsuleDesc: "Crie cápsulas do tempo que serão desbloqueadas automaticamente no futuro. Perfeito para mensagens póstumas e instruções programadas.",
+                digitalLegacyTitle: "Legado Digital",
+                digitalLegacySubtitle: "Regras de Herança",
+                digitalLegacyDesc: "Configure legados digitais com regras específicas de desbloqueio. Perfeito para testamentos digitais e heranças programáveis.",
+                walletLinkTitle: "Link Carteira Avatar",
+                walletLinkSubtitle: "Gestão de Identidade",
+                walletLinkDesc: "Sistema de vinculação entre avatares e carteiras. Permite que avatares gerenciem múltiplas identidades e acessos de forma segura.",
+                aiAssistantTitle: "Assistente IA SingulAI",
+                aiAssistantSubtitle: "Inteligência Artificial Integrada",
+                aiAssistantDesc: "Converse com nossa IA especializada em legado digital e blockchain. Obtenha ajuda sobre avatares, cápsulas do tempo, herança digital e mais.",
+                connectWallet: "Conectar MetaMask",
+                disconnect: "Desconectar",
+                transactionHistory: "Histórico de Transações",
+                noTransactions: "Nenhuma transação ainda",
+                system: "Sistema",
+                network: "Rede:",
+                contracts: "Contratos:",
+                status: "Status:",
+                online: "Online",
+                usefulLinks: "Links Úteis",
+                mainSite: "Site Principal",
+                assistant: "Assistente",
+                copyright: "© 2025 SingulAI – O futuro registrado | MVP Demo Completo"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            // Update text content
+            document.querySelector('.subtitle').textContent = t.subtitle;
+            document.querySelector('#connect-wallet').textContent = `🦊 ${t.connectWallet}`;
+            
+            // Update all contract titles and descriptions
+            const contracts = document.querySelectorAll('.contract-card');
+            contracts.forEach((card, index) => {
+                const titles = [
+                    { title: t.avatarTitle, subtitle: t.avatarSubtitle },
+                    { title: t.timeCapsuleTitle, subtitle: t.timeCapsuleSubtitle },
+                    { title: t.digitalLegacyTitle, subtitle: t.digitalLegacySubtitle },
+                    { title: t.walletLinkTitle, subtitle: t.walletLinkSubtitle },
+                    { title: t.aiAssistantTitle, subtitle: t.aiAssistantSubtitle }
+                ];
+                
+                if (titles[index]) {
+                    const titleEl = card.querySelector('.contract-title');
+                    const subtitleEl = card.querySelector('.contract-subtitle');
+                    if (titleEl) titleEl.textContent = titles[index].title;
+                    if (subtitleEl) subtitleEl.textContent = titles[index].subtitle;
+                }
+            });
+            
+            // Update footer
+            const copyright = document.querySelector('footer p');
+            if (copyright) copyright.textContent = t.copyright;
+            
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+        }
+
+        // Language selector functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    updateLanguage(btn.dataset.lang);
+                });
+            });
+        });
+
+
+
+
+    </script>
+</body>
+</html>

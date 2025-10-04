@@ -451,8 +451,8 @@ class SingulAIMinimal {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
             }
             .modal-content {
                 background: var(--glass-bg);
@@ -461,8 +461,8 @@ class SingulAIMinimal {
                 padding: 2rem;
                 max-width: 400px;
                 width: 90%;
-                backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);
                 box-shadow: var(--shadow-subtle);
             }
             .modal-header {
@@ -592,8 +592,8 @@ class SingulAIMinimal {
                 color: white;
                 font-weight: 500;
                 z-index: 10000;
-                backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
                 box-shadow: var(--shadow-subtle);
                 animation: slideInRight 0.3s ease-out;
                 font-size: 0.875rem;

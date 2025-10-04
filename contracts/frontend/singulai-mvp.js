@@ -7,10 +7,136 @@ const CONTRACTS = {
         address: '0x388D16b79fAff27A45F714838F029BC34aC60c48',
         abi: [
             "function mint(address to, string memory attrs) external returns (uint256 tokenId)",
-            "function nextId() public view returns (uint256)",
+            "functioasync function unlockTimeCapsule() {
+    if (!userAccount) {
+        showMessage('capsule', 'error', '❌ Conect// Funções auxiliares de desbloqueio e vinculação
+async function unlockTimeCapsule() {
+    if (!userAccount) {
+        showMessage('capsule', 'error', '❌ Conecte sua carteira primeiro');
+        return;
+    }
+
+    try {
+        const avatarId = document.getElementById('unlock-capsule-avatar-id').value;
+        const cid = document.getElementById('unlock-capsule-cid').value;
+
+        await contracts.timeCapsule.methods.unlockIfReady(avatarId, cid)
+            .send({ from: userAccount });
+
+        showMessage('capsule', 'success', '✅ Cápsula do tempo desbloqueada!');
+    } catch (error) {
+        console.error('❌ Erro ao desbloquear cápsula:', error);
+        showMessage('capsule', 'error', '❌ Erro ao desbloquear cápsula. Verifique o console.');
+    }
+}
+
+async function unlockLegacy() {
+    if (!userAccount) {
+        showMessage('legacy', 'error', '❌ Conecte sua carteira primeiro');
+        return;
+    }
+
+    try {
+        const legacyId = document.getElementById('unlock-legacy-id').value;
+
+        await contracts.digitalLegacy.methods.unlockLegacy(legacyId)
+            .send({ from: userAccount });
+
+        showMessage('legacy', 'success', '✅ Legado digital desbloqueado!');
+    } catch (error) {
+        console.error('❌ Erro ao desbloquear legado:', error);
+        showMessage('legacy', 'error', '❌ Erro ao desbloquear legado. Verifique o console.');
+    }
+}
+
+async function linkWallet() {
+    if (!userAccount) {
+        showMessage('wallet', 'error', '❌ Conecte sua carteira primeiro');
+        return;
+    }
+
+    try {
+        const avatarId = document.getElementById('link-wallet-avatar-id').value;
+
+        await contracts.avatarWalletLink.methods.link(avatarId, userAccount)
+            .send({ from: userAccount });
+
+        showMessage('wallet', 'success', '✅ Carteira vinculada ao avatar!');
+    } catch (error) {
+        console.error('❌ Erro ao vincular carteira:', error);
+        showMessage('wallet', 'error', '❌ Erro ao vincular carteira. Verifique o console.');
+    }
+}
+
+async function createDigitalLegacy() {
+    if (!userAccount) {
+        showMessage('legacy', 'error', '❌ Conecte sua carteira primeiro');
+        return;
+    } carteira primeiro');
+        return;
+    }
+
+    try {
+        const avatarId = document.getElementById('unlock-capsule-avatar-id').value;
+        const cid = document.getElementById('unlock-capsule-cid').value;
+
+        await contracts.timeCapsule.methods.unlockIfReady(avatarId, cid)
+            .send({ from: userAccount });
+
+        showMessage('capsule', 'success', '✅ Cápsula do tempo desbloqueada!');
+    } catch (error) {
+        console.error('❌ Erro ao desbloquear cápsula:', error);
+        showMessage('capsule', 'error', '❌ Erro ao desbloquear cápsula. Verifique o console.');
+    }
+}
+
+async function unlockLegacy() {
+    if (!userAccount) {
+        showMessage('legacy', 'error', '❌ Conecte sua carteira primeiro');
+        return;
+    }
+
+    try {
+        const legacyId = document.getElementById('unlock-legacy-id').value;
+
+        await contracts.digitalLegacy.methods.unlockLegacy(legacyId)
+            .send({ from: userAccount });
+
+        showMessage('legacy', 'success', '✅ Legado digital desbloqueado!');
+    } catch (error) {
+        console.error('❌ Erro ao desbloquear legado:', error);
+        showMessage('legacy', 'error', '❌ Erro ao desbloquear legado. Verifique o console.');
+    }
+}
+
+async function linkWallet() {
+    if (!userAccount) {
+        showMessage('wallet', 'error', '❌ Conecte sua carteira primeiro');
+        return;
+    }
+
+    try {
+        const avatarId = document.getElementById('link-wallet-avatar-id').value;
+
+        await contracts.avatarWalletLink.methods.link(avatarId, userAccount)
+            .send({ from: userAccount });
+
+        showMessage('wallet', 'success', '✅ Carteira vinculada ao avatar!');
+    } catch (error) {
+        console.error('❌ Erro ao vincular carteira:', error);
+        showMessage('wallet', 'error', '❌ Erro ao vincular carteira. Verifique o console.');
+    }
+}
+
+async function createTimeCapsule() {
+    if (!userAccount) {
+        showMessage('capsule', 'error', '❌ Conecte sua carteira primeiro');
+        return;
+    }tId() public view returns (uint256)",
             "function balanceOf(address owner) public view returns (uint256)",
             "function ownerOf(uint256 tokenId) public view returns (address)",
-            "function attributes(uint256 tokenId) public view returns (string)"
+            "function attributes(uint256 tokenId) public view returns (string)",
+            "event AvatarMinted(uint256 indexed tokenId, address indexed owner, string attrs)"
         ]
     },
     TIME_CAPSULE: {
@@ -18,7 +144,9 @@ const CONTRACTS = {
         abi: [
             "function createCapsule(uint256 avatarId, uint256 unlockDate, string memory cid) external",
             "function capsules(bytes32 id) public view returns (uint256 avatarId, uint256 unlockDate, string cid, bool unlocked)",
-            "event CapsuleCreated(bytes32 indexed id, uint256 avatarId, uint256 unlockDate, string cid)"
+            "function unlockIfReady(uint256 avatarId, string memory cid) external",
+            "event CapsuleCreated(bytes32 indexed id, uint256 avatarId, uint256 unlockDate, string cid)",
+            "event CapsuleUnlocked(bytes32 indexed id, uint256 avatarId, string cid)"
         ]
     },
     DIGITAL_LEGACY: {
@@ -26,12 +154,26 @@ const CONTRACTS = {
         abi: [
             "function createLegacy(uint256 avatarId, string memory cid, string memory rules) external",
             "function legacies(bytes32 id) public view returns (uint256 avatarId, string cid, string rules, bool unlocked)",
-            "event LegacyCreated(bytes32 indexed id, uint256 avatarId, string cid, string rules)"
+            "function unlockLegacy(bytes32 id) external",
+            "event LegacyCreated(bytes32 indexed id, uint256 avatarId, string cid, string rules)",
+            "event LegacyUnlocked(bytes32 indexed id, uint256 avatarId)"
         ]
     },
     AVATAR_WALLET_LINK: {
         address: '0x803DE61049d1b192828A46e5952645C3f5b352B0',
-        abi: []
+        abi: [
+            "function link(uint256 avatarId, address wallet) external",
+            "function ownerOf(uint256 avatarId) public view returns (address)",
+            "event WalletLinked(uint256 indexed avatarId, address indexed wallet)"
+        ]
+    },
+    MOCK_TOKEN: {
+        address: '0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1',
+        abi: [
+            "function balanceOf(address account) external view returns (uint256)",
+            "function transfer(address to, uint256 amount) external returns (bool)",
+            "function decimals() external view returns (uint8)"
+        ]
     }
 };
 
@@ -68,6 +210,7 @@ async function initWeb3() {
         contracts.avatarBase = new web3.eth.Contract(CONTRACTS.AVATAR_BASE.abi, CONTRACTS.AVATAR_BASE.address);
         contracts.timeCapsule = new web3.eth.Contract(CONTRACTS.TIME_CAPSULE.abi, CONTRACTS.TIME_CAPSULE.address);
         contracts.digitalLegacy = new web3.eth.Contract(CONTRACTS.DIGITAL_LEGACY.abi, CONTRACTS.DIGITAL_LEGACY.address);
+        contracts.mockToken = new web3.eth.Contract(CONTRACTS.MOCK_TOKEN.abi, CONTRACTS.MOCK_TOKEN.address);
         
         console.log('✅ Web3 inicializado com sucesso');
         
@@ -76,10 +219,169 @@ async function initWeb3() {
         if (accounts.length > 0) {
             userAccount = accounts[0];
             updateConnectionStatus();
+            await checkNetwork();
+            await checkSGLBalance();
         }
+
+        // Listener para mudanças de conta
+        window.ethereum.on('accountsChanged', (accounts) => {
+            if (accounts.length > 0) {
+                userAccount = accounts[0];
+                updateConnectionStatus();
+                checkSGLBalance();
+            } else {
+                userAccount = null;
+                updateConnectionStatus();
+            }
+        });
+
+        // Listener para mudanças de rede
+        window.ethereum.on('chainChanged', (chainId) => {
+            window.location.reload();
+        });
     } else {
         console.error('❌ MetaMask não detectado');
         showMessage('connection', 'error', '❌ MetaMask não detectado! Por favor, instale o MetaMask para continuar.');
+    }
+}
+
+function showMessage(type, status, message) {
+    const messageElement = document.getElementById(`${type}-message`);
+    if (messageElement) {
+        messageElement.textContent = message;
+        messageElement.className = `message ${status}`;
+    }
+}
+
+function updateConnectionStatus() {
+    const statusElement = document.getElementById('connection-status');
+    const addressElement = document.getElementById('wallet-address');
+    const connectButton = document.getElementById('connect-wallet');
+    
+    if (userAccount) {
+        // Usuário conectado
+        statusElement.innerHTML = '<span class="status-indicator status-connected"></span>Conectado';
+        addressElement.textContent = `${userAccount.substring(0, 6)}...${userAccount.substring(38)}`;
+        connectButton.textContent = 'Carteira Conectada';
+        connectButton.classList.add('connected');
+    } else {
+        // Usuário desconectado
+        statusElement.innerHTML = '<span class="status-indicator status-disconnected"></span>Desconectado';
+        addressElement.textContent = 'Não conectado';
+        connectButton.textContent = 'Conectar Carteira';
+        connectButton.classList.remove('connected');
+    }
+}
+
+async function configureSGLToken() {
+    try {
+        const tokenAddress = CONTRACTS.MOCK_TOKEN.address;
+        const tokenSymbol = 'SGL';
+        const tokenDecimals = 18;
+        const tokenImage = 'https://singulai.live/logo-singulai.png';
+
+        const wasAdded = await window.ethereum.request({
+            method: 'wallet_watchAsset',
+            params: {
+                type: 'ERC20',
+                options: {
+                    address: tokenAddress,
+                    symbol: tokenSymbol,
+                    decimals: tokenDecimals,
+                    image: tokenImage,
+                },
+            },
+        });
+
+        if (wasAdded) {
+            console.log('✅ Token SGL adicionado à carteira');
+            await checkSGLBalance();
+        }
+    } catch (error) {
+        console.error('❌ Erro ao adicionar token:', error);
+    }
+}
+
+async function checkSGLBalance() {
+    if (!userAccount || !contracts.mockToken) {
+        document.getElementById('sgl-balance').textContent = '0 SGL';
+        return;
+    }
+    
+    try {
+        const balance = await contracts.mockToken.methods.balanceOf(userAccount).call();
+        const decimals = await contracts.mockToken.methods.decimals().call();
+        const formattedBalance = (Number(balance) / Math.pow(10, decimals)).toFixed(2);
+        document.getElementById('sgl-balance').textContent = `${formattedBalance} SGL`;
+        console.log('✅ Saldo SGL atualizado:', formattedBalance);
+    } catch (error) {
+        console.error('❌ Erro ao verificar saldo SGL:', error);
+        document.getElementById('sgl-balance').textContent = 'Erro';
+    }
+}
+
+async function checkNetwork() {
+    try {
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        if (chainId !== SEPOLIA_CONFIG.chainId) {
+            showMessage('connection', 'warning', '⚠️ Mudando para rede Sepolia...');
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: SEPOLIA_CONFIG.chainId }]
+                });
+                showMessage('connection', 'success', '✅ Conectado à rede Sepolia!');
+                return true;
+            } catch (switchError) {
+                if (switchError.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [SEPOLIA_CONFIG]
+                        });
+                        showMessage('connection', 'success', '✅ Rede Sepolia adicionada!');
+                        return true;
+                    } catch (addError) {
+                        console.error('❌ Erro ao adicionar rede:', addError);
+                        showMessage('connection', 'error', '❌ Não foi possível adicionar a rede Sepolia');
+                        return false;
+                    }
+                } else {
+                    console.error('❌ Erro ao mudar rede:', switchError);
+                    showMessage('connection', 'error', '❌ Não foi possível mudar para rede Sepolia');
+                    return false;
+                }
+            }
+        }
+        return true;
+    } catch (error) {
+        console.error('❌ Erro ao verificar rede:', error);
+        showMessage('connection', 'error', '❌ Erro ao verificar rede');
+        return false;
+    }
+}
+
+async function connectWallet() {
+    try {
+        // Solicitar conexão da carteira
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        userAccount = accounts[0];
+        
+        // Verificar e trocar rede se necessário
+        const networkOk = await checkNetwork();
+        if (!networkOk) return;
+        
+        // Atualizar interface
+        updateConnectionStatus();
+        await checkSGLBalance();
+        
+        // Adicionar token SGL
+        await configureSGLToken();
+        
+        showMessage('connection', 'success', '✅ Carteira conectada com sucesso!');
+    } catch (error) {
+        console.error('❌ Erro ao conectar carteira:', error);
+        showMessage('connection', 'error', '❌ Erro ao conectar carteira');
     }
 }
 
@@ -93,9 +395,14 @@ function setupEventListeners() {
     
     // Time Capsule
     document.getElementById('create-capsule').addEventListener('click', createTimeCapsule);
+    document.getElementById('unlock-capsule')?.addEventListener('click', unlockTimeCapsule);
     
     // Digital Legacy
     document.getElementById('create-legacy').addEventListener('click', createDigitalLegacy);
+    document.getElementById('unlock-legacy')?.addEventListener('click', unlockLegacy);
+    
+    // Avatar Wallet Link
+    document.getElementById('link-wallet')?.addEventListener('click', linkWallet);
     
     // Wallet Link
     document.getElementById('check-wallet-link').addEventListener('click', checkWalletLink);
@@ -122,6 +429,7 @@ async function connectWallet() {
 
         // Configurar automaticamente o token SGL
         await configureSGLToken();
+        await checkSGLBalance();
 
         console.log('✅ Wallet conectada:', userAccount);
         

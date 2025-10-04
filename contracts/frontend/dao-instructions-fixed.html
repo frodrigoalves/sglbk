@@ -36,7 +36,36 @@
             padding: 20px;
         }
 
-
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .lang-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .lang-btn:hover {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+        }
 
         .header {
             text-align: center;
@@ -173,6 +202,15 @@
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
         }
 
+        .icon-inline {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .icon-inline-lg {
+            margin-right: 15px;
+        }
+
         .button.secondary {
             background: var(--card-bg);
             color: var(--text-color);
@@ -229,11 +267,14 @@
 </head>
 <body>
     <div class="container">
-
+        <div class="language-selector">
+            <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+            <button class="lang-btn" onclick="setLanguage('pt-br')">PT-BR</button>
+        </div>
 
         <div class="header">
             <h1>
-                <svg width="40" height="40" viewBox="0 0 100 100" style="margin-right: 15px; vertical-align: middle;">
+                <svg width="40" height="40" viewBox="0 0 100 100" class="icon-inline icon-inline-lg">
                     <circle cx="20" cy="20" r="8" fill="#00d4ff" />
                     <circle cx="50" cy="20" r="8" fill="#00d4ff" />
                     <circle cx="80" cy="20" r="8" fill="#00d4ff" />
@@ -251,14 +292,14 @@
                     <line x1="65" y1="50" x2="50" y2="80" stroke="#ffffff" stroke-width="2" />
                     <line x1="65" y1="50" x2="80" y2="80" stroke="#ffffff" stroke-width="2" />
                 </svg>
-                <span>SingulDAO</span>
+                <span data-translate="title">SingulDAO</span>
             </h1>
-            <p>Complete Guide to Using the Governance System</p>
+            <p data-translate="subtitle">Complete Guide to Using the Governance System</p>
         </div>
 
         <div class="section">
-            <h2>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <h2 data-translate="contractInfo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14,2 14,8 20,8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -270,8 +311,8 @@
             
             <div class="address-grid">
                 <div class="address-item">
-                    <div class="address-label">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                    <div class="address-label" data-translate="daoContract">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                             <polyline points="9,22 9,12 15,12 15,22"></polyline>
                         </svg>
@@ -280,8 +321,8 @@
                     <div class="address-value">0x67Ef5FFf1fb79e7479aF27163Adef1b42a3aFf16</div>
                 </div>
                 <div class="address-item">
-                    <div class="address-label">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                    <div class="address-label" data-translate="treasuryContract">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                             <line x1="8" y1="21" x2="16" y2="21"></line>
                             <line x1="12" y1="17" x2="12" y2="21"></line>
@@ -291,8 +332,8 @@
                     <div class="address-value">0x8599Fc17B7F8eA439D79692645B65D512E7aC626</div>
                 </div>
                 <div class="address-item">
-                    <div class="address-label">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                    <div class="address-label" data-translate="sglToken">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="6" x2="12" y2="10"></line>
                             <line x1="12" y1="14" x2="12" y2="18"></line>
@@ -304,22 +345,22 @@
             </div>
 
             <div class="links">
-                <a href="https://sepolia.etherscan.io/address/0x67Ef5FFf1fb79e7479aF27163Adef1b42a3aFf16" target="_blank" class="button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <a href="https://sepolia.etherscan.io/address/0x67Ef5FFf1fb79e7479aF27163Adef1b42a3aFf16" target="_blank" rel="noopener noreferrer" class="button" data-translate="viewDao">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                     </svg>
                     View DAO on Etherscan
                 </a>
-                <a href="https://sepolia.etherscan.io/address/0x8599Fc17B7F8eA439D79692645B65D512E7aC626" target="_blank" class="button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <a href="https://sepolia.etherscan.io/address/0x8599Fc17B7F8eA439D79692645B65D512E7aC626" target="_blank" rel="noopener noreferrer" class="button" data-translate="viewTreasury">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                     </svg>
                     View Treasury on Etherscan
                 </a>
-                <a href="https://sepolia.etherscan.io/address/0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357" target="_blank" class="button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <a href="https://sepolia.etherscan.io/address/0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357" target="_blank" rel="noopener noreferrer" class="button" data-translate="viewToken">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                     </svg>
@@ -329,8 +370,8 @@
         </div>
 
         <div class="section">
-            <h2>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <h2 data-translate="initialSetup">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>
                 </svg>
@@ -338,26 +379,26 @@
             </h2>
             
             <div class="step">
-                <div class="step-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <div class="step-title" data-translate="step1Title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <circle cx="12" cy="12" r="10"></circle>
                         <path d="M12 6v6l4 2"></path>
                     </svg>
                     1. Install MetaMask
                 </div>
-                <p>Download and install the MetaMask browser extension from metamask.io</p>
+                <p data-translate="step1Desc">Download and install the MetaMask browser extension from metamask.io</p>
             </div>
 
             <div class="step">
-                <div class="step-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <div class="step-title" data-translate="step2Title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                         <polyline points="3.27,6.96 12,12.01 20.73,6.96"></polyline>
                         <line x1="12" y1="22.08" x2="12" y2="12"></line>
                     </svg>
                     2. Configure Sepolia Network
                 </div>
-                <p>Add the Sepolia testnet to your MetaMask wallet with the following configuration:</p>
+                <p data-translate="step2Desc">Add the Sepolia testnet to your MetaMask wallet with the following configuration:</p>
                 <ul>
                     <li>Network Name: Sepolia</li>
                     <li>RPC URL: https://sepolia.infura.io/v3/YOUR_KEY</li>
@@ -367,26 +408,26 @@
             </div>
 
             <div class="step">
-                <div class="step-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <div class="step-title" data-translate="step3Title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <path d="M6 3v12"></path>
                         <circle cx="6" cy="6" r="3"></circle>
                         <path d="M6 21v-3"></path>
                     </svg>
                     3. Get Test ETH
                 </div>
-                <p>Obtain Sepolia test ETH from the following faucets:</p>
+                <p data-translate="step3Desc">Obtain Sepolia test ETH from the following faucets:</p>
                 <div class="links">
-                    <a href="https://faucet.quicknode.com/ethereum/sepolia" target="_blank" class="button">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                    <a href="https://faucet.quicknode.com/ethereum/sepolia" target="_blank" rel="noopener noreferrer" class="button" data-translate="faucetQuicknode">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <path d="M6 3v12"></path>
                             <circle cx="6" cy="6" r="3"></circle>
                             <path d="M6 21v-3"></path>
                         </svg>
                         QuickNode Faucet
                     </a>
-                    <a href="https://sepoliafaucet.com/" target="_blank" class="button">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                    <a href="https://sepoliafaucet.com/" target="_blank" rel="noopener noreferrer" class="button" data-translate="sepoliaFaucet">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                             <path d="M6 3v12"></path>
                             <circle cx="6" cy="6" r="3"></circle>
                             <path d="M6 21v-3"></path>
@@ -397,15 +438,15 @@
             </div>
 
             <div class="step">
-                <div class="step-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <div class="step-title" data-translate="step4Title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <circle cx="12" cy="12" r="10"></circle>
                         <line x1="12" y1="6" x2="12" y2="10"></line>
                         <line x1="12" y1="14" x2="12" y2="18"></line>
                     </svg>
                     4. Add SGL Token
                 </div>
-                <p>Add the SGL token (DAI for testing) to your MetaMask:</p>
+                <p data-translate="step4Desc">Add the SGL token (DAI for testing) to your MetaMask:</p>
                 <ul>
                     <li>Token Address: 0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357</li>
                     <li>Token Symbol: DAI</li>
@@ -415,16 +456,16 @@
         </div>
 
         <div class="section">
-            <h2>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <h2 data-translate="howToUseDao">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"></path>
                     <polyline points="17,11 12,6 7,11"></polyline>
                 </svg>
                 How to Use the DAO
             </h2>
 
-            <h3>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <h3 data-translate="proposals">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14,2 14,8 20,8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -433,31 +474,31 @@
                 </svg>
                 Creating Proposals
             </h3>
-            <p>Any member with SGL tokens can create governance proposals. Proposals can include funding requests, parameter changes, or strategic decisions.</p>
+            <p data-translate="proposalsDesc">Any member with SGL tokens can create governance proposals. Proposals can include funding requests, parameter changes, or strategic decisions.</p>
 
-            <h3>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <h3 data-translate="voting">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <path d="M9 12l2 2 4-4"></path>
                     <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.83.35 4.04.98"></path>
                 </svg>
                 Voting Process
             </h3>
-            <p>Token holders can vote on active proposals. Your voting power is proportional to your SGL token balance. Votes are recorded on the blockchain and are immutable.</p>
+            <p data-translate="votingDesc">Token holders can vote on active proposals. Your voting power is proportional to your SGL token balance. Votes are recorded on the blockchain and are immutable.</p>
 
-            <h3>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <h3 data-translate="treasury">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                     <line x1="8" y1="21" x2="16" y2="21"></line>
                     <line x1="12" y1="17" x2="12" y2="21"></line>
                 </svg>
                 Treasury Management
             </h3>
-            <p>The DAO treasury holds community funds that can be allocated through governance proposals. All treasury transactions require community approval.</p>
+            <p data-translate="treasuryDesc">The DAO treasury holds community funds that can be allocated through governance proposals. All treasury transactions require community approval.</p>
         </div>
 
         <div class="warning">
-            <div class="warning-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <div class="warning-title" data-translate="warningTitle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
                     <line x1="12" y1="9" x2="12" y2="13"></line>
                     <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -465,34 +506,144 @@
                 Important Notes
             </div>
             <ul>
-                <li>This is a testnet deployment - no real value is at stake</li>
-                <li>Always ensure you have enough ETH for gas fees</li>
-                <li>Keep your wallet backup phrase secure</li>
-                <li>Always verify contract addresses before interacting</li>
+                <li data-translate="warningTestnet">This is a testnet deployment - no real value is at stake</li>
+                <li data-translate="warningGas">Always ensure you have enough ETH for gas fees</li>
+                <li data-translate="warningBackup">Keep your wallet backup phrase secure</li>
+                <li data-translate="warningVerify">Always verify contract addresses before interacting</li>
             </ul>
         </div>
 
         <div class="section">
-            <h2>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+            <h2 data-translate="supportTitle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                     <path d="M9 12l2 2 4-4"></path>
                     <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.83.35 4.04.98"></path>
                 </svg>
                 Support & Resources
             </h2>
-            <p>If you need help or have questions about using SingulDAO, please refer to our documentation or contact our support team.</p>
+            <p data-translate="supportDesc">If you need help or have questions about using SingulDAO, please refer to our documentation or contact our support team.</p>
             <div class="links">
                 <a href="dao-dashboard.html" class="button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-inline">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                         <path d="M9 9h6v6H9z"></path>
                     </svg>
-                    <span>Go to Dashboard</span>
+                    <span data-translate="goToDashboard">Go to Dashboard</span>
                 </a>
             </div>
         </div>
     </div>
 
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                title: "SingulDAO",
+                subtitle: "Complete Guide to Using the Governance System",
+                contractInfo: "Contract Information",
+                daoContract: "SingulDAO Contract",
+                treasuryContract: "Treasury Contract",
+                sglToken: "SGL Token (DAI for testing)",
+                viewDao: "View DAO on Etherscan",
+                viewTreasury: "View Treasury on Etherscan",
+                viewToken: "View Token on Etherscan",
+                initialSetup: "Initial Setup",
+                step1Title: "1. Install MetaMask",
+                step1Desc: "Download and install the MetaMask browser extension from metamask.io",
+                step2Title: "2. Configure Sepolia Network",
+                step2Desc: "Add the Sepolia testnet to your MetaMask wallet with the following configuration:",
+                step3Title: "3. Get Test ETH",
+                step3Desc: "Obtain Sepolia test ETH from the following faucets:",
+                faucetQuicknode: "QuickNode Faucet",
+                sepoliaFaucet: "Sepolia Faucet",
+                step4Title: "4. Add SGL Token",
+                step4Desc: "Add the SGL token (DAI for testing) to your MetaMask:",
+                howToUseDao: "How to Use the DAO",
+                proposals: "Creating Proposals",
+                proposalsDesc: "Any member with SGL tokens can create governance proposals. Proposals can include funding requests, parameter changes, or strategic decisions.",
+                voting: "Voting Process",
+                votingDesc: "Token holders can vote on active proposals. Your voting power is proportional to your SGL token balance. Votes are recorded on the blockchain and are immutable.",
+                treasury: "Treasury Management",
+                treasuryDesc: "The DAO treasury holds community funds that can be allocated through governance proposals. All treasury transactions require community approval.",
+                warningTitle: "Important Notes",
+                warningTestnet: "This is a testnet deployment - no real value is at stake",
+                warningGas: "Always ensure you have enough ETH for gas fees",
+                warningBackup: "Keep your wallet backup phrase secure",
+                warningVerify: "Always verify contract addresses before interacting",
+                supportTitle: "Support & Resources",
+                supportDesc: "If you need help or have questions about using SingulDAO, please refer to our documentation or contact our support team.",
+                goToDashboard: "Go to Dashboard"
+            },
+            "pt-br": {
+                title: "SingulDAO",
+                subtitle: "Guia Completo para Usar o Sistema de Governança",
+                contractInfo: "Informações dos Contratos",
+                daoContract: "Contrato SingulDAO",
+                treasuryContract: "Contrato da Tesouraria",
+                sglToken: "Token SGL (DAI para testes)",
+                viewDao: "Ver DAO no Etherscan",
+                viewTreasury: "Ver Tesouraria no Etherscan",
+                viewToken: "Ver Token no Etherscan",
+                initialSetup: "Configuração Inicial",
+                step1Title: "1. Instalar MetaMask",
+                step1Desc: "Baixe e instale a extensão do navegador MetaMask em metamask.io",
+                step2Title: "2. Configurar Rede Sepolia",
+                step2Desc: "Adicione a testnet Sepolia ao seu wallet MetaMask com a seguinte configuração:",
+                step3Title: "3. Obter ETH de Teste",
+                step3Desc: "Obtenha ETH de teste da Sepolia nos seguintes faucets:",
+                faucetQuicknode: "Faucet QuickNode",
+                sepoliaFaucet: "Faucet Sepolia",
+                step4Title: "4. Adicionar Token SGL",
+                step4Desc: "Adicione o token SGL (DAI para testes) ao seu MetaMask:",
+                howToUseDao: "Como Usar a DAO",
+                proposals: "Criando Propostas",
+                proposalsDesc: "Qualquer membro com tokens SGL pode criar propostas de governança. As propostas podem incluir solicitações de financiamento, mudanças de parâmetros ou decisões estratégicas.",
+                voting: "Processo de Votação",
+                votingDesc: "Os detentores de tokens podem votar em propostas ativas. Seu poder de voto é proporcional ao seu saldo de tokens SGL. Os votos são registrados na blockchain e são imutáveis.",
+                treasury: "Gestão da Tesouraria",
+                treasuryDesc: "A tesouraria da DAO mantém fundos da comunidade que podem ser alocados através de propostas de governança. Todas as transações da tesouraria requerem aprovação da comunidade.",
+                warningTitle: "Notas Importantes",
+                warningTestnet: "Esta é uma implantação de testnet - nenhum valor real está em risco",
+                warningGas: "Sempre certifique-se de ter ETH suficiente para taxas de gas",
+                warningBackup: "Mantenha sua frase de backup da carteira segura",
+                warningVerify: "Sempre verifique os endereços dos contratos antes de interagir",
+                supportTitle: "Suporte e Recursos",
+                supportDesc: "Se você precisar de ajuda ou tiver dúvidas sobre o uso da SingulDAO, consulte nossa documentação ou entre em contato com nossa equipe de suporte.",
+                goToDashboard: "Ir para o Dashboard"
+            }
+        };
 
+        let currentLanguage = 'en';
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            updateTranslations();
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function updateTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        // Initialize translations
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTranslations();
+        });
+    </script>
 </body>
 </html>
+
+
+
+

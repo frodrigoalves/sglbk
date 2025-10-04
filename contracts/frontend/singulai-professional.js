@@ -15,35 +15,175 @@ class SingulAIProfessional {
             AVATAR_BASE: {
                 address: '0x388D16b79fAff27A45F714838F029BC34aC60c48',
                 abi: [
-                    "function mint(address to, string memory attrs) external returns (uint256 tokenId)",
-                    "function nextId() public view returns (uint256)",
-                    "function balanceOf(address owner) public view returns (uint256)",
-                    "function ownerOf(uint256 tokenId) public view returns (address)",
-                    "function attributes(uint256 tokenId) public view returns (string)"
+                    {
+                        "inputs": [
+                            {"name": "to", "type": "address"},
+                            {"name": "attrs", "type": "string"}
+                        ],
+                        "name": "mint",
+                        "outputs": [{"name": "tokenId", "type": "uint256"}],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "nextId",
+                        "outputs": [{"name": "", "type": "uint256"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{"name": "owner", "type": "address"}],
+                        "name": "balanceOf",
+                        "outputs": [{"name": "", "type": "uint256"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
                 ]
             },
             TIME_CAPSULE: {
                 address: '0x1CE74AA25698312e150E3d0Aa2657Cc1B1cBeC93',
                 abi: [
-                    "function createCapsule(uint256 avatarId, uint256 unlockDate, string memory cid) external",
-                    "function capsules(bytes32 id) public view returns (uint256 avatarId, uint256 unlockDate, string cid, bool unlocked)",
-                    "event CapsuleCreated(bytes32 indexed id, uint256 avatarId, uint256 unlockDate, string cid)"
+                    {
+                        "inputs": [
+                            {"name": "avatarId", "type": "uint256"},
+                            {"name": "unlockDate", "type": "uint256"},
+                            {"name": "cid", "type": "string"}
+                        ],
+                        "name": "createCapsule",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{"name": "id", "type": "bytes32"}],
+                        "name": "capsules",
+                        "outputs": [
+                            {"name": "avatarId", "type": "uint256"},
+                            {"name": "unlockDate", "type": "uint256"},
+                            {"name": "cid", "type": "string"},
+                            {"name": "unlocked", "type": "bool"}
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
                 ]
             },
             DIGITAL_LEGACY: {
                 address: '0x91E67E1592e66C347C3f615d71927c05a1951057',
                 abi: [
-                    "function createLegacy(uint256 avatarId, string memory cid, string memory rules) external",
-                    "function legacies(bytes32 id) public view returns (uint256 avatarId, string cid, string rules, bool unlocked)",
-                    "event LegacyCreated(bytes32 indexed id, uint256 avatarId, string cid, string rules)"
+                    {
+                        "inputs": [
+                            {"name": "avatarId", "type": "uint256"},
+                            {"name": "cid", "type": "string"},
+                            {"name": "rules", "type": "string"}
+                        ],
+                        "name": "createLegacy",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    }
                 ]
             },
             AVATAR_WALLET_LINK: {
                 address: '0x803DE61049d1b192828A46e5952645C3f5b352B0',
                 abi: [
-                    "function linkWallet(uint256 avatarId) external",
-                    "function getLinkedAvatar(address wallet) external view returns (uint256)",
-                    "function isLinked(address wallet) external view returns (bool)"
+                    {
+                        "inputs": [{"name": "avatarId", "type": "uint256"}],
+                        "name": "linkWallet",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{"name": "wallet", "type": "address"}],
+                        "name": "getLinkedAvatar",
+                        "outputs": [{"name": "", "type": "uint256"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ]
+            },
+            MOCK_TOKEN: {
+                address: '0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357',
+                abi: [
+                    {
+                        "inputs": [{"name": "account", "type": "address"}],
+                        "name": "balanceOf",
+                        "outputs": [{"name": "", "type": "uint256"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{"name": "to", "type": "address"}, {"name": "amount", "type": "uint256"}],
+                        "name": "transfer",
+                        "outputs": [{"name": "", "type": "bool"}],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "decimals",
+                        "outputs": [{"name": "", "type": "uint8"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ]
+            },
+                        "outputs": [{"name": "", "type": "uint256"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ]
+            },
+            MOCK_TOKEN: {
+                address: '0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357',
+                abi: [
+                    {
+                        "inputs": [
+                            {"name": "account", "type": "address"}
+                        ],
+                        "name": "balanceOf",
+                        "outputs": [
+                            {"name": "", "type": "uint256"}
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {"name": "to", "type": "address"},
+                            {"name": "amount", "type": "uint256"}
+                        ],
+                        "name": "transfer",
+                        "outputs": [
+                            {"name": "", "type": "bool"}
+                        ],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "decimals",
+                        "outputs": [
+                            {"name": "", "type": "uint8"}
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ]
+            },
+                        "outputs": [{"name": "", "type": "uint256"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{"name": "wallet", "type": "address"}],
+                        "name": "isLinked",
+                        "outputs": [{"name": "", "type": "bool"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
                 ]
             }
         };
@@ -55,6 +195,7 @@ class SingulAIProfessional {
         try {
             await this.checkWeb3();
             this.setupEventListeners();
+            this.setupMobileMenu();
             this.loadTransactionHistory();
             await this.updateConnectionStatus();
             this.startAnimations();
@@ -63,6 +204,57 @@ class SingulAIProfessional {
         } catch (error) {
             console.error('❌ Erro na inicialização:', error);
             this.showNotification('Erro na inicialização do dashboard', 'error');
+        }
+    }
+
+    // Mobile Menu Management
+    setupMobileMenu() {
+        const mobileToggle = document.getElementById('mobile-menu-toggle');
+        const sidebar = document.querySelector('.app-sidebar');
+        const header = document.querySelector('.app-header');
+        
+        if (mobileToggle && sidebar && header) {
+            mobileToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                
+                // Update header position on mobile
+                if (window.innerWidth <= 768) {
+                    if (sidebar.classList.contains('open')) {
+                        header.style.left = '280px';
+                    } else {
+                        header.style.left = '0';
+                    }
+                }
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768 && 
+                    !sidebar.contains(e.target) && 
+                    !mobileToggle.contains(e.target) && 
+                    sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    header.style.left = '0';
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('open');
+                    header.style.left = '280px';
+                    mobileToggle.style.display = 'none';
+                } else {
+                    mobileToggle.style.display = 'flex';
+                    header.style.left = sidebar.classList.contains('open') ? '280px' : '0';
+                }
+            });
+            
+            // Initial setup
+            if (window.innerWidth <= 768) {
+                mobileToggle.style.display = 'flex';
+                header.style.left = '0';
+            }
         }
     }
 
@@ -151,23 +343,39 @@ class SingulAIProfessional {
     }
 
     async updateConnectionStatus() {
-        const indicator = document.getElementById('connection-indicator');
-        const text = document.getElementById('connection-text');
-        const accountInfo = document.getElementById('account-info');
-        const connectBtn = document.getElementById('connect-wallet');
+        const indicator = document.getElementById('wallet-indicator');
+        const connectBtn = document.getElementById('connect-wallet-btn');
 
         if (this.isConnected && this.userAccount) {
-            indicator.classList.add('connected');
-            text.textContent = 'Conectado à Sepolia Testnet';
-            accountInfo.textContent = `Endereço: ${this.userAccount.substring(0, 6)}...${this.userAccount.substring(38)}`;
-            connectBtn.textContent = 'Conectado ✅';
-            connectBtn.disabled = true;
+            // Update indicator
+            const statusDot = indicator?.querySelector('.status-dot');
+            const statusText = indicator?.querySelector('span:last-child');
+            
+            if (statusDot) statusDot.className = 'status-dot connected';
+            if (statusText) statusText.textContent = `${this.userAccount.substring(0, 6)}...${this.userAccount.substring(38)}`;
+            
+            // Update connect button
+            if (connectBtn) {
+                connectBtn.textContent = 'Conectado ✅';
+                connectBtn.disabled = true;
+                connectBtn.classList.remove('btn-primary');
+                connectBtn.classList.add('btn-secondary');
+            }
         } else {
-            indicator.classList.remove('connected');
-            text.textContent = 'Não conectado';
-            accountInfo.textContent = '';
-            connectBtn.textContent = 'Conectar MetaMask';
-            connectBtn.disabled = false;
+            // Update indicator
+            const statusDot = indicator?.querySelector('.status-dot');
+            const statusText = indicator?.querySelector('span:last-child');
+            
+            if (statusDot) statusDot.className = 'status-dot disconnected';
+            if (statusText) statusText.textContent = 'Desconectado';
+            
+            // Update connect button
+            if (connectBtn) {
+                connectBtn.textContent = 'Conectar MetaMask';
+                connectBtn.disabled = false;
+                connectBtn.classList.remove('btn-secondary');
+                connectBtn.classList.add('btn-primary');
+            }
         }
     }
 
@@ -483,8 +691,8 @@ class SingulAIProfessional {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
             }
             .modal-content {
                 background: var(--glass-bg);
@@ -493,8 +701,8 @@ class SingulAIProfessional {
                 padding: 2rem;
                 max-width: 400px;
                 width: 90%;
-                backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);
                 box-shadow: var(--shadow-xl);
             }
             .modal-header {
@@ -614,8 +822,8 @@ class SingulAIProfessional {
                 color: white;
                 font-weight: 600;
                 z-index: 10000;
-                backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
                 box-shadow: var(--shadow-lg);
                 animation: slideInRight 0.3s ease-out;
             }
@@ -671,7 +879,7 @@ class SingulAIProfessional {
 
     setupEventListeners() {
         // Connection
-        document.getElementById('connect-wallet')?.addEventListener('click', () => this.connectWallet());
+        document.getElementById('connect-wallet-btn')?.addEventListener('click', () => this.connectWallet());
 
         // Avatar functions
         document.getElementById('mint-avatar')?.addEventListener('click', () => this.createAvatar());
@@ -687,7 +895,7 @@ class SingulAIProfessional {
         document.getElementById('check-wallet-link')?.addEventListener('click', () => this.checkWalletLink());
 
         // SGL Token
-        document.getElementById('check-sgl-balance')?.addEventListener('click', () => this.checkSGLBalance());
+        document.getElementById('add-sgl-token-btn')?.addEventListener('click', () => this.checkSGLBalance());
 
         // MetaMask event listeners
         if (window.ethereum) {
@@ -706,13 +914,8 @@ class SingulAIProfessional {
     }
 }
 
-// Initialize the application
-let singulaiApp;
-
-document.addEventListener('DOMContentLoaded', async () => {
-    singulaiApp = new SingulAIProfessional();
-    await singulaiApp.init();
-});
+// This class is available for manual initialization if needed
+// Main initialization is handled by singulai-professional-app.js
 
 // Global access
-window.SingulAI = singulaiApp;
+window.SingulAIProfessional = SingulAIProfessional;

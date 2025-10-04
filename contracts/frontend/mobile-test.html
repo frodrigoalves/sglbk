@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI Mobile Test</title>
+    <link rel="stylesheet" href="singulai-mobile-optimized.css">
+</head>
+<body>
+    <div style="padding: 20px; max-width: 400px; margin: 0 auto;">
+        <h1>🤖 SingulAI Mobile Test</h1>
+        
+        <div class="wallet-button" style="position: relative; margin: 20px 0;">
+            Conectar Carteira
+        </div>
+        
+        <div class="balance-grid" style="margin: 20px 0;">
+            <div class="balance-item">
+                <div class="balance-amount">0.1234</div>
+                <div class="balance-label">ETH Sepolia</div>
+            </div>
+            <div class="balance-item">
+                <div class="balance-amount">100.50</div>
+                <div class="balance-label">SGL Token</div>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="openModal('test-modal')" style="width: 100%; margin: 10px 0;">
+            Testar Modal
+        </button>
+        
+        <div class="chat-section" style="margin: 20px 0;">
+            <div class="chat-header">
+                <h2>💬 Chat Teste</h2>
+            </div>
+            <div class="chat-messages" style="height: 200px;">
+                <div class="message user">Mensagem do usuário</div>
+                <div class="message ai">Resposta da IA</div>
+            </div>
+            <div class="chat-input-container">
+                <textarea class="chat-input" placeholder="Digite..."></textarea>
+                <button class="chat-send-btn">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de teste -->
+    <div id="test-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Modal de Teste</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Este é um modal de teste para verificar as animações mobile.</p>
+                <p>Em mobile, deve aparecer como bottom sheet.</p>
+                <p>No desktop, deve ser centralizado.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Fechar</button>
+                <button class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal() {
+            const modal = document.querySelector('.modal-overlay.active');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Teste mobile detection
+        const isMobile = window.innerWidth <= 768;
+        console.log('Mobile detected:', isMobile);
+        
+        // Teste de toast
+        function showToast() {
+            const toast = document.createElement('div');
+            toast.textContent = 'Toast de teste!';
+            toast.style.cssText = `
+                position: fixed;
+                ${isMobile ? 'bottom: 20px; left: 20px; right: 20px;' : 'top: 20px; right: 20px; width: 300px;'}
+                background: white;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 9999;
+                border: 1px solid #e5e7eb;
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        // Auto test toast
+        setTimeout(showToast, 1000);
+    </script>
+</body>
+</html>

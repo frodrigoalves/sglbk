@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI - Redirecionando...</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .loader {
+            text-align: center;
+        }
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        .loading-text {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #1a1a2e;
+            border-top: 4px solid #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        // Redirecionar imediatamente para a plataforma profissional
+        window.location.href = 'singulai-professional.html';
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <h1>SingulAI<span class="mvp-badge">MVP</span></h1>
+            </div>
+            <div class="header-controls">
+                <div class="language-selector">
+                    <button class="lang-btn active" data-lang="pt">🇧🇷 PT</button>
+                    <button class="lang-btn" data-lang="en">🇺🇸 EN</button>
+                </div>
+                <button id="wallet-connect-btn" class="btn btn-primary">
+                    Conectar MetaMask
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="layout">
+            <!-- Chat Section - Main Area -->
+            <main class="chat-section">
+                <div class="chat-header">
+                    <h3 data-key="chat-title">💬 Chat com SingulAI</h3>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-message ai-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <div data-key="welcome-message">
+                                Olá! Sou a IA da SingulAI. Posso te ajudar com avatares digitais, cápsulas do tempo e legados digitais. Como posso ajudar?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typing-indicator">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">SingulAI está pensando...</div>
+                </div>
+
+                <div class="chat-status" id="chat-status"></div>
+
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            id="chat-input" 
+                            class="chat-input" 
+                            placeholder="Digite sua mensagem..."
+                            rows="1"
+                        ></textarea>
+                        <button id="chat-send-btn" class="chat-send-btn" disabled>
+                            ↗️
+                        </button>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Wallet Info Panel -->
+                <div class="info-panel">
+                    <h3 data-key="wallet-info">💰 Informações da Carteira</h3>
+                    
+                    <div class="balance-grid">
+                        <div class="balance-item">
+                            <div class="balance-label" data-key="eth-balance">ETH Balance</div>
+                            <div class="balance-amount" id="eth-balance">0.0000</div>
+                        </div>
+                        
+                        <div class="balance-item">
+                            <div class="balance-label" data-key="sgl-balance">SGL Balance</div>
+                            <div class="balance-amount" id="sgl-balance">0.0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="wallet-status" id="wallet-status">
+                        <span class="wallet-disconnected" data-key="wallet-disconnected">
+                            ❌ Carteira Desconectada
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="info-panel">
+                    <h3 data-key="quick-actions">⚡ Ações Rápidas</h3>
+                    <div class="card-actions">
+                        <button class="btn" id="refresh-balance-btn">
+                            🔄 <span data-key="refresh-balance">Atualizar Saldo</span>
+                        </button>
+                        <button class="btn" id="add-sgl-token-btn">
+                            ➕ <span data-key="add-sgl-token">Adicionar Token SGL</span>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Expandable Features Section -->
+        <section class="features-section">
+            <div class="features-grid">
+                <!-- Avatar Creation Card -->
+                <div class="feature-card" id="avatar-card">
+                    <div class="card-header">
+                        <h4 class="card-title" data-key="avatar-title">🎭 Criação de Avatares</h4>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-subtitle" data-key="avatar-subtitle">
+                        Crie seu avatar digital único na blockchain
+                    </div>
+                    <div class="card-content">
+                        <div class="card-description" data-key="avatar-description">
+                            Crie avatares digitais únicos como NFTs na blockchain Ethereum. Cada avatar é único e pode ser usado em toda a plataforma SingulAI. Conecte seu avatar à sua carteira e tenha propriedade total sobre sua identidade digital.
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" id="mint-avatar-btn">
+                                🎨 <span data-key="create-avatar">Criar Avatar</span>
+                            </button>
+                            <button class="btn" id="view-avatars-btn">
+                                👁️ <span data-key="view-avatars">Ver Meus Avatares</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Capsule Card -->
+                <div class="feature-card" id="timecapsule-card">
+                    <div class="card-header">
+                        <h4 class="card-title" data-key="timecapsule-title">⏰ Cápsulas do Tempo</h4>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-subtitle" data-key="timecapsule-subtitle">
+                        Mensagens para o futuro com desbloqueio programado
+                    </div>
+                    <div class="card-content">
+                        <div class="card-description" data-key="timecapsule-description">
+                            Crie cápsulas do tempo digitais que só podem ser abertas em datas específicas. Perfeito para mensagens futuras, presentes programados ou documentos importantes. Tudo protegido na blockchain com contratos inteligentes.
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" id="create-timecapsule-btn">
+                                📦 <span data-key="create-timecapsule">Criar Cápsula</span>
+                            </button>
+                            <button class="btn" id="view-timecapsules-btn">
+                                📋 <span data-key="view-timecapsules">Ver Minhas Cápsulas</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digital Legacy Card -->
+                <div class="feature-card" id="legacy-card">
+                    <div class="card-header">
+                        <h4 class="card-title" data-key="legacy-title">🏛️ Legado Digital</h4>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-subtitle" data-key="legacy-subtitle">
+                        Preserve sua herança digital para futuras gerações
+                    </div>
+                    <div class="card-content">
+                        <div class="card-description" data-key="legacy-description">
+                            Crie um legado digital permanente e transferível. Defina herdeiros, organize seus ativos digitais e garanta que sua memória e conquistas sejam preservadas para sempre na blockchain, com total controle e segurança.
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" id="create-legacy-btn">
+                                📜 <span data-key="create-legacy">Criar Legado</span>
+                            </button>
+                            <button class="btn" id="manage-legacy-btn">
+                                ⚙️ <span data-key="manage-legacy">Gerenciar Legado</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wallet Management Card -->
+                <div class="feature-card" id="wallet-card">
+                    <div class="card-header">
+                        <h4 class="card-title" data-key="wallet-title">👛 Gerenciamento de Carteira</h4>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="card-subtitle" data-key="wallet-subtitle">
+                        Conecte e gerencie suas carteiras Ethereum
+                    </div>
+                    <div class="card-content">
+                        <div class="card-description" data-key="wallet-description">
+                            Conecte sua carteira MetaMask, visualize seus saldos de ETH e tokens SGL, e gerencie todas as suas interações com a blockchain. Suporte completo para a rede Sepolia testnet.
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" id="connect-wallet-btn">
+                                🔗 <span data-key="connect-wallet">Conectar Carteira</span>
+                            </button>
+                            <button class="btn" id="disconnect-wallet-btn">
+                                🔓 <span data-key="disconnect-wallet">Desconectar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="singulai-advanced.js"></script>
+    <script>
+        // SingulAI Modern Dashboard Class
+        class SingulAIModern {
+            constructor() {
+                this.currentLanguage = 'pt';
+                this.isConnected = false;
+                this.chatHistory = [];
+                this.init();
+            }
+
+            async init() {
+                this.setupLanguageSystem();
+                this.setupChatSystem();
+                this.setupExpandableCards();
+                this.setupWalletIntegration();
+                this.setupContractButtons();
+                await this.checkWalletConnection();
+            }
+
+            setupLanguageSystem() {
+                // Language translations
+                this.translations = {
+                    pt: {
+                        'chat-title': '💬 Chat com SingulAI',
+                        'welcome-message': 'Olá! Sou a IA da SingulAI. Posso te ajudar com avatares digitais, cápsulas do tempo e legados digitais. Como posso ajudar?',
+                        'wallet-info': '💰 Informações da Carteira',
+                        'eth-balance': 'Saldo ETH',
+                        'sgl-balance': 'Saldo SGL',
+                        'wallet-disconnected': '❌ Carteira Desconectada',
+                        'wallet-connected': '✅ Carteira Conectada',
+                        'quick-actions': '⚡ Ações Rápidas',
+                        'refresh-balance': 'Atualizar Saldo',
+                        'add-sgl-token': 'Adicionar Token SGL',
+                        'avatar-title': '🎭 Criação de Avatares',
+                        'avatar-subtitle': 'Crie seu avatar digital único na blockchain',
+                        'avatar-description': 'Crie avatares digitais únicos como NFTs na blockchain Ethereum. Cada avatar é único e pode ser usado em toda a plataforma SingulAI.',
+                        'create-avatar': 'Criar Avatar',
+                        'view-avatars': 'Ver Meus Avatares',
+                        'timecapsule-title': '⏰ Cápsulas do Tempo',
+                        'timecapsule-subtitle': 'Mensagens para o futuro com desbloqueio programado',
+                        'create-timecapsule': 'Criar Cápsula',
+                        'view-timecapsules': 'Ver Minhas Cápsulas',
+                        'legacy-title': '🏛️ Legado Digital',
+                        'legacy-subtitle': 'Preserve sua herança digital para futuras gerações',
+                        'create-legacy': 'Criar Legado',
+                        'manage-legacy': 'Gerenciar Legado',
+                        'wallet-title': '👛 Gerenciamento de Carteira',
+                        'wallet-subtitle': 'Conecte e gerencie suas carteiras Ethereum',
+                        'connect-wallet': 'Conectar Carteira',
+                        'disconnect-wallet': 'Desconectar'
+                    },
+                    en: {
+                        'chat-title': '💬 Chat with SingulAI',
+                        'welcome-message': 'Hello! I\'m SingulAI\'s AI assistant. I can help you with digital avatars, time capsules, and digital legacies. How can I help?',
+                        'wallet-info': '💰 Wallet Information',
+                        'eth-balance': 'ETH Balance',
+                        'sgl-balance': 'SGL Balance',
+                        'wallet-disconnected': '❌ Wallet Disconnected',
+                        'wallet-connected': '✅ Wallet Connected',
+                        'quick-actions': '⚡ Quick Actions',
+                        'refresh-balance': 'Refresh Balance',
+                        'add-sgl-token': 'Add SGL Token',
+                        'avatar-title': '🎭 Avatar Creation',
+                        'avatar-subtitle': 'Create your unique digital avatar on blockchain',
+                        'avatar-description': 'Create unique digital avatars as NFTs on Ethereum blockchain. Each avatar is unique and can be used across the SingulAI platform.',
+                        'create-avatar': 'Create Avatar',
+                        'view-avatars': 'View My Avatars',
+                        'timecapsule-title': '⏰ Time Capsules',
+                        'timecapsule-subtitle': 'Messages for the future with scheduled unlock',
+                        'create-timecapsule': 'Create Capsule',
+                        'view-timecapsules': 'View My Capsules',
+                        'legacy-title': '🏛️ Digital Legacy',
+                        'legacy-subtitle': 'Preserve your digital heritage for future generations',
+                        'create-legacy': 'Create Legacy',
+                        'manage-legacy': 'Manage Legacy',
+                        'wallet-title': '👛 Wallet Management',
+                        'wallet-subtitle': 'Connect and manage your Ethereum wallets',
+                        'connect-wallet': 'Connect Wallet',
+                        'disconnect-wallet': 'Disconnect'
+                    }
+                };
+
+                // Language switcher
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const lang = btn.dataset.lang;
+                        this.switchLanguage(lang);
+                    });
+                });
+            }
+
+            switchLanguage(lang) {
+                this.currentLanguage = lang;
+                
+                // Update active language button
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                // Update all translated elements
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.dataset.key;
+                    if (this.translations[lang] && this.translations[lang][key]) {
+                        element.textContent = this.translations[lang][key];
+                    }
+                });
+            }
+
+            setupChatSystem() {
+                const chatInput = document.getElementById('chat-input');
+                const sendBtn = document.getElementById('chat-send-btn');
+                const chatMessages = document.getElementById('chat-messages');
+
+                // Auto-resize textarea
+                chatInput.addEventListener('input', () => {
+                    chatInput.style.height = 'auto';
+                    chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+                    
+                    // Enable/disable send button
+                    sendBtn.disabled = !chatInput.value.trim();
+                });
+
+                // Send message on Enter (Shift+Enter for new line)
+                chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Send button click
+                sendBtn.addEventListener('click', () => this.sendMessage());
+            }
+
+            async sendMessage() {
+                const chatInput = document.getElementById('chat-input');
+                const message = chatInput.value.trim();
+                
+                if (!message) return;
+
+                // Add user message to chat
+                this.addMessageToChat(message, 'user');
+                
+                // Clear input
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+                document.getElementById('chat-send-btn').disabled = true;
+
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                try {
+                    // Send to AI backend
+                    const response = await fetch('http://localhost:3000/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to get AI response');
+                    }
+
+                    const data = await response.json();
+                    
+                    // Hide typing indicator
+                    this.hideTypingIndicator();
+                    
+                    // Add AI response to chat
+                    this.addMessageToChat(data.response, 'ai');
+                    
+                } catch (error) {
+                    console.error('Chat error:', error);
+                    this.hideTypingIndicator();
+                    this.addMessageToChat('Desculpe, ocorreu um erro. Tente novamente.', 'ai');
+                }
+            }
+
+            addMessageToChat(message, type) {
+                const chatMessages = document.getElementById('chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${type}-message`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.textContent = type === 'user' ? '👤' : '🤖';
+                
+                const content = document.createElement('div');
+                content.className = 'message-content';
+                content.textContent = message;
+                
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(content);
+                
+                // Insert before typing indicator
+                const typingIndicator = document.getElementById('typing-indicator');
+                chatMessages.insertBefore(messageDiv, typingIndicator);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            showTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                typingIndicator.classList.add('visible');
+                
+                // Scroll to bottom
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                typingIndicator.classList.remove('visible');
+            }
+
+            setupExpandableCards() {
+                document.querySelectorAll('.feature-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        // Don't expand if clicking on buttons
+                        if (e.target.closest('.btn')) return;
+                        
+                        // Toggle expanded state
+                        const isExpanded = card.classList.contains('expanded');
+                        
+                        // Close all other cards
+                        document.querySelectorAll('.feature-card').forEach(otherCard => {
+                            if (otherCard !== card) {
+                                otherCard.classList.remove('expanded');
+                            }
+                        });
+                        
+                        // Toggle current card
+                        card.classList.toggle('expanded', !isExpanded);
+                    });
+                });
+            }
+
+            async setupWalletIntegration() {
+                // Setup wallet connection buttons
+                document.getElementById('wallet-connect-btn').addEventListener('click', () => {
+                    this.connectWallet();
+                });
+
+                document.getElementById('connect-wallet-btn').addEventListener('click', () => {
+                    this.connectWallet();
+                });
+
+                document.getElementById('disconnect-wallet-btn').addEventListener('click', () => {
+                    this.disconnectWallet();
+                });
+
+                document.getElementById('refresh-balance-btn').addEventListener('click', () => {
+                    this.updateBalances();
+                });
+
+                document.getElementById('add-sgl-token-btn').addEventListener('click', () => {
+                    this.addSGLToken();
+                });
+            }
+
+            async connectWallet() {
+                try {
+                    if (typeof window.ethereum !== 'undefined') {
+                        const accounts = await window.ethereum.request({
+                            method: 'eth_requestAccounts'
+                        });
+
+                        if (accounts.length > 0) {
+                            this.isConnected = true;
+                            this.updateWalletStatus(accounts[0]);
+                            await this.updateBalances();
+                        }
+                    } else {
+                        alert('MetaMask não está instalado!');
+                    }
+                } catch (error) {
+                    console.error('Error connecting wallet:', error);
+                    alert('Erro ao conectar carteira: ' + error.message);
+                }
+            }
+
+            disconnectWallet() {
+                this.isConnected = false;
+                this.updateWalletStatus(null);
+                document.getElementById('eth-balance').textContent = '0.0000';
+                document.getElementById('sgl-balance').textContent = '0.0';
+            }
+
+            updateWalletStatus(address) {
+                const statusElement = document.getElementById('wallet-status');
+                
+                if (address) {
+                    statusElement.innerHTML = `
+                        <span class="wallet-connected">
+                            ✅ ${address.substring(0, 6)}...${address.substring(38)}
+                        </span>
+                    `;
+                } else {
+                    statusElement.innerHTML = `
+                        <span class="wallet-disconnected" data-key="wallet-disconnected">
+                            ❌ Carteira Desconectada
+                        </span>
+                    `;
+                }
+            }
+
+            async updateBalances() {
+                if (!this.isConnected || typeof window.ethereum === 'undefined') return;
+
+                try {
+                    const web3 = new Web3(window.ethereum);
+                    const accounts = await web3.eth.getAccounts();
+                    
+                    if (accounts.length > 0) {
+                        const account = accounts[0];
+                        
+                        // Get ETH balance
+                        const ethBalance = await web3.eth.getBalance(account);
+                        const ethFormatted = web3.utils.fromWei(ethBalance, 'ether');
+                        document.getElementById('eth-balance').textContent = parseFloat(ethFormatted).toFixed(4);
+                        
+                        // Get SGL token balance
+                        const sglAddress = '0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1';
+                        const sglContract = new web3.eth.Contract([
+                            {
+                                "constant": true,
+                                "inputs": [{"name": "_owner", "type": "address"}],
+                                "name": "balanceOf",
+                                "outputs": [{"name": "balance", "type": "uint256"}],
+                                "type": "function"
+                            }
+                        ], sglAddress);
+                        
+                        const sglBalance = await sglContract.methods.balanceOf(account).call();
+                        const sglFormatted = web3.utils.fromWei(sglBalance, 'ether');
+                        document.getElementById('sgl-balance').textContent = parseFloat(sglFormatted).toFixed(1);
+                    }
+                } catch (error) {
+                    console.error('Error updating balances:', error);
+                }
+            }
+
+            async addSGLToken() {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_watchAsset',
+                        params: {
+                            type: 'ERC20',
+                            options: {
+                                address: '0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1',
+                                symbol: 'SGL',
+                                decimals: 18,
+                                image: 'https://i.imgur.com/placeholder.png'
+                            },
+                        },
+                    });
+                } catch (error) {
+                    console.error('Error adding SGL token:', error);
+                }
+            }
+
+            async checkWalletConnection() {
+                if (typeof window.ethereum !== 'undefined') {
+                    try {
+                        const accounts = await window.ethereum.request({
+                            method: 'eth_accounts'
+                        });
+                        
+                        if (accounts.length > 0) {
+                            this.isConnected = true;
+                            this.updateWalletStatus(accounts[0]);
+                            await this.updateBalances();
+                        }
+                    } catch (error) {
+                        console.error('Error checking wallet connection:', error);
+                    }
+                }
+            }
+
+            setupContractButtons() {
+                // Avatar creation
+                document.getElementById('mint-avatar-btn').addEventListener('click', async () => {
+                    if (!this.isConnected) {
+                        alert('Conecte sua carteira primeiro!');
+                        return;
+                    }
+                    
+                    try {
+                        // Use existing avatar creation logic from singulai-advanced.js
+                        if (window.SingulAIApp) {
+                            await window.SingulAIApp.mintAvatar();
+                        }
+                    } catch (error) {
+                        console.error('Error creating avatar:', error);
+                        alert('Erro ao criar avatar: ' + error.message);
+                    }
+                });
+
+                // Time capsule creation
+                document.getElementById('create-timecapsule-btn').addEventListener('click', async () => {
+                    if (!this.isConnected) {
+                        alert('Conecte sua carteira primeiro!');
+                        return;
+                    }
+                    
+                    const content = prompt('Digite o conteúdo da cápsula do tempo:');
+                    const unlockTime = prompt('Digite a data de desbloqueio (YYYY-MM-DD):');
+                    
+                    if (content && unlockTime) {
+                        try {
+                            if (window.SingulAIApp) {
+                                await window.SingulAIApp.createTimeCapsule(content, new Date(unlockTime).getTime() / 1000);
+                            }
+                        } catch (error) {
+                            console.error('Error creating time capsule:', error);
+                            alert('Erro ao criar cápsula do tempo: ' + error.message);
+                        }
+                    }
+                });
+
+                // Digital legacy creation
+                document.getElementById('create-legacy-btn').addEventListener('click', async () => {
+                    if (!this.isConnected) {
+                        alert('Conecte sua carteira primeiro!');
+                        return;
+                    }
+                    
+                    const content = prompt('Digite o conteúdo do legado digital:');
+                    const heir = prompt('Digite o endereço Ethereum do herdeiro:');
+                    
+                    if (content && heir) {
+                        try {
+                            if (window.SingulAIApp) {
+                                await window.SingulAIApp.createDigitalLegacy(content, heir);
+                            }
+                        } catch (error) {
+                            console.error('Error creating digital legacy:', error);
+                            alert('Erro ao criar legado digital: ' + error.message);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize the modern dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.singulAIModern = new SingulAIModern();
+        });
+    </script>
+</body>
+</html>

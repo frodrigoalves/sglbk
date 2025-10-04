@@ -1409,3 +1409,275 @@ body {
         font-size: 0.8rem;
     }
 }
+
+/* ===== CHAT SYSTEM STYLES ===== */
+.chat-messages {
+    height: 400px !important;
+    overflow-y: auto !important;
+    border: 1px solid #333 !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    margin: 20px 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.chat-message {
+    display: flex !important;
+    align-items: flex-start !important;
+    margin-bottom: 20px !important;
+    animation: slideIn 0.3s ease;
+}
+
+.chat-message.user {
+    flex-direction: row-reverse !important;
+}
+
+.message-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin: 0 12px !important;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.ai-avatar-icon {
+    background: linear-gradient(135deg, #00ff88, #00cc6a) !important;
+}
+
+.user-avatar-icon {
+    background: linear-gradient(135deg, #007acc, #005999) !important;
+}
+
+.message-content {
+    flex: 1 !important;
+    max-width: 70%;
+}
+
+.message-text {
+    background: rgba(255, 255, 255, 0.08) !important;
+    padding: 14px 18px !important;
+    border-radius: 20px !important;
+    color: #fff !important;
+    line-height: 1.5 !important;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.chat-message.user .message-text {
+    background: rgba(0, 122, 204, 0.15) !important;
+    border: 1px solid rgba(0, 122, 204, 0.2);
+}
+
+.message-time {
+    font-size: 0.75rem !important;
+    color: #888 !important;
+    margin-top: 6px !important;
+    opacity: 0.7;
+}
+
+.chat-input-area {
+    display: flex !important;
+    gap: 12px !important;
+    align-items: flex-end !important;
+    margin-top: 20px;
+}
+
+.chat-input {
+    flex: 1 !important;
+    min-height: 48px !important;
+    max-height: 120px !important;
+    padding: 14px 20px !important;
+    border: 1px solid #333 !important;
+    border-radius: 24px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #fff !important;
+    resize: none !important;
+    font-family: inherit !important;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.chat-input:focus {
+    outline: none !important;
+    border-color: #00ff88 !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+.chat-input::placeholder {
+    color: #666 !important;
+}
+
+#send-chat {
+    min-width: 48px !important;
+    height: 48px !important;
+    border-radius: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #00ff88, #00cc6a) !important;
+    border: none !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#send-chat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+}
+
+.chat-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #00ff88;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status-dot.connected {
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(0.8);
+    }
+}
+
+/* Scrollbar for chat */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 136, 0.3);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 136, 0.5);
+}
+
+/* Mobile chat responsiveness */
+@media (max-width: 768px) {
+    .chat-messages {
+        height: 300px !important;
+        padding: 15px !important;
+    }
+    
+    .message-content {
+        max-width: 85%;
+    }
+    
+    .message-avatar {
+        width: 32px !important;
+        height: 32px !important;
+        margin: 0 8px !important;
+    }
+}
+
+/* ===== SIDEBAR AND PANEL IMPROVEMENTS ===== */
+.sidebar-section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+.sidebar-title {
+    color: #00ff88 !important;
+    margin-bottom: 15px !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.full-width-btn {
+    width: 100% !important;
+}
+
+.quick-actions-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+/* Better styling for status indicators */
+.status-card .connection-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.status-card .user-info {
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+    margin-bottom: 15px;
+}
+
+/* Footer improvements */
+.footer-text {
+    color: #666 !important;
+}
+
+.footer-subtext {
+    color: #444 !important;
+    font-size: 0.9rem !important;
+    margin-top: 10px !important;
+}
+
+.footer-center {
+    text-align: center !important;
+    margin-top: 20px !important;
+}
+
+/* Grid layout improvements */
+.contract-form-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 15px !important;
+}
+
+@media (max-width: 768px) {
+    .contract-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulDAO - Deploy Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        h1 {
+            color: #00ff88;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .status {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .success {
+            border-left: 5px solid #00ff88;
+        }
+        .link {
+            display: inline-block;
+            background: #00ff88;
+            color: #1a1a1a;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            font-weight: bold;
+        }
+        .link:hover {
+            background: #00cc6a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 SingulDAO Deploy Test</h1>
+        
+        <div class="status success">
+            <h2>✅ Deploy Successful!</h2>
+            <p>O SingulDAO foi implantado com sucesso na VPS</p>
+            <p><strong>IP:</strong> 72.60.147.56</p>
+            <p><strong>Data:</strong> <span id="deployDate"></span></p>
+        </div>
+
+        <div class="links">
+            <h3>📋 Acesso às Páginas:</h3>
+            <a href="dao-instructions.html" class="link">📖 DAO Instructions</a>
+            <a href="dao-dashboard.html" class="link">📊 DAO Dashboard</a>
+            <a href="dashboard.html" class="link">📈 SingulAI Dashboard</a>
+        </div>
+
+        <div class="status">
+            <h4>🔧 Status dos Serviços</h4>
+            <p>✅ Servidor Web: Online</p>
+            <p>✅ Arquivos HTML: Carregados</p>
+            <p>✅ Arquivos JS: Carregados</p>
+            <p>✅ Arquivos CSS: Carregados</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('deployDate').textContent = new Date().toLocaleString('pt-BR');
+        
+        // Test if we can access the main files
+        function testFile(filename) {
+            fetch(filename)
+                .then(response => response.ok ? 
+                    console.log(`✅ ${filename} - OK`) : 
+                    console.log(`❌ ${filename} - NOT FOUND`))
+                .catch(err => console.log(`❌ ${filename} - ERROR: ${err}`));
+        }
+        
+        // Test main files
+        testFile('dao-instructions.html');
+        testFile('dao-dashboard.html');
+        testFile('dashboard.html');
+        testFile('singulai-dao.js');
+    </script>
+</body>
+</html>

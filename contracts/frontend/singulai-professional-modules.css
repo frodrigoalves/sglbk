@@ -1,0 +1,229 @@
+/* Avatar Interaction Modules */
+.avatar-modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.avatar-module {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition: all var(--animation-normal);
+    cursor: pointer;
+}
+
+.avatar-module:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-500);
+}
+
+.module-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.module-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.module-info {
+    flex: 1;
+}
+
+.module-title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.module-subtitle {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+.module-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+/* Secret Panel Styles */
+.secret-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: var(--neutral-900);
+    border-left: 1px solid var(--neutral-700);
+    z-index: 1000;
+    transition: right var(--animation-slow);
+    overflow-y: auto;
+}
+
+.secret-panel.active {
+    right: 0;
+}
+
+.secret-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--animation-normal);
+}
+
+.secret-panel-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.secret-panel-header {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--neutral-700);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.secret-panel-title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.secret-panel-close {
+    background: none;
+    border: none;
+    color: var(--neutral-400);
+    font-size: var(--text-xl);
+    cursor: pointer;
+    padding: var(--space-1);
+}
+
+.secret-panel-content {
+    padding: var(--space-4);
+}
+
+.secret-trigger {
+    position: fixed;
+    bottom: var(--space-4);
+    right: var(--space-4);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--neutral-800);
+    border: 1px solid var(--neutral-700);
+    color: var(--neutral-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: all var(--animation-normal);
+}
+
+.secret-trigger:hover {
+    background: var(--neutral-700);
+    color: var(--neutral-200);
+    transform: scale(1.1);
+}
+
+/* Exchange Links */
+.exchange-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.exchange-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: var(--neutral-800);
+    border: 1px solid var(--neutral-700);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all var(--animation-normal);
+}
+
+.exchange-link:hover {
+    background: var(--neutral-700);
+    border-color: var(--primary-500);
+    transform: translateY(-1px);
+}
+
+.exchange-icon {
+    font-size: var(--text-xl);
+}
+
+.exchange-info {
+    flex: 1;
+}
+
+.exchange-name {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-1);
+}
+
+.exchange-desc {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+/* Etherscan Actions */
+.etherscan-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+/* Analytics Stats */
+.analytics-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2);
+    background: var(--neutral-800);
+    border-radius: var(--radius-md);
+}
+
+.stat-label {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--primary-400);
+}

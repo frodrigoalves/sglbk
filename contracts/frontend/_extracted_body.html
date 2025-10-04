@@ -1,0 +1,252 @@
+<body class="theme-dark">
+    <header class="app-header">
+        <div class="branding">
+            <img src="https://www.singulai.live/logo-singulai.png" alt="SingulAI Logo" class="logo">
+            <div class="branding-text">
+                <h1>SINGULAI</h1>
+                <p class="subtitle" data-i18n-pt="O futuro registrado">The future recorded</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="version-badge" data-i18n-pt="MVP Demo v2.0">MVP Demo v2.0</span>
+            <div class="header-controls">
+                <button id="language-toggle" class="control-button" type="button" aria-label="Switch language">PT-BR</button>
+                <button id="theme-toggle" class="control-button" type="button" aria-label="Toggle theme">Light</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="main-content">
+                <!-- Contracts Grid -->
+                <div class="contracts-grid">
+                    <!-- Avatar Base -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">🎭</span>
+                            <div>
+                                <h3 class="contract-title">Avatar Base</h3>
+                                <p class="contract-subtitle">NFT Personalities</p>
+                            </div>
+                        </div>
+                        <p class="contract-description" data-i18n-pt="Crie avatares únicos na blockchain. Cada avatar é um NFT que representa uma personalidade digital imutável para cuidar do seu legado digital.">
+                            Create unique blockchain avatars. Each NFT represents an immutable digital personality that protects your legacy.
+                        </p>
+                        <div class="contract-address">0x388D16b79fAff27A45F714838F029BC34aC60c48</div>
+
+                        <div class="input-group">
+                            <label data-i18n-pt="Personalidade do Avatar:">Avatar Personality:</label>
+                            <textarea id="avatar-attrs" placeholder="Ex: Laura - Ética, precisão e memória familiar. Especialista em cuidar de recordações e orientar decisões familiares com base em valores tradicionais..." rows="4"></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="mint-avatar" class="btn" data-i18n-pt="✨ Criar Avatar">✨ Mint Avatar</button>
+                            <button id="check-next-id" class="btn btn-secondary btn-small" data-i18n-pt="🔍 Próximo ID">🔍 Next ID</button>
+                            <button id="check-my-avatars" class="btn btn-secondary btn-small" data-i18n-pt="✨ Meus Avatares">✨ My Avatars</button>
+                        </div>
+
+                        <div id="avatar-message" class="message"></div>
+                    </div>
+
+                    <!-- Time Capsule -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">⏰</span>
+                            <div>
+                                <h3 class="contract-title">Time Capsule</h3>
+                                <p class="contract-subtitle">Programmed Messages</p>
+                            </div>
+                        </div>
+                        <p class="contract-description" data-i18n-pt="Crie cápsulas do tempo que serão desbloqueadas automaticamente no futuro. Perfeito para mensagens póstumas e instruções programadas.">
+                            Create encrypted time capsules with scheduled unlocks.
+                            Ideal for posthumous messages and programmable instructions.
+                        </p>
+                        <div class="contract-address">0x1CE74AA25698312e150E3d0Aa2657Cc1B1cBeC93</div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label data-i18n-pt="Avatar ID:">Avatar ID:</label>
+                                <input type="number" id="capsule-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label data-i18n-pt="Horas para desbloqueio:">Hours until unlock:</label>
+                                <input type="number" id="capsule-hours" placeholder="24" data-i18n-placeholder-pt="24" value="1" min="1">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label data-i18n-pt="Conteúdo (IPFS Hash):">Content (IPFS hash):</label>
+                            <input type="text" id="capsule-cid" placeholder="QmExampleHash123..." data-i18n-placeholder-pt="QmExampleHash123...">
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-capsule" class="btn" data-i18n-pt="⏳ Criar Cápsula">⏳ Create Capsule</button>
+                            <button id="check-capsule" class="btn btn-secondary btn-small" data-i18n-pt="🔍 Verificar">🔍 Check Capsule</button>
+                        </div>
+
+                        <div id="capsule-message" class="message"></div>
+                    </div>
+
+                    <!-- Digital Legacy -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">🏛️</span>
+                            <div>
+                                <h3 class="contract-title">Digital Legacy</h3>
+                                <p class="contract-subtitle">Inheritance Rules</p>
+                            </div>
+                        </div>
+                        <p class="contract-description" data-i18n-pt="Configure legados digitais com regras específicas de desbloqueio. Perfeito para testamentos digitais e heranças programáveis.">
+                            Configure digital legacies with precise unlock conditions.
+                            Ideal for programmable wills and automated inheritance flows.
+                        </p>
+                        <div class="contract-address">0x91E67E1592e66C347C3f615d71927c05a1951057</div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label data-i18n-pt="Avatar ID:">Avatar ID:</label>
+                                <input type="number" id="legacy-avatar-id" placeholder="1" value="1" min="1">
+                            </div>
+
+                            <div class="input-group">
+                                <label data-i18n-pt="Conteúdo (IPFS Hash):">Content (IPFS hash):</label>
+                                <input type="text" id="legacy-cid" placeholder="QmLegacyHash456..." data-i18n-placeholder-pt="QmLegacyHash456...">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Regras de Desbloqueio:</label>
+                            <textarea id="legacy-rules" placeholder="Ex: Desbloqueio após 1 ano OU com consenso familiar de 3 membros OU em caso de certificado de óbito registrado na blockchain..." rows="3" data-i18n-placeholder-pt="Ex: Desbloqueio após 1 ano ou mediante consenso familiar mínimo de 3 membros."></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <button id="create-legacy" class="btn" data-i18n-pt="🏛️ Criar Legado">🏛️ Create Legacy</button>
+                            <button id="check-legacy" class="btn btn-secondary btn-small" data-i18n-pt="🔍 Verificar">🔍 Check Legacy</button>
+                        </div>
+
+                        <div id="legacy-message" class="message"></div>
+                    </div>
+
+                    <!-- Avatar Wallet Link -->
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <span class="contract-icon">💼</span>
+                            <div>
+                                <h3 class="contract-title">Avatar Wallet Link</h3>
+                                <p class="contract-subtitle">Identity Management</p>
+                            </div>
+                        </div>
+                        <p class="contract-description">
+                            Sistema de vinculação entre avatares e carteiras. Permite que avatares
+                            gerenciem múltiplas identidades e acessos de forma segura.
+                        </p>
+                        <div class="contract-address">0x803DE61049d1b192828A46e5952645C3f5b352B0</div>
+
+                        <p style="margin: 20px 0; color: #aaa; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                            💡 Este contrato gerencia as conexões entre avatares e endereços de carteira,
+                            permitindo delegação segura de autoridades e multi-sig familiar.
+                        </p>
+
+                        <button id="check-wallet-link" class="btn" data-i18n-pt="🔗 Verificar Status">🔗 Check Status</button>
+
+                        <div id="wallet-message" class="message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Connection Status -->
+                <div class="status-card connection-status">
+                    <h3>🔗 Status da Conexão</h3>
+                    <p id="connection-status">
+                        <span class="status-indicator status-disconnected"></span>
+                        Conecte sua carteira MetaMask
+                    </p>
+                    <div class="user-info">
+                        <p id="account-info"></p>
+                        <div class="balance-info">
+                            <div class="balance-item">
+                                <div class="balance-value" id="eth-balance">0.0000</div>
+                                <div class="balance-label">ETH</div>
+                            </div>
+                            <div class="balance-item">
+                                <div class="balance-value" id="avatar-balance">0</div>
+                                <div class="balance-label">Avatares</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button id="connect-wallet" class="btn" data-i18n-pt="🦊 Conectar MetaMask">🦊 Connect MetaMask</button>
+                        <button id="disconnect-wallet" class="btn btn-secondary" style="display: none;" data-i18n-pt="🔌 Desconectar">🔌 Disconnect</button>
+                    </div>
+                    <div id="connection-message" class="message"></div>
+                </div>
+
+                <!-- Transaction History -->
+                <div class="status-card">
+                    <h3>📋 Histórico de Transações</h3>
+                    <div class="transaction-history" id="transaction-history">
+                        <p style="color: #666; text-align: center;">Nenhuma transação ainda</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button id="clear-history" class="btn btn-secondary btn-small" data-i18n-pt="🧹 Limpar">🧹 Clear</button>
+                        <button id="refresh-data" class="btn btn-secondary btn-small" data-i18n-pt="🔄 Atualizar">🔄 Refresh</button>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="status-card">
+                    <h3>⚡ Sistema</h3>
+                    <div style="margin: 15px 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Rede:</span>
+                            <span style="color: #00ff88;">Sepolia</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Contratos:</span>
+                            <span style="color: #00ff88;">4 Ativos</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Status:</span>
+                            <span style="color: #00ff88;">🟢 Online</span>
+                        </div>
+                    </div>
+                    <div id="system-message" class="message"></div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="status-card">
+                    <h3>🔗 Links Úteis</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn btn-secondary btn-small">📊 Etherscan</a>
+                        <a href="https://www.singulai.live" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🌐 Site Principal</a>
+                        <a href="https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🤖 Assistente</a>
+                        <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🚰 Faucet ETH</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://www.singulai.live">Site Principal</a>
+                <a href="https://sepolia.etherscan.io/">Etherscan Sepolia</a>
+                <a href="https://github.com/frodrigoalves/sglbk">GitHub</a>
+                <a href="https://docs.singulai.live">Documentação</a>
+            </div>
+            <p style="color: #666;">© 2025 SingulAI – O futuro registrado | MVP Demo Completo</p>
+            <p style="color: #444; font-size: 0.9rem; margin-top: 10px;">
+                Testnet Sepolia | Versão 2.0 | Última atualização: 22/09/2025
+            </p>
+        </div>
+    </footer>
+
+    <script src="singulai-advanced.js"></script>
+    <script src="ux-improvements.js"></script>
+</body>
+</html>

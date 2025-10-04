@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI - Plataforma de Legado Digital</title>
+    <link rel="stylesheet" href="singulai-professional-theme.css">
+    <link rel="stylesheet" href="singulai-professional-modules.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body>
+    <!-- Floating Buttons Container -->
+    <div class="floating-buttons">
+        <!-- Container vazio - botões movidos para sidebar -->
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <a href="#" class="sidebar-logo">
+                        <div class="logo-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                                <path d="M2 17L12 22L22 17"/>
+                                <path d="M2 12L12 17L22 12"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            <h1>SingulAI</h1>
+                            <span class="version-badge">Professional</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="sidebar-nav">
+                <!-- Primary Navigation -->
+                <div class="nav-group">
+                    <div class="nav-group-header">
+                        <span class="nav-group-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                            </svg>
+                        </span>
+                        <span class="nav-group-title">Principal</span>
+                    </div>
+
+                    <div class="nav-items">
+                        <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Dashboard</span>
+                            <div class="nav-link-indicator"></div>
+                        </a>
+
+                        <a href="#chat" class="nav-link" data-page="chat">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Avatar Ético</span>
+                            <span class="nav-link-badge ai">IA</span>
+                        </a>
+
+                        <a href="#wallet" class="nav-link" data-page="wallet">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                    <circle cx="8" cy="10" r="2"/>
+                                    <line x1="21" y1="12" x2="23" y2="12"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Carteira</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Digital Assets -->
+                <div class="nav-group">
+                    <div class="nav-group-header">
+                        <span class="nav-group-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </span>
+                        <span class="nav-group-title">Ativos Digitais</span>
+                    </div>
+
+                    <div class="nav-items">
+                        <a href="#avatars" class="nav-link" data-page="avatars">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Meus Avatares</span>
+                            <span class="nav-link-count" id="avatar-count">0</span>
+                        </a>
+
+                        <a href="#create-avatar" class="nav-link" data-page="create-avatar">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 5v14M5 12h14"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Criar Avatar</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Legacy Features -->
+                <div class="nav-group">
+                    <div class="nav-group-header">
+                        <span class="nav-group-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                        </span>
+                        <span class="nav-group-title">Legado Digital</span>
+                    </div>
+
+                    <div class="nav-items">
+                        <a href="#time-capsules" class="nav-link" data-page="time-capsules">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Cápsulas do Tempo</span>
+                            <span class="nav-link-count" id="capsule-count">0</span>
+                        </a>
+
+                        <a href="#digital-legacy" class="nav-link" data-page="digital-legacy">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Meu Legado</span>
+                        </a>
+
+                        <a href="#inheritance" class="nav-link" data-page="inheritance">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                    <polyline points="14,2 14,8 20,8"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Herança</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Analytics -->
+                <div class="nav-group">
+                    <div class="nav-group-header">
+                        <span class="nav-group-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </span>
+                        <span class="nav-group-title">Análise</span>
+                    </div>
+
+                    <div class="nav-items">
+                        <a href="#analytics" class="nav-link disabled" data-page="analytics">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="20" x2="18" y2="10"/>
+                                    <line x1="12" y1="20" x2="12" y2="4"/>
+                                    <line x1="6" y1="20" x2="6" y2="14"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Analytics</span>
+                        </a>
+
+                        <a href="#transactions" class="nav-link disabled" data-page="transactions">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                    <line x1="7" y1="6" x2="7" y2="18"/>
+                                    <line x1="17" y1="6" x2="17" y2="18"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Transações</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="nav-group">
+                    <div class="nav-group-header">
+                        <span class="nav-group-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                            </svg>
+                        </span>
+                        <span class="nav-group-title">Configurações</span>
+                    </div>
+
+                    <div class="nav-items">
+                        <a href="#profile" class="nav-link" data-page="profile">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Perfil</span>
+                        </a>
+
+                        <a href="#settings" class="nav-link" data-page="settings">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Configurações</span>
+                        </a>
+
+                        <a href="#help" class="nav-link" data-page="help">
+                            <div class="nav-link-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text">Ajuda</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="user-status">
+                    <div class="user-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">Usuário</span>
+                        <span class="user-role">Conectado</span>
+                    </div>
+                </div>
+                
+                <!-- Sidebar Action Buttons -->
+                <div class="sidebar-actions">
+                    <!-- Theme Toggle Button -->
+                    <button class="sidebar-action-btn" id="theme-toggle" title="Alternar tema" aria-label="Alternar tema">
+                        <svg class="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 7C9.24 7 7 9.24 7 12S9.24 17 12 17 17 14.76 17 12 14.76 7 12 7ZM12 15C10.34 15 9 13.66 9 12S10.34 9 12 9 15 10.34 15 12 13.66 15 12 15ZM12 1L15.25 4.25L12 7.5L8.75 4.25L12 1ZM5.6 6.6L8.85 9.85L6.6 12.1L3.35 8.85L5.6 6.6ZM1 12L4.25 15.25L7.5 12L4.25 8.75L1 12ZM5.6 17.4L8.85 14.15L12.1 17.4L8.85 20.65L5.6 17.4ZM12 23L8.75 19.75L12 16.5L15.25 19.75L12 23ZM18.4 17.4L15.15 14.15L17.4 11.9L20.65 15.15L18.4 17.4ZM23 12L19.75 8.75L16.5 12L19.75 15.25L23 12ZM18.4 6.6L15.15 9.85L11.9 6.6L15.15 3.35L18.4 6.6Z"/>
+                        </svg>
+                        <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                            <path d="M12.1 22C17.6 22 22.1 17.5 22.1 12S17.6 2 12.1 2C11.4 2 10.7 2.1 10.1 2.2C12.2 4.1 13.4 7 13.4 10.1C13.4 13.2 12.2 16.1 10.1 18C10.7 18.1 11.4 18.2 12.1 18.2C15.2 18.2 17.9 16.4 19.3 13.7C21.2 14.4 22.1 16.5 22.1 12ZM7.9 16.9C9.8 15 10.9 12.4 10.9 9.6C10.9 6.8 9.8 4.2 7.9 2.3C5 3.7 2.9 6.8 2.9 10.1C2.9 13.4 5 16.5 7.9 16.9Z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Help Button -->
+                    <button class="sidebar-action-btn" id="help-btn" title="Ajuda" aria-label="Obter ajuda">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.5,2C6,2 1.5,6.5 1.5,12S6,22 11.5,22S21.5,17.5 21.5,12S17,2 11.5,2M11.5,20A8,8 0 0,1 3.5,12A8,8 0 0,1 11.5,4A8,8 0 0,1 19.5,12A8,8 0 0,1 11.5,20M10.5,7.5A1.5,1.5 0 0,1 12,6A1.5,1.5 0 0,1 13.5,7.5A1.5,1.5 0 0,1 12,9A1.5,1.5 0 0,1 10.5,7.5M10,11H14V17H10V11Z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Settings Button -->
+                    <button class="sidebar-action-btn" id="settings-btn" title="Configurações" aria-label="Abrir configurações">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-breadcrumb">
+                <span data-key="breadcrumb-home">Home</span>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current" id="current-page">Dashboard</span>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            
+            <div class="header-actions">
+                <div class="language-toggle">
+                    <button class="lang-btn active" data-lang="pt">PT</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                
+                <!-- Notification Bell -->
+                <div class="notification-container">
+                    <button class="notification-bell" id="notification-bell" title="Notificações">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                        <span class="notification-badge" id="notification-badge" style="display: none;">0</span>
+                    </button>
+                </div>
+                
+                <div class="wallet-status-indicator" id="wallet-indicator">
+                    <span class="status-dot disconnected"></span>
+                    <span data-key="wallet-disconnected">Desconectado</span>
+                </div>
+                
+                <button id="connect-wallet-btn" class="btn btn-primary">
+                    <span data-key="connect-wallet">Conectar MetaMask</span>
+                </button>
+                
+                <button id="disconnect-wallet-btn" class="btn btn-secondary" style="display: none;">
+                    <span data-key="disconnect-wallet">Desconectar</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page-content active">
+                <div class="content-header">
+                    <h1 class="page-title" data-key="dashboard-title">Dashboard</h1>
+                    <p class="page-description" data-key="dashboard-description">
+                        Gerencie seus avatares digitais, cápsulas do tempo e legado na blockchain
+                    </p>
+                </div>
+
+                <div class="content-grid">
+                    <!-- Main Content Area -->
+                    <div class="main-content">
+                        <!-- Quick Stats -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h2 class="panel-title" data-key="quick-stats">Visão Geral</h2>
+                                <a href="#analytics" class="panel-action" data-key="view-all">Ver tudo</a>
+                            </div>
+                            
+                            <div class="balance-grid">
+                                <div class="balance-card">
+                                    <div class="balance-label" data-key="total-avatars">Total de Avatares</div>
+                                    <div class="balance-amount" id="total-avatars">0</div>
+                                </div>
+                                
+                                <div class="balance-card">
+                                    <div class="balance-label" data-key="active-capsules">Cápsulas Ativas</div>
+                                    <div class="balance-amount" id="active-capsules">0</div>
+                                </div>
+                                
+                                <div class="balance-card">
+                                    <div class="balance-label" data-key="legacy-items">Itens de Legado</div>
+                                    <div class="balance-amount" id="legacy-items">0</div>
+                                </div>
+                                
+                                <div class="balance-card">
+                                    <div class="balance-label" data-key="blockchain-interactions">Interações</div>
+                                    <div class="balance-amount" id="blockchain-interactions">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature Cards -->
+                        <div class="feature-grid">
+                            <!-- Avatar Creation -->
+                            <div class="feature-card" id="avatar-creation-card">
+                                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5C14.8 4.1 13.6 3 12.1 3H11.9C10.4 3 9.2 4.1 9 5.5L3 7V9L9 10.5V22H15V10.5L21 9Z"/></svg></div>
+                                <div class="card-header">
+                                    <div>
+                                        <h3 class="card-title" data-key="avatar-creation-title">Criação de Avatares</h3>
+                                        <p class="card-subtitle" data-key="avatar-creation-subtitle">Crie seu avatar digital único</p>
+                                    </div>
+                                    <button class="card-expand-btn">
+                                        <span>⌄</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="card-content">
+                                    <p class="card-description" data-key="avatar-creation-description">
+                                        Crie avatares digitais únicos como NFTs na blockchain Ethereum. Cada avatar é exclusivo 
+                                        e pode ser usado em toda a plataforma SingulAI para representar sua identidade digital.
+                                    </p>
+                                    
+                                    <div class="card-actions">
+                                        <button class="btn btn-primary" id="create-avatar-btn">
+                                            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg></span>
+                                            <span data-key="create-new-avatar">Criar Novo Avatar</span>
+                                        </button>
+                                        <button class="btn btn-secondary" id="view-my-avatars-btn">
+                                            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12C2.73 16.39 7 19.5 12 19.5S21.27 16.39 23 12C21.27 7.61 17 4.5 12 4.5ZM12 17C9.24 17 7 14.76 7 12S9.24 7 12 7 17 9.24 17 12 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12S10.34 15 12 15 15 13.66 15 12 13.66 9 12 9Z"/></svg></span>
+                                            <span data-key="view-my-avatars">Ver Meus Avatares</span>
+                                        </button>
+                                        <button class="btn btn-outline" id="import-avatar-btn">
+                                            <span>📥</span>
+                                            <span data-key="import-avatar">Importar Avatar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Time Capsules -->
+                            <div class="feature-card" id="time-capsule-card">
+                                <div class="card-icon">⏰</div>
+                                <div class="card-header">
+                                    <div>
+                                        <h3 class="card-title" data-key="time-capsule-title">Cápsulas do Tempo</h3>
+                                        <p class="card-subtitle" data-key="time-capsule-subtitle">Mensagens para o futuro</p>
+                                    </div>
+                                    <button class="card-expand-btn">
+                                        <span>⌄</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="card-content">
+                                    <p class="card-description" data-key="time-capsule-description">
+                                        Crie cápsulas do tempo digitais que só podem ser abertas em datas específicas. 
+                                        Perfeito para mensagens futuras, documentos importantes ou surpresas programadas.
+                                    </p>
+                                    
+                                    <div class="card-actions">
+                                        <button class="btn btn-primary" id="create-capsule-btn">
+                                            <span>📦</span>
+                                            <span data-key="create-capsule">Criar Cápsula</span>
+                                        </button>
+                                        <button class="btn btn-secondary" id="view-capsules-btn">
+                                            <span>📋</span>
+                                            <span data-key="view-capsules">Ver Minhas Cápsulas</span>
+                                        </button>
+                                        <button class="btn btn-outline" id="schedule-capsule-btn">
+                                            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2ZM17 13H11V7H13V11H17V13Z"/></svg></span>
+                                            <span data-key="schedule-capsule">Agendar Abertura</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Digital Legacy -->
+                            <div class="feature-card" id="digital-legacy-card">
+                                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L2 12H5V20H19V12H22L12 3ZM12 18C10.9 18 10 17.1 10 16S10.9 14 12 14 14 14.9 14 16 13.1 18 12 18Z"/></svg></div>
+                                <div class="card-header">
+                                    <div>
+                                        <h3 class="card-title" data-key="digital-legacy-title">Legado Digital</h3>
+                                        <p class="card-subtitle" data-key="digital-legacy-subtitle">Preserve sua herança digital</p>
+                                    </div>
+                                    <button class="card-expand-btn">
+                                        <span>⌄</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="card-content">
+                                    <p class="card-description" data-key="digital-legacy-description">
+                                        Crie um legado digital permanente e transferível. Defina herdeiros, organize seus 
+                                        ativos digitais e garanta que sua memória seja preservada para sempre.
+                                    </p>
+                                    
+                                    <div class="card-actions">
+                                        <button class="btn btn-primary" id="create-legacy-btn">
+                                            <span>📜</span>
+                                            <span data-key="create-legacy">Criar Legado</span>
+                                        </button>
+                                        <button class="btn btn-secondary" id="manage-heirs-btn">
+                                            <span>👥</span>
+                                            <span data-key="manage-heirs">Gerenciar Herdeiros</span>
+                                        </button>
+                                        <button class="btn btn-outline" id="legacy-settings-btn">
+                                            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5C14.21 15.5 16 13.71 16 11.5S14.21 7.5 12 7.5 8 9.29 8 11.5 9.79 15.5 12 15.5ZM19.43 12.98C19.47 12.66 19.5 12.34 19.5 12S19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.97 19.05 5.05L16.56 6.05C16.04 5.65 15.48 5.32 14.87 5.07L14.49 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.51 2.42L9.13 5.07C8.52 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.72 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.21 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12S4.53 12.66 4.57 12.98L2.46 14.63C2.27 14.78 2.21 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.95C7.96 18.35 8.52 18.68 9.13 18.93L9.51 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.49 21.58L14.87 18.93C15.48 18.68 16.04 18.34 16.56 17.95L19.05 18.95C19.28 19.04 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.98Z"/></svg></span>
+                                            <span data-key="legacy-settings">Configurações</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI Chat -->
+                            <div class="feature-card" id="ai-chat-card">
+                                <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 7C13.4 7 14.5 8.1 14.5 9.5V10.5C14.5 11.9 13.4 13 12 13S9.5 11.9 9.5 10.5V9.5C9.5 8.1 10.6 7 12 7ZM18 11C18 15.25 15.16 18.94 11.44 19.94C11.59 19.72 11.72 19.46 11.72 19.16V16.84C13.17 16.34 14.22 15.05 14.41 13.5H15.25C16.78 13.5 18 12.28 18 10.75V11ZM6 11V10.75C6 12.28 7.22 13.5 8.75 13.5H9.59C9.78 15.05 10.83 16.34 12.28 16.84V19.16C12.28 19.46 12.41 19.72 12.56 19.94C8.84 18.94 6 15.25 6 11Z"/></svg></div>
+                                <div class="card-header">
+                                    <div>
+                                        <h3 class="card-title" data-key="ai-chat-title">Assistente IA</h3>
+                                        <p class="card-subtitle" data-key="ai-chat-subtitle">Converse com a SingulAI</p>
+                                    </div>
+                                    <button class="card-expand-btn">
+                                        <span>⌄</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="card-content">
+                                    <p class="card-description" data-key="ai-chat-description">
+                                        Nossa IA especializada pode ajudá-lo com dúvidas sobre blockchain, criação de avatares, 
+                                        configuração de legados e muito mais.
+                                    </p>
+                                    
+                                    <div class="card-actions">
+                                        <button class="btn btn-primary" id="open-chat-btn">
+                                            <span>💬</span>
+                                            <span data-key="start-chat">Iniciar Conversa</span>
+                                        </button>
+                                        <button class="btn btn-secondary" id="chat-history-btn">
+                                            <span>📜</span>
+                                            <span data-key="chat-history">Histórico</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Info -->
+                    <div class="sidebar-content">
+                        <!-- Wallet Panel -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3 class="panel-title" data-key="wallet-info"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 18V19C21 20.1 20.1 21 19 21H5C3.89 21 3 20.1 3 19V5C3 3.9 3.89 3 5 3H19C20.1 3 21 3.9 21 5V6H12C10.89 6 10 6.9 10 8V16C10 17.1 10.89 18 12 18H21ZM12 16H22V8H12V16ZM16 13.5C15.17 13.5 14.5 12.83 14.5 12S15.17 10.5 16 10.5 17.5 11.17 17.5 12 16.83 13.5 16 13.5Z"/></svg> Carteira</h3>
+                                <button class="panel-action" id="refresh-wallet">
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"/></svg></span>
+                                </button>
+                            </div>
+                            
+                            <div class="balance-grid">
+                                <div class="balance-card">
+                                    <div class="balance-label" data-key="eth-balance">ETH</div>
+                                    <div class="balance-amount" id="eth-balance">0.0000</div>
+                                    <div class="balance-usd" id="eth-balance-usd">$0.00</div>
+                                </div>
+                                
+                                <div class="balance-card">
+                                    <div class="balance-label" data-key="sgl-balance">SGL</div>
+                                    <div class="balance-amount" id="sgl-balance">0.0</div>
+                                    <div class="balance-usd" id="sgl-balance-usd">$0.00</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-sm" id="add-sgl-token-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+                                    <span data-key="add-token">Adicionar SGL</span>
+                                </button>
+                                <button class="btn btn-outline btn-sm" id="view-on-etherscan-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3M19 19H5V5H12V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19Z"/></svg>
+                                    <span data-key="view-etherscan">Ver no Etherscan</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3 class="panel-title" data-key="recent-activity"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13 3c4.97 0 9 4.03 9 9H20c0-3.87-3.13-7-7-7s-7 3.13-7 7c0 3.87 3.13 7 7 7v2c-4.97 0-9-4.03-9-9s4.03-9 9-9zM12 8v4l4 2-1 2-5-3V8h2z"/></svg> Atividade Recente</h3>
+                                <a href="#history" class="panel-action" data-key="view-all">Ver todas</a>
+                            </div>
+                            
+                            <div id="recent-activities">
+                                <p class="text-neutral-400" data-key="no-activity">Nenhuma atividade recente</p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3 class="panel-title" data-key="quick-actions"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2V13H10V22L17 10H13L17 2H7Z"/></svg> Ações Rápidas</h3>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <button class="btn btn-secondary btn-sm" id="backup-data-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2H6ZM6 4H13V9H18V20H6V4Z"/></svg>
+                                    <span data-key="backup-data">Backup</span>
+                                </button>
+                                <button class="btn btn-secondary btn-sm" id="export-data-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16L5 12L6.41 10.58L9 13.17L15.59 6.58L17 8M21 9V7L15 5.5C14.8 4.1 13.6 3 12.1 3H11.9C10.4 3 9.2 4.1 9 5.5L3 7V9L9 10.5V22H15V10.5L21 9Z"/></svg>
+                                    <span data-key="export-data">Exportar</span>
+                                </button>
+                                <button class="btn btn-secondary btn-sm" id="sync-data-btn">
+                                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.01 17.75 13.97 17.3 14.8L18.76 16.26C19.54 15.03 20 13.57 20 12C20 7.58 16.42 4 12 4ZM12 18C8.69 18 6 15.31 6 12C6 10.99 6.25 10.03 6.7 9.2L5.24 7.74C4.46 8.97 4 10.43 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z"/></svg></span>
+                                    <span data-key="sync-data">Sincronizar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Page -->
+            <div id="chat-page" class="page-content">
+                <div class="content-header">
+                    <h1 class="page-title" data-key="chat-title">Diálogo com Avatar Ético</h1>
+                    <p class="page-description" data-key="chat-description">
+                        Interaja com seu avatar digital através de módulos especializados
+                    </p>
+                </div>
+
+                <!-- Avatar Interaction Modules -->
+                <div class="avatar-modules-grid">
+                    <!-- Module 1: Avatar Base (NFT Creation & Management) -->
+                    <div class="avatar-module" data-contract="AvatarBase">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5C14.8 4.1 13.6 3 12.1 3H11.9C10.4 3 9.2 4.1 9 5.5L3 7V9L9 10.5V22H15V10.5L21 9Z"/>
+                                </svg>
+                            </div>
+                            <div class="module-info">
+                                <h3 class="module-title">Avatar Base</h3>
+                                <p class="module-subtitle">Criação e gestão de avatares NFT</p>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <button class="btn btn-primary btn-sm" onclick="app.openAvatarBase()">
+                                Gerenciar Avatar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Module 2: Avatar Wallet Link (Blockchain Integration) -->
+                    <div class="avatar-module" data-contract="AvatarWalletLink">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.11.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                                </svg>
+                            </div>
+                            <div class="module-info">
+                                <h3 class="module-title">Vinculação Blockchain</h3>
+                                <p class="module-subtitle">Conectar avatar à carteira</p>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <button class="btn btn-primary btn-sm" onclick="app.openWalletLink()">
+                                Vincular Carteira
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Module 3: Time Capsule (Temporal Storage) -->
+                    <div class="avatar-module" data-contract="TimeCapsule">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/>
+                                </svg>
+                            </div>
+                            <div class="module-info">
+                                <h3 class="module-title">Cápsulas Temporais</h3>
+                                <p class="module-subtitle">Armazenamento com liberação temporal</p>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <button class="btn btn-primary btn-sm" onclick="app.openTimeCapsule()">
+                                Criar Cápsula
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Module 4: Digital Legacy (Inheritance System) -->
+                    <div class="avatar-module" data-contract="DigitalLegacy">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                                </svg>
+                            </div>
+                            <div class="module-info">
+                                <h3 class="module-title">Legado Digital</h3>
+                                <p class="module-subtitle">Sistema de herança inteligente</p>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <button class="btn btn-primary btn-sm" onclick="app.openDigitalLegacy()">
+                                Configurar Legado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Professional Chat Interface -->
+                <div class="chat-container-enhanced">
+                    <!-- Chat Header with Professional Design -->
+                    <div class="chat-header-enhanced">
+                        <div class="chat-header-left">
+                            <div class="ai-avatar-enhanced">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6"/>
+                                    <path d="m21 12-6-3-6-3-6 3 6 3 6 3 6-3Z"/>
+                                </svg>
+                            </div>
+                            <div class="chat-title-group">
+                                <h3 class="chat-title-enhanced" data-key="ai-assistant" id="current-avatar-name">SingulAI Assistant</h3>
+                                <div class="chat-status-enhanced">
+                                    <div class="status-indicator-enhanced online"></div>
+                                    <span class="status-text" data-key="online" id="current-avatar-status">Online • IA Especializada</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-header-actions">
+                            <button class="header-action-btn" title="Novo Chat" onclick="app.clearChat()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 5v14m-7-7h14"/>
+                                </svg>
+                            </button>
+                            
+                            <button class="header-action-btn" title="Histórico" onclick="app.showChatHistory()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                            </button>
+                            
+                            <button class="header-action-btn" title="Trocar Avatar" onclick="app.showAvatarSelector()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 010 7.75"/>
+                                </svg>
+                            </button>
+                            
+                            <button class="header-action-btn" title="Configurações" onclick="app.showChatSettings()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Avatar Selection Panel -->
+                    <div class="avatar-selector-panel" id="avatarSelectorPanel">
+                        <div class="avatar-selector-header">
+                            <h4>Escolha seu Assistente SingulAI</h4>
+                            <p>Cada avatar tem uma personalidade única para melhor atendê-lo</p>
+                        </div>
+                        
+                        <div class="avatar-cards-container">
+                            <!-- Letícia - Especialista em Mensagens Emocionais -->
+                            <div class="avatar-card" data-avatar="leticia" data-color="#E91E63">
+                                <div class="avatar-card-image">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#E91E63" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                        <path d="M12 14l3-3 3 3"/>
+                                        <path d="M12 11v10"/>
+                                    </svg>
+                                </div>
+                                <div class="avatar-card-content">
+                                    <h5>Letícia</h5>
+                                    <p class="avatar-specialty">Especialista em Criatividade</p>
+                                    <p class="avatar-description">Focada em mensagens emocionais e momentos especiais. Ideal para criar conteúdo impactante e pessoal.</p>
+                                </div>
+                                <div class="avatar-card-footer">
+                                    <span class="avatar-tag">Criativa</span>
+                                    <span class="avatar-tag">Emocional</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Pedro - Especialista Técnico -->
+                            <div class="avatar-card" data-avatar="pedro" data-color="#2196F3">
+                                <div class="avatar-card-image">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2196F3" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                        <line x1="8" y1="21" x2="16" y2="21"/>
+                                        <line x1="12" y1="17" x2="12" y2="21"/>
+                                    </svg>
+                                </div>
+                                <div class="avatar-card-content">
+                                    <h5>Pedro</h5>
+                                    <p class="avatar-specialty">Especialista Técnico</p>
+                                    <p class="avatar-description">Focado em blockchain, smart contracts e aspectos técnicos. Perfeito para dúvidas sobre tecnologia.</p>
+                                </div>
+                                <div class="avatar-card-footer">
+                                    <span class="avatar-tag">Técnico</span>
+                                    <span class="avatar-tag">Blockchain</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Laura - Especialista em Legado -->
+                            <div class="avatar-card" data-avatar="laura" data-color="#4CAF50">
+                                <div class="avatar-card-image">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="1.5">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                        <path d="M8 21v-1a6 6 0 0 1 12 0v1"/>
+                                    </svg>
+                                </div>
+                                <div class="avatar-card-content">
+                                    <h5>Laura</h5>
+                                    <p class="avatar-specialty">Especialista em Legado</p>
+                                    <p class="avatar-description">Especializada em herança digital e planejamento familiar. Ideal para questões sobre legado e sucessão.</p>
+                                </div>
+                                <div class="avatar-card-footer">
+                                    <span class="avatar-tag">Legado</span>
+                                    <span class="avatar-tag">Família</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="avatar-selector-actions">
+                            <button class="btn-secondary" onclick="hideAvatarSelector()">Cancelar</button>
+                            <button class="btn-primary" id="confirmAvatarBtn" disabled onclick="confirmAvatarSelection()">Confirmar Seleção</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Chat Messages Area -->
+                    <div class="chat-messages-enhanced" id="chat-messages-enhanced">
+                        <!-- Welcome Message with Enhanced Design -->
+                        <div class="message-group ai-message">
+                            <div class="message-avatar ai-avatar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6"/>
+                                    <path d="m21 12-6-3-6-3-6 3 6 3 6 3 6-3Z"/>
+                                </svg>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-text" data-key="welcome-message">
+                                    <p>Olá! 👋 Sou o assistente IA da SingulAI, especializado em:</p>
+                                    <ul>
+                                        <li>🎭 <strong>Avatares Digitais</strong> - Criação e gerenciamento de NFTs</li>
+                                        <li>⏰ <strong>Cápsulas do Tempo</strong> - Armazenamento temporal seguro</li>
+                                        <li>🏛️ <strong>Legado Digital</strong> - Sistema de herança inteligente</li>
+                                        <li>⛓️ <strong>Blockchain</strong> - Smart contracts e Web3</li>
+                                    </ul>
+                                    <p>Como posso ajudá-lo hoje?</p>
+                                </div>
+                                <div class="message-timestamp">Agora</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div class="typing-indicator-enhanced" id="typing-indicator-enhanced">
+                        <div class="message-group ai-message">
+                            <div class="message-avatar ai-avatar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6"/>
+                                    <path d="m21 12-6-3-6-3-6 3 6 3 6 3 6-3Z"/>
+                                </svg>
+                            </div>
+                            <div class="message-content">
+                                <div class="typing-animation">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Chat Input Area -->
+                    <div class="chat-input-enhanced">
+                        <div class="input-container-enhanced">
+                            <div class="input-wrapper-enhanced">
+                                <textarea 
+                                    id="chat-input-enhanced" 
+                                    class="chat-textarea-enhanced" 
+                                    placeholder="Digite sua mensagem..."
+                                    rows="1"
+                                    maxlength="2000"
+                                ></textarea>
+                                
+                                <div class="input-actions-enhanced">
+                                    <button class="attachment-btn-enhanced" title="Anexar arquivo" disabled>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66L9.64 16.2a2 2 0 01-2.83-2.83l8.49-8.49"/>
+                                        </svg>
+                                    </button>
+                                    
+                                    <button id="chat-send-btn-enhanced" class="send-btn-enhanced" disabled title="Digite uma mensagem">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="22" y1="2" x2="11" y2="13"/>
+                                            <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="input-footer-enhanced">
+                                <div class="character-count-enhanced">
+                                    <span id="char-count-enhanced">0</span>/2000
+                                </div>
+                                <div class="input-hint-enhanced">
+                                    <kbd>↵</kbd> para enviar • <kbd>Shift</kbd> + <kbd>↵</kbd> para nova linha
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other pages will be dynamically loaded here -->
+            <div id="other-pages" class="page-content">
+                <!-- Placeholder for other pages -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Secret Panel Overlay -->
+    <div class="secret-panel-overlay" id="secret-panel-overlay"></div>
+
+    <!-- Secret Panel -->
+    <div class="secret-panel" id="secret-panel">
+        <div class="secret-panel-header">
+            <h3 class="secret-panel-title">Painel Avançado</h3>
+            <button class="secret-panel-close" id="secret-panel-close">&times;</button>
+        </div>
+        <div class="secret-panel-content">
+            <!-- Exchange Integration -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h4 class="panel-title">Integração Exchange</h4>
+                </div>
+                <div class="panel-content">
+                    <div class="exchange-links">
+                        <a href="https://app.uniswap.org/#/swap" target="_blank" rel="noopener" class="exchange-link">
+                            <div class="exchange-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                            <div class="exchange-info">
+                                <div class="exchange-name">Uniswap</div>
+                                <div class="exchange-desc">DEX para troca de tokens</div>
+                            </div>
+                        </a>
+                        <a href="https://1inch.io/" target="_blank" rel="noopener" class="exchange-link">
+                            <div class="exchange-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.01 17.75 13.97 17.3 14.8L18.76 16.26C19.54 15.03 20 13.57 20 12C20 7.58 16.42 4 12 4ZM12 18C8.69 18 6 15.31 6 12C6 10.99 6.25 10.03 6.7 9.2L5.24 7.74C4.46 8.97 4 10.43 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z"/></svg></div>
+                            <div class="exchange-info">
+                                <div class="exchange-name">1inch</div>
+                                <div class="exchange-desc">Agregador de DEX</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Etherscan Integration -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h4 class="panel-title">Explorador Blockchain</h4>
+                </div>
+                <div class="panel-content">
+                    <div class="etherscan-actions">
+                        <button class="btn btn-primary btn-sm" onclick="app.openMyAddress()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Meu Endereço
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="app.openSepoliaExplorer()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3M19 19H5V5H12V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19Z"/>
+                            </svg>
+                            Sepolia Explorer
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="app.openContractAddresses()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14 17H7V15H14V17ZM17 13H7V11H17V13ZM17 9H7V7H17V9Z"/>
+                            </svg>
+                            Contratos SingulAI
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Analytics -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h4 class="panel-title">Analytics Avançado</h4>
+                </div>
+                <div class="panel-content">
+                    <div class="analytics-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Gas Usado Total</div>
+                            <div class="stat-value" id="total-gas-used">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Transações Hoje</div>
+                            <div class="stat-value" id="transactions-today">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Valor Total Transferido</div>
+                            <div class="stat-value" id="total-value-transferred">0 ETH</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Trigger Button -->
+    <button class="secret-trigger" id="secret-trigger" title="Painel Avançado">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 15.5C14.21 15.5 16 13.71 16 11.5S14.21 7.5 12 7.5 8 9.29 8 11.5 9.79 15.5 12 15.5ZM19.43 12.98C19.47 12.66 19.5 12.34 19.5 12S19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.97 19.05 5.05L16.56 6.05C16.04 5.65 15.48 5.32 14.87 5.07L14.49 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.51 2.42L9.13 5.07C8.52 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.72 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.21 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12S4.53 12.66 4.57 12.98L2.46 14.63C2.27 14.78 2.21 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.95C7.96 18.35 8.52 18.68 9.13 18.93L9.51 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.49 21.58L14.87 18.93C15.48 18.68 16.04 18.34 16.56 17.95L19.05 18.95C19.28 19.04 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.98Z"/>
+        </svg>
+    </button>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+
+    <!-- Notification Modal -->
+    <div class="notification-modal" id="notification-modal">
+        <div class="notification-modal-header">
+            <h3 class="notification-modal-title">Notificações</h3>
+            <button class="notification-modal-close" id="notification-modal-close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="notification-list" id="notification-list">
+            <div class="notification-empty">
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom: 1rem; opacity: 0.5;">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <p>Nenhuma notificação no momento</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="sliding-modal" id="settings-modal">
+        <div class="sliding-modal-header">
+            <h3 class="sliding-modal-title">Configurações</h3>
+            <button class="sliding-modal-close" id="settings-modal-close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="sliding-modal-content">
+            <div class="settings-section">
+                <h4>Preferências de Conta</h4>
+                <div class="setting-item">
+                    <label>Tema</label>
+                    <select id="theme-select">
+                        <option value="auto">Automático</option>
+                        <option value="light">Claro</option>
+                        <option value="dark">Escuro</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Idioma</label>
+                    <select id="language-select">
+                        <option value="pt">Português</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h4>Notificações</h4>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" checked> Notificações push
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" checked> Notificações por email
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="sliding-modal-footer">
+            <button class="btn btn-secondary" id="settings-cancel">Cancelar</button>
+            <button class="btn btn-primary" id="settings-save">Salvar</button>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="sliding-modal" id="help-modal">
+        <div class="sliding-modal-header">
+            <h3 class="sliding-modal-title">Central de Ajuda</h3>
+            <button class="sliding-modal-close" id="help-modal-close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="sliding-modal-content">
+            <div class="help-section">
+                <h4>Como começar</h4>
+                <ul>
+                    <li>Conecte sua carteira MetaMask</li>
+                    <li>Certifique-se de estar na rede Sepolia</li>
+                    <li>Tenha ETH suficiente para gas</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h4>Recursos principais</h4>
+                <ul>
+                    <li><strong>Avatares:</strong> Crie e gerencie seus NFTs de avatar</li>
+                    <li><strong>Cápsulas do Tempo:</strong> Armazene mensagens para o futuro</li>
+                    <li><strong>Legado Digital:</strong> Configure sua herança digital</li>
+                    <li><strong>Chat IA:</strong> Converse com o assistente inteligente</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h4>Suporte</h4>
+                <p>Para suporte técnico, entre em contato através do chat IA ou envie um email para suporte@singulai.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="singulai-professional.js"></script>
+    <script src="singulai-professional-app.js"></script>
+    <script src="singulai-professional-help.js"></script>
+    <script src="singulai-advanced.js"></script>
+</body>
+</html>

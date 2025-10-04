@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SingulAI - Dashboard MVP</title>
     <link rel="icon" href="https://www.singulai.live/favicon.ico">
@@ -159,6 +160,26 @@
             z-index: 1;
         }
 
+        .dao-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00dd77);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dao-badge:hover {
+            background: linear-gradient(45deg, #00dd77, #00bb66);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+        }
+
         /* Container */
         .container {
             max-width: 1400px;
@@ -192,8 +213,8 @@
             border: 1px solid #333;
             border-radius: 16px;
             padding: 25px;
-            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             transition: all 0.3s ease;
         }
 
@@ -265,8 +286,8 @@
             border: 1px solid #333;
             border-radius: 20px;
             padding: 30px;
-            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -542,27 +563,27 @@
                     <!-- Avatar Base -->
                     <div class="contract-card">
                         <div class="contract-header">
-                            <span class="contract-icon">🎭</span>
+                            <span class="contract-icon">ðŸŽ­</span>
                             <div>
                                 <h3 class="contract-title">Avatar Base</h3>
                                 <p class="contract-subtitle">NFT Personalities</p>
                             </div>
                         </div>
                         <p class="contract-description">
-                            Crie avatares únicos na blockchain. Cada avatar é um NFT que representa
-                            uma personalidade digital imutável para cuidar do seu legado digital.
+                            Crie avatares Ãºnicos na blockchain. Cada avatar Ã© um NFT que representa
+                            uma personalidade digital imutÃ¡vel para cuidar do seu legado digital.
                         </p>
                         <div class="contract-address">0x388D16b79fAff27A45F714838F029BC34aC60c48</div>
 
                         <div class="input-group">
-                            <label>Personalidade do Avatar:</label>
+                            <label for="avatar-attrs">Personalidade do Avatar:</label>
                             <textarea id="avatar-attrs" placeholder="Ex: Laura - Ética, precisão e memória familiar. Especialista em cuidar de recordações e orientar decisões familiares com base em valores tradicionais..." rows="4"></textarea>
                         </div>
 
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                            <button id="mint-avatar" class="btn">✨ Criar Avatar</button>
-                            <button id="check-next-id" class="btn btn-secondary btn-small">🔍 Próximo ID</button>
-                            <button id="check-my-avatars" class="btn btn-secondary btn-small">👤 Meus Avatares</button>
+                            <button id="mint-avatar" class="btn">âœ¨ Criar Avatar</button>
+                            <button id="check-next-id" class="btn btn-secondary btn-small">ðŸ” PrÃ³ximo ID</button>
+                            <button id="check-my-avatars" class="btn btn-secondary btn-small">ðŸ‘¤ Meus Avatares</button>
                         </div>
 
                         <div id="avatar-message" class="message"></div>
@@ -571,39 +592,39 @@
                     <!-- Time Capsule -->
                     <div class="contract-card">
                         <div class="contract-header">
-                            <span class="contract-icon">⏰</span>
+                            <span class="contract-icon">â°</span>
                             <div>
                                 <h3 class="contract-title">Time Capsule</h3>
                                 <p class="contract-subtitle">Programmed Messages</p>
                             </div>
                         </div>
                         <p class="contract-description">
-                            Crie cápsulas do tempo que serão desbloqueadas automaticamente no futuro.
-                            Perfeito para mensagens póstumas e instruções programadas.
+                            Crie cÃ¡psulas do tempo que serÃ£o desbloqueadas automaticamente no futuro.
+                            Perfeito para mensagens pÃ³stumas e instruÃ§Ãµes programadas.
                         </p>
                         <div class="contract-address">0x1CE74AA25698312e150E3d0Aa2657Cc1B1cBeC93</div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="input-group">
-                                <label>Avatar ID:</label>
+                                <label for="capsule-avatar-id">Avatar ID:</label>
                                 <input type="number" id="capsule-avatar-id" placeholder="1" value="1" min="1">
                             </div>
 
                             <div class="input-group">
-                                <label>Data de abertura:</label>
+                                <label for="capsule-unlock-time">Data de abertura:</label>
                                 <input type="datetime-local" id="capsule-unlock-time">
                             </div>
                         </div>
 
                         <div class="input-group">
-                            <label>Mensagem:</label>
+                            <label for="capsule-message">Mensagem:</label>
                             <textarea id="capsule-message" placeholder="Digite sua mensagem para o futuro..." rows="4"></textarea>
                         </div>
 
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                            <button id="create-capsule" class="btn">📦 Criar Cápsula</button>
-                            <button id="check-my-capsules" class="btn btn-secondary btn-small">📋 Minhas Cápsulas</button>
-                            <button id="check-capsule-count" class="btn btn-secondary btn-small">🔢 Contador</button>
+                            <button id="create-capsule" class="btn">ðŸ“¦ Criar CÃ¡psula</button>
+                            <button id="check-my-capsules" class="btn btn-secondary btn-small">ðŸ“‹ Minhas CÃ¡psulas</button>
+                            <button id="check-capsule-count" class="btn btn-secondary btn-small">ðŸ”¢ Contador</button>
                         </div>
 
                         <div id="capsule-message-display" class="message"></div>
@@ -612,44 +633,44 @@
                     <!-- Digital Legacy -->
                     <div class="contract-card">
                         <div class="contract-header">
-                            <span class="contract-icon">📜</span>
+                            <span class="contract-icon">ðŸ“œ</span>
                             <div>
                                 <h3 class="contract-title">Digital Legacy</h3>
                                 <p class="contract-subtitle">Automated Inheritance</p>
                             </div>
                         </div>
                         <p class="contract-description">
-                            Configure heranças digitais automáticas. Defina beneficiários e condições
-                            de liberação. A execução é garantida pelos smart contracts.
+                            Configure heranÃ§as digitais automÃ¡ticas. Defina beneficiÃ¡rios e condiÃ§Ãµes
+                            de liberaÃ§Ã£o. A execuÃ§Ã£o Ã© garantida pelos smart contracts.
                         </p>
                         <div class="contract-address">0x5FC8d32690cc91D4c39d9d3abcBD16989F875707</div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div class="input-group">
-                                <label>Avatar ID:</label>
+                                <label for="legacy-avatar-id">Avatar ID:</label>
                                 <input type="number" id="legacy-avatar-id" placeholder="1" value="1" min="1">
                             </div>
 
                             <div class="input-group">
-                                <label>Endereço do Beneficiário:</label>
+                                <label for="legacy-beneficiary">Endereço do Beneficiário:</label>
                                 <input type="text" id="legacy-beneficiary" placeholder="0x...">
                             </div>
                         </div>
 
                         <div class="input-group">
-                            <label>Valor (ETH):</label>
+                            <label for="legacy-amount">Valor (ETH):</label>
                             <input type="number" id="legacy-amount" placeholder="0.1" step="0.01" min="0">
                         </div>
 
                         <div class="input-group">
-                            <label>Condições de Liberação:</label>
+                            <label for="legacy-conditions">Condições de Liberação:</label>
                             <textarea id="legacy-conditions" placeholder="Ex: Após 1 ano de inatividade, liberar automaticamente para beneficiário..." rows="3"></textarea>
                         </div>
 
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                            <button id="create-legacy" class="btn">⚖️ Criar Legado</button>
-                            <button id="check-my-legacies" class="btn btn-secondary btn-small">📄 Meus Legados</button>
-                            <button id="execute-legacy" class="btn btn-secondary btn-small">▶️ Executar</button>
+                            <button id="create-legacy" class="btn">âš–ï¸ Criar Legado</button>
+                            <button id="check-my-legacies" class="btn btn-secondary btn-small">ðŸ“„ Meus Legados</button>
+                            <button id="execute-legacy" class="btn btn-secondary btn-small">â–¶ï¸ Executar</button>
                         </div>
 
                         <div id="legacy-message-display" class="message"></div>
@@ -667,7 +688,7 @@
                     </div>
 
                     <div class="user-info">
-                        <div id="user-address">Endereço não conectado</div>
+                        <div id="user-address">EndereÃ§o nÃ£o conectado</div>
                     </div>
 
                     <div class="balance-info">
@@ -681,38 +702,38 @@
                         </div>
                     </div>
 
-                    <button id="connect-wallet" class="btn" style="width: 100%; margin-top: 20px;">🔗 Conectar Carteira</button>
+                    <button id="connect-wallet" class="btn" style="width: 100%; margin-top: 20px;">ðŸ”— Conectar Carteira</button>
                 </div>
 
                 <!-- Quick Actions -->
                 <div class="status-card">
-                    <h3 style="color: #00ff88; margin-bottom: 15px;">⚡ Ações Rápidas</h3>
+                    <h3 style="color: #00ff88; margin-bottom: 15px;">âš¡ AÃ§Ãµes RÃ¡pidas</h3>
 
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <button id="get-test-eth" class="btn btn-secondary btn-small" style="width: 100%;">🚰 Obter ETH de Teste</button>
-                        <button id="get-test-sgl" class="btn btn-secondary btn-small" style="width: 100%;">🪙 Obter SGL de Teste</button>
-                        <button id="check-contracts" class="btn btn-secondary btn-small" style="width: 100%;">🔍 Verificar Contratos</button>
+                        <button id="get-test-eth" class="btn btn-secondary btn-small" style="width: 100%;">ðŸš° Obter ETH de Teste</button>
+                        <button id="get-test-sgl" class="btn btn-secondary btn-small" style="width: 100%;">ðŸª™ Obter SGL de Teste</button>
+                        <button id="check-contracts" class="btn btn-secondary btn-small" style="width: 100%;">ðŸ” Verificar Contratos</button>
                     </div>
                 </div>
 
-                <!-- Links Úteis -->
+                <!-- Links Ãšteis -->
                 <div class="status-card">
-                    <h3 style="color: #00ff88; margin-bottom: 15px;">🔗 Links Úteis</h3>
+                    <h3 style="color: #00ff88; margin-bottom: 15px;">ðŸ”— Links Ãšteis</h3>
 
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn btn-secondary btn-small">📊 Etherscan</a>
-                        <a href="https://www.singulai.live" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🌐 Site Principal</a>
-                        <a href="https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🤖 Assistente</a>
-                        <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noopener" class="btn btn-secondary btn-small">🚰 Faucet ETH</a>
+                        <a href="https://sepolia.etherscan.io/" target="_blank" rel="noopener" class="btn btn-secondary btn-small">ðŸ“Š Etherscan</a>
+                        <a href="https://www.singulai.live" target="_blank" rel="noopener" class="btn btn-secondary btn-small">ðŸŒ Site Principal</a>
+                        <a href="https://chatgpt.com/g/g-68c9bc5b10d48191a41006964882b457-singulai" target="_blank" rel="noopener" class="btn btn-secondary btn-small">ðŸ¤– Assistente</a>
+                        <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noopener" class="btn btn-secondary btn-small">ðŸš° Faucet ETH</a>
                     </div>
                 </div>
 
                 <!-- Account Actions -->
                 <div class="status-card">
-                    <h3 style="color: #00ff88; margin-bottom: 15px;">👤 Conta</h3>
+                    <h3 style="color: #00ff88; margin-bottom: 15px;">ðŸ‘¤ Conta</h3>
 
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <button id="logout-btn" class="btn btn-secondary btn-small" style="width: 100%; background: rgba(255,68,68,0.1); border-color: #ff4444; color: #ff4444;">🚪 Sair da Conta</button>
+                        <button id="logout-btn" class="btn btn-secondary btn-small" style="width: 100%; background: rgba(255,68,68,0.1); border-color: #ff4444; color: #ff4444;">ðŸšª Sair da Conta</button>
                     </div>
                 </div>
             </div>
@@ -725,12 +746,16 @@
                 <a href="https://www.singulai.live">Site Principal</a>
                 <a href="https://sepolia.etherscan.io/">Etherscan Sepolia</a>
                 <a href="https://github.com/frodrigoalves/sglbk">GitHub</a>
-                <a href="https://docs.singulai.live">Documentação</a>
+                <a href="https://docs.singulai.live">DocumentaÃ§Ã£o</a>
             </div>
-            <p style="color: #666;">© 2025 SingulAI – O futuro registrado | MVP Demo Completo</p>
+            <p style="color: #666;">Â© 2025 SingulAI â€“ O futuro registrado | MVP Demo Completo</p>
             <p style="color: #444; font-size: 0.9rem; margin-top: 10px;">
-                Testnet Sepolia | Versão 2.0 | Última atualização: 22/09/2025
+                Testnet Sepolia | VersÃ£o 2.0 | Ãšltima atualizaÃ§Ã£o: 22/09/2025
             </p>
+            <!-- SingulDAO Button - Green version identical to MVP button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="dao-instructions.html" class="dao-badge">SingulDAO</a>
+            </div>
         </div>
     </footer>
 
@@ -738,3 +763,5 @@
     <script src="ux-improvements.js"></script>
 </body>
 </html>
+
+

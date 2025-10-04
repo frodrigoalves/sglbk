@@ -1,7 +1,7 @@
 // Configuração dos contratos
 const CONTRACTS = {
     SGL_TOKEN: {
-        address: '0x123...', // Endereço fictício para demonstração
+        address: '0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1', // SGL Token na Sepolia
         abi: [
             "function balanceOf(address account) public view returns (uint256)",
             "function transfer(address to, uint256 amount) public returns (bool)",

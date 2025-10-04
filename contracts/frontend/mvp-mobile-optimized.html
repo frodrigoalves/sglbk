@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SingulAI - Plataforma de Legado Digital com IA">
+    <meta name="theme-color" content="#0ea5e9">
+    
+    <title>SingulAI MVP - Dashboard</title>
+    
+    <!-- Preload críticos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="singulai-mobile-optimized.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    
+    <!-- Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">🤖</div>
+            <div class="loading-text">Carregando SingulAI...</div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="brand">
+                    <div class="brand-icon">🤖</div>
+                    <div class="brand-text">
+                        <h1 class="brand-title">SingulAI</h1>
+                        <p class="brand-subtitle">Legado Digital Inteligente</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions desktop-only">
+                    <button class="btn btn-secondary" onclick="openModal('settings-modal')">
+                        ⚙️ Configurações
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Wallet Connection Button -->
+        <button class="wallet-button" id="wallet-button">
+            <span class="wallet-icon">🔗</span>
+            <span class="wallet-text">Conectar Carteira</span>
+        </button>
+
+        <!-- Dashboard Content -->
+        <main class="dashboard-content">
+            
+            <!-- Balance Section -->
+            <section class="balance-section">
+                <h2 class="section-title">Seus Saldos</h2>
+                <div class="balance-grid">
+                    <div class="balance-item">
+                        <div class="balance-amount eth-balance">0.0000</div>
+                        <div class="balance-label">ETH Sepolia</div>
+                    </div>
+                    <div class="balance-item">
+                        <div class="balance-amount sgl-balance">0.00</div>
+                        <div class="balance-label">SGL Token</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="actions-section">
+                <h2 class="section-title">Ações Rápidas</h2>
+                <div class="actions-grid">
+                    <button class="action-card" onclick="openModal('avatar-modal')">
+                        <div class="action-icon">👤</div>
+                        <h3 class="action-title">Meu Avatar</h3>
+                        <p class="action-description">Configure seu avatar digital</p>
+                    </button>
+                    
+                    <button class="action-card" onclick="openModal('capsule-modal')">
+                        <div class="action-icon">⏰</div>
+                        <h3 class="action-title">Cápsula do Tempo</h3>
+                        <p class="action-description">Crie mensagens para o futuro</p>
+                    </button>
+                    
+                    <button class="action-card" onclick="openModal('legacy-modal')">
+                        <div class="action-icon">🏛️</div>
+                        <h3 class="action-title">Legado Digital</h3>
+                        <p class="action-description">Gerencie sua herança digital</p>
+                    </button>
+                    
+                    <button class="action-card mobile-only" onclick="openModal('settings-modal')">
+                        <div class="action-icon">⚙️</div>
+                        <h3 class="action-title">Configurações</h3>
+                        <p class="action-description">Ajustes da plataforma</p>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Chat Section -->
+            <section class="chat-section">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <h2>💬 Chat com IA</h2>
+                        <p>Converse com sua assistente inteligente</p>
+                    </div>
+                    <button class="btn btn-secondary mobile-only" onclick="openModal('chat-settings-modal')">
+                        ⚙️
+                    </button>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Mensagens serão inseridas aqui -->
+                </div>
+                
+                <div class="chat-input-container">
+                    <textarea 
+                        class="chat-input" 
+                        id="chat-input" 
+                        placeholder="Digite sua mensagem..."
+                        rows="1"
+                        maxlength="500"
+                    ></textarea>
+                    <button class="chat-send-btn" id="chat-send-btn">
+                        ➤
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    
+    <!-- Avatar Modal -->
+    <div id="avatar-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Configurar Avatar</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content">
+                    <p>Escolha seu avatar digital que representará você na plataforma:</p>
+                    
+                    <div class="avatar-options">
+                        <div class="avatar-option" data-avatar="avatar-a">
+                            <div class="avatar-preview">👨‍💼</div>
+                            <span>Profissional</span>
+                        </div>
+                        <div class="avatar-option" data-avatar="avatar-b">
+                            <div class="avatar-preview">👩‍🎨</div>
+                            <span>Criativo</span>
+                        </div>
+                        <div class="avatar-option" data-avatar="avatar-c">
+                            <div class="avatar-preview">🤖</div>
+                            <span>Futurista</span>
+                        </div>
+                    </div>
+                    
+                    <div class="avatar-customization">
+                        <h3>Personalização</h3>
+                        <div class="form-group">
+                            <label>Nome do Avatar:</label>
+                            <input type="text" placeholder="Ex: Pedro Digital" maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label>Personalidade:</label>
+                            <select title="Selecione a personalidade do avatar">
+                                <option>Amigável</option>
+                                <option>Profissional</option>
+                                <option>Criativo</option>
+                                <option>Sábio</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn-primary">Salvar Avatar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Capsule Modal -->
+    <div id="capsule-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Cápsula do Tempo</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content">
+                    <p>Crie mensagens que serão abertas em datas específicas no futuro:</p>
+                    
+                    <div class="form-group">
+                        <label>Título da Mensagem:</label>
+                        <input type="text" placeholder="Ex: Para mim em 2030" maxlength="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Conteúdo:</label>
+                        <textarea placeholder="Escreva sua mensagem para o futuro..." rows="6" maxlength="1000"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Data de Abertura:</label>
+                        <input type="date" min="2024-01-01" title="Selecione quando a cápsula será aberta">
+                    </div>
+                    
+                    <div class="capsule-preview">
+                        <h4>Prévia da Cápsula</h4>
+                        <div class="capsule-card">
+                            <div class="capsule-icon">⏰</div>
+                            <div class="capsule-info">
+                                <strong>Nova Cápsula</strong>
+                                <span>Será aberta em: --/--/----</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn-primary">Criar Cápsula</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Digital Legacy Modal -->
+    <div id="legacy-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Legado Digital</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content">
+                    <p>Configure como seus ativos digitais serão gerenciados:</p>
+                    
+                    <div class="legacy-options">
+                        <div class="legacy-item">
+                            <div class="legacy-icon">💰</div>
+                            <div class="legacy-details">
+                                <h4>Carteira Digital</h4>
+                                <p>Configure herdeiros para seus tokens SGL</p>
+                                <button class="btn btn-secondary btn-sm">Configurar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="legacy-item">
+                            <div class="legacy-icon">📱</div>
+                            <div class="legacy-details">
+                                <h4>Contas Digitais</h4>
+                                <p>Gerencie acesso às suas contas online</p>
+                                <button class="btn btn-secondary btn-sm">Configurar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="legacy-item">
+                            <div class="legacy-icon">📄</div>
+                            <div class="legacy-details">
+                                <h4>Documentos</h4>
+                                <p>Armazene documentos importantes</p>
+                                <button class="btn btn-secondary btn-sm">Configurar</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="beneficiaries-section">
+                        <h3>Beneficiários</h3>
+                        <div class="beneficiary-list">
+                            <p class="empty-state">Nenhum beneficiário configurado</p>
+                            <button class="btn btn-primary btn-sm">+ Adicionar Beneficiário</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Fechar</button>
+                <button class="btn btn-primary">Salvar Configurações</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Configurações</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content">
+                    <div class="settings-section">
+                        <h3>Conta</h3>
+                        <div class="setting-item">
+                            <label>
+                                <span>Notificações por Email</span>
+                                <input type="checkbox" checked>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label>
+                                <span>Backup Automático</span>
+                                <input type="checkbox" checked>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Privacidade</h3>
+                        <div class="setting-item">
+                            <label>
+                                <span>Perfil Público</span>
+                                <input type="checkbox">
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label>
+                                <span>Dados Anônimos</span>
+                                <input type="checkbox" checked>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Rede</h3>
+                        <div class="network-info">
+                            <p><strong>Rede Ativa:</strong> Ethereum Sepolia</p>
+                            <p><strong>Token SGL:</strong> 0xF281...EDe1</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Settings Modal -->
+    <div id="chat-settings-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Configurações do Chat</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content">
+                    <div class="setting-item">
+                        <label>
+                            <span>Som de Notificação</span>
+                            <input type="checkbox" checked>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label>
+                            <span>Salvar Histórico</span>
+                            <input type="checkbox" checked>
+                        </label>
+                    </div>
+                    
+                    <div class="danger-zone">
+                        <h4>Zona de Perigo</h4>
+                        <button class="btn btn-error" id="clear-chat">
+                            🗑️ Limpar Histórico
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script src="singulai-mobile-optimized.js"></script>
+    
+    <!-- Additional Styles for Components -->
+    <style>
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--neutral-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity var(--animation-normal);
+        }
+        
+        .loading-content {
+            text-align: center;
+        }
+        
+        .loading-logo {
+            font-size: 4rem;
+            margin-bottom: var(--space-4);
+            animation: pulse 2s infinite;
+        }
+        
+        .loading-text {
+            font-size: var(--text-lg);
+            color: var(--neutral-600);
+            margin-bottom: var(--space-6);
+        }
+        
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--neutral-200);
+            border-top: 3px solid var(--primary-500);
+            border-radius: 50%;
+            margin: 0 auto;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* App Header */
+        .app-header {
+            background: white;
+            border-bottom: 1px solid var(--neutral-200);
+            padding: var(--space-4);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .brand-icon {
+            font-size: 2rem;
+        }
+        
+        .brand-title {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin: 0;
+        }
+        
+        .brand-subtitle {
+            font-size: var(--text-sm);
+            color: var(--neutral-500);
+            margin: 0;
+        }
+        
+        /* Dashboard Content */
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-6);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-8);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-content {
+                padding: var(--space-4);
+                gap: var(--space-6);
+            }
+        }
+        
+        .section-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin-bottom: var(--space-4);
+        }
+        
+        /* Balance Grid */
+        .balance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+        }
+        
+        /* Actions Grid */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+        }
+        
+        @media (max-width: 768px) {
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .action-card {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--animation-fast);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .action-card:hover {
+            border-color: var(--primary-300);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .action-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-2);
+        }
+        
+        .action-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin: 0;
+        }
+        
+        .action-description {
+            font-size: var(--text-sm);
+            color: var(--neutral-600);
+            margin: 0;
+        }
+
+        /* Avatar Options */
+        .avatar-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin: var(--space-6) 0;
+        }
+        
+        .avatar-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-4);
+            border: 2px solid var(--neutral-200);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--animation-fast);
+        }
+        
+        .avatar-option:hover,
+        .avatar-option.selected {
+            border-color: var(--primary-500);
+            background: var(--primary-50);
+        }
+        
+        .avatar-preview {
+            font-size: 3rem;
+            margin-bottom: var(--space-2);
+        }
+        
+        /* Form Groups */
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--neutral-700);
+            margin-bottom: var(--space-2);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--space-3);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--radius-md);
+            font-size: var(--text-base);
+            transition: border-color var(--animation-fast);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+        }
+        
+        /* Legacy Items */
+        .legacy-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+            margin: var(--space-4) 0;
+        }
+        
+        .legacy-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-lg);
+        }
+        
+        .legacy-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        
+        .legacy-details {
+            flex: 1;
+        }
+        
+        .legacy-details h4 {
+            margin: 0 0 var(--space-1) 0;
+            font-size: var(--text-base);
+            color: var(--neutral-900);
+        }
+        
+        .legacy-details p {
+            margin: 0 0 var(--space-3) 0;
+            font-size: var(--text-sm);
+            color: var(--neutral-600);
+        }
+        
+        /* Settings */
+        .settings-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .settings-section h3 {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-2);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--neutral-100);
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-item label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .network-info p {
+            margin: var(--space-2) 0;
+            font-size: var(--text-sm);
+        }
+        
+        .danger-zone {
+            background: var(--error-50);
+            border: 1px solid var(--error-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-top: var(--space-6);
+        }
+        
+        .danger-zone h4 {
+            color: var(--error-600);
+            margin-bottom: var(--space-3);
+        }
+        
+        .btn-error {
+            background: var(--error-500);
+            color: white;
+        }
+        
+        .btn-error:hover {
+            background: var(--error-600);
+        }
+        
+        .btn-sm {
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--text-xs);
+            min-height: 32px;
+        }
+        
+        .empty-state {
+            color: var(--neutral-500);
+            font-style: italic;
+            text-align: center;
+            margin: var(--space-4) 0;
+        }
+
+        /* Hide loading screen after load */
+        body.loaded .loading-screen {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+    
+    <script>
+        // Hide loading screen when everything is loaded
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                setTimeout(() => {
+                    const loadingScreen = document.getElementById('loading-screen');
+                    if (loadingScreen) {
+                        loadingScreen.style.display = 'none';
+                    }
+                }, 300);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
