@@ -11,9 +11,14 @@ describe("TimeCapsule", function () {
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
     
-    // Deploy TimeCapsule
+    // Deploy AvatarBase first
+    const AvatarBase = await ethers.getContractFactory("AvatarBase");
+    const avatarBase = await AvatarBase.deploy();
+    await avatarBase.waitForDeployment();
+    
+    // Deploy TimeCapsule with AvatarBase address
     TimeCapsule = await ethers.getContractFactory("TimeCapsule");
-    timeCapsule = await TimeCapsule.deploy();
+    timeCapsule = await TimeCapsule.deploy(avatarBase.target);
     await timeCapsule.waitForDeployment();
   });
 

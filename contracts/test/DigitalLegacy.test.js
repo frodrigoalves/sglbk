@@ -11,9 +11,14 @@ describe("DigitalLegacy", function () {
   beforeEach(async function () {
     [owner, heir, other] = await ethers.getSigners();
     
-    // Deploy DigitalLegacy
+    // Deploy AvatarBase first
+    const AvatarBase = await ethers.getContractFactory("AvatarBase");
+    const avatarBase = await AvatarBase.deploy();
+    await avatarBase.waitForDeployment();
+    
+    // Deploy DigitalLegacy with AvatarBase address
     DigitalLegacy = await ethers.getContractFactory("DigitalLegacy");
-    digitalLegacy = await DigitalLegacy.deploy();
+    digitalLegacy = await DigitalLegacy.deploy(avatarBase.target);
     await digitalLegacy.waitForDeployment();
   });
 

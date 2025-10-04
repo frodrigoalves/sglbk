@@ -11,9 +11,14 @@ describe("AvatarWalletLink", function () {
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
     
-    // Deploy AvatarWalletLink
+    // Deploy AvatarBase first
+    const AvatarBase = await ethers.getContractFactory("AvatarBase");
+    const avatarBase = await AvatarBase.deploy();
+    await avatarBase.waitForDeployment();
+    
+    // Deploy AvatarWalletLink with AvatarBase address
     AvatarWalletLink = await ethers.getContractFactory("AvatarWalletLink");
-    walletLink = await AvatarWalletLink.deploy();
+    walletLink = await AvatarWalletLink.deploy(avatarBase.target);
     await walletLink.waitForDeployment();
   });
 

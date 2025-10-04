@@ -14,15 +14,15 @@ try {
 }
 $tar  = "$img-$tag.tar"
 
-Write-Host "==> Build imagem $img:$tag"
-docker build -t "$img:$tag" -f "$proj\backend\Dockerfile" "$proj\backend"
+Write-Host "==> Build imagem ${img}:${tag}"
+docker build -t "${img}:${tag}" -f "$proj\backend\Dockerfile" "$proj\backend"
 
 Write-Host "==> Export imagem para $tar"
-docker save "$img:$tag" -o "$tar"
+docker save "${img}:${tag}" -o "$tar"
 
-Write-Host "==> Enviar para $VpsUser@$VpsHost:$VpsPath"
-ssh "$VpsUser@$VpsHost" "mkdir -p $VpsPath"
-scp "$tar" "$VpsUser@$VpsHost:$VpsPath/"
+Write-Host "==> Enviar para ${VpsUser}@${VpsHost}:${VpsPath}"
+ssh "${VpsUser}@${VpsHost}" "mkdir -p $VpsPath"
+scp "$tar" "${VpsUser}@${VpsHost}:${VpsPath}/"
 
 $remoteCmd = @"
 set -e
@@ -33,7 +33,7 @@ echo '==> compose write'
 cat > compose.singulai.yml <<'YAML'
 services:
   singulai-api:
-    image: $img:$tag
+    image: ${img}:${tag}
     restart: unless-stopped
     env_file: [ .env ]
     ports: [ "8080:8080" ]
@@ -52,6 +52,6 @@ curl -s http://localhost:8080/health || true
 "@
 
 Write-Host "==> Executar remoto"
-ssh "$VpsUser@$VpsHost" "$remoteCmd"
+ssh "${VpsUser}@${VpsHost}" "$remoteCmd"
 
-Write-Host "OK: deploy $img:$tag aplicado."
+Write-Host "OK: deploy ${img}:${tag} aplicado."

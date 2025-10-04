@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -10,6 +10,7 @@ const crypto = require('crypto');
 const Web3 = require('web3');
 const bip39 = require('bip39');
 const hdkey = require('hdkey');
+const axios = require('axios');
 
 require('dotenv').config();
 
@@ -81,31 +82,26 @@ const authenticateToken = async (req, res, next) => {
 // Função para gerar carteira (simplificada sem Web3)
 async function generateWallet() {
     try {
-        // Gera mnemonic
         const mnemonic = bip39.generateMnemonic();
 
-        // Deriva chave privada da mnemonic
         const seed = bip39.mnemonicToSeedSync(mnemonic);
         const hdkeyInstance = hdkey.fromMasterSeed(seed);
         const child = hdkeyInstance.derive("m/44'/60'/0'/0/0");
         const privateKey = '0x' + child.privateKey.toString('hex');
 
-        // Gera endereço Ethereum simples (para desenvolvimento)
-        // Em produção, use Web3 ou ethers.js
         const address = '0x' + child.publicKey.toString('hex').slice(-40);
 
         return {
-            address: address,
-            privateKey: privateKey,
-            mnemonic: mnemonic
+            address,
+            privateKey,
+            mnemonic
         };
     } catch (error) {
         console.error('Erro ao gerar carteira:', error);
-        throw new Error('Falha ao gerar carteira');
+        return null;
     }
 }
 
-// Função para enviar email de confirmação
 async function sendConfirmationEmail(email, name, confirmationToken) {
     try {
         const confirmationUrl = `${process.env.FRONTEND_URL || 'http://localhost:8000'}/confirm-email.html?token=${confirmationToken}`;
@@ -185,6 +181,9 @@ app.post('/api/auth/signup', async (req, res) => {
 
             // Gera carteira
             const wallet = await generateWallet();
+            if (!wallet) {
+                return res.status(500).json({ error: 'Erro ao gerar carteira' });
+            }
 
             // Gera token de confirmação de email
             const emailConfirmationToken = crypto.randomBytes(32).toString('hex');
@@ -231,6 +230,9 @@ app.post('/api/auth/signup', async (req, res) => {
             console.log('Usando modo desenvolvimento (sem banco)');
 
             const wallet = await generateWallet();
+            if (!wallet) {
+                return res.status(500).json({ error: 'Erro ao gerar carteira' });
+            }
             const token = jwt.sign(
                 { userId: 1, email: email },
                 process.env.JWT_SECRET || 'dev-secret-key',
@@ -317,7 +319,7 @@ app.get('/api/token/config', (req, res) => {
             name: 'SingulAI Token',
             symbol: 'SGL',
             decimals: 18,
-            contractAddress: process.env.SGL_TOKEN_ADDRESS || '0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357',
+            contractAddress: process.env.SGL_TOKEN_ADDRESS || '0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1',
             network: 'Sepolia',
             chainId: 11155111
         },
@@ -347,7 +349,7 @@ app.post('/api/token/config', async (req, res) => {
         // Retornar configuração completa para MetaMask
         res.json({
             sglToken: {
-                address: process.env.SGL_TOKEN_ADDRESS || '0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357',
+                address: process.env.SGL_TOKEN_ADDRESS || '0xF281a68ae5Baf227bADC1245AC5F9B2F53b7EDe1',
                 symbol: 'SGL',
                 decimals: 18,
                 image: 'https://www.singulai.live/assets/sgl-token.png', // URL do ícone do token
@@ -670,9 +672,141 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Ollama Chat API
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { message, conversationHistory = [] } = req.body;
+        
+        if (!message || message.trim() === '') {
+            return res.status(400).json({ error: 'Mensagem é obrigatória' });
+        }
+
+        // Verificar se Ollama está habilitado
+        if (process.env.OLLAMA_ENABLED !== 'true') {
+            return res.status(503).json({ error: 'Serviço de IA temporariamente indisponível' });
+        }
+
+        const ollamaUrl = process.env.OLLAMA_URL || 'http://72.60.147.56:11434';
+        const ollamaModel = process.env.OLLAMA_MODEL || 'llama2';
+
+        // Preparar contexto da conversa
+        let conversationContext = '';
+        if (conversationHistory.length > 0) {
+            conversationContext = conversationHistory
+                .slice(-10) // Limitar a 10 mensagens recentes
+                .map(msg => `${msg.role}: ${msg.content}`)
+                .join('\n');
+        }
+
+        // Prompt otimizado para respostas rápidas
+        const systemPrompt = `SingulAI: assistente de legado digital. Resposta breve em português.
+
+${message}`;
+
+        // Fazer requisição para o Ollama
+        console.log(`🤖 Enviando mensagem para Ollama em ${ollamaUrl}`);
+        
+        const ollamaResponse = await axios.post(`${ollamaUrl}/api/generate`, {
+            model: ollamaModel,
+            prompt: systemPrompt,
+            stream: false,
+            options: {
+                temperature: 0.3,  // Reduzindo para respostas mais focadas
+                top_p: 0.8,
+                num_predict: 150,  // Limitando a 150 tokens para respostas rápidas
+                stop: ['\n\n', 'Usuário:', 'User:']  // Parando em quebras duplas
+            }
+        }, {
+            timeout: 60000, // 1 minuto timeout
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const aiResponse = ollamaResponse.data.response;
+
+        // Log da conversa (para debug)
+        console.log(`💬 Chat - Usuário: "${message.substring(0, 50)}..."`);
+        console.log(`🤖 Resposta IA: "${aiResponse.substring(0, 50)}..."`);
+
+        res.json({
+            response: aiResponse,
+            model: ollamaModel,
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('❌ Erro no chat com Ollama:', error.message);
+        console.error('Stack do erro:', error.stack);
+        
+        if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+            console.error(`❌ Não foi possível conectar ao Ollama em ${ollamaUrl}`);
+            return res.status(503).json({ 
+                error: 'Serviço de IA temporariamente indisponível. Tente novamente em alguns minutos.',
+                details: process.env.NODE_ENV !== 'production' ? {
+                    message: error.message,
+                    code: error.code,
+                    url: ollamaUrl
+                } : undefined
+            });
+        }
+
+        if (error.response) {
+            console.error('Detalhes do erro Ollama:', error.response.data);
+            return res.status(502).json({ 
+                error: 'Erro de comunicação com o serviço de IA',
+                details: process.env.NODE_ENV !== 'production' ? {
+                    status: error.response.status,
+                    data: error.response.data
+                } : undefined
+            });
+        }
+
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
+
+// Test Ollama Connection
+app.get('/api/chat/status', authenticateToken, async (req, res) => {
+    try {
+        const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434';
+        
+        // Testar conexão
+        const response = await axios.get(`${ollamaUrl}/api/tags`, { timeout: 5000 });
+        
+        res.json({
+            status: 'connected',
+            ollama_url: ollamaUrl,
+            available_models: response.data.models || [],
+            current_model: process.env.OLLAMA_MODEL || 'llama3.2',
+            enabled: process.env.OLLAMA_ENABLED === 'true'
+        });
+    } catch (error) {
+        console.error('❌ Ollama não acessível:', error.message);
+        res.status(503).json({
+            status: 'disconnected',
+            error: 'Ollama não está acessível',
+            ollama_url: process.env.OLLAMA_URL || 'http://localhost:11434',
+            enabled: process.env.OLLAMA_ENABLED === 'true'
+        });
+    }
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
     console.error('Erro não tratado:', error);
+    
+    // Em ambiente de desenvolvimento, enviamos detalhes do erro
+    if (process.env.NODE_ENV !== 'production') {
+        return res.status(500).json({ 
+            error: 'Erro interno do servidor', 
+            message: error.message,
+            stack: error.stack,
+            details: error.response ? error.response.data : null
+        });
+    }
+    
+    // Em produção, omitimos detalhes para não expor informações sensíveis
     res.status(500).json({ error: 'Erro interno do servidor' });
 });
 

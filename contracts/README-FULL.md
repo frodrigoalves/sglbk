@@ -1,4 +1,4 @@
-# 🚀 SingulAI MVP - Full Stack Platform
+﻿# 🚀 SingulAI MVP - Full Stack Platform
 
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.24-blue)
 ![Hardhat](https://img.shields.io/badge/Hardhat-2.22.5-yellow)
@@ -284,5 +284,4 @@ MIT - veja [LICENSE](LICENSE) para detalhes.
 
 ---
 
-**🎉 Bem-vindo ao futuro da identidade digital!**</content>
-<parameter name="filePath">c:\Users\Lenga\Desktop\vps\singulai-mvp-backend-starter\contracts\README-FULL.md
+**🎉 Bem-vindo ao futuro da identidade digital!**

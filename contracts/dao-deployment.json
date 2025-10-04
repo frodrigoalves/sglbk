@@ -1,0 +1,13 @@
+{
+  "network": "sepolia",
+  "dao": {
+    "address": "0x67Ef5FFf1fb79e7479aF27163Adef1b42a3aFf16"
+  },
+  "treasury": {
+    "address": "0x8599Fc17B7F8eA439D79692645B65D512E7aC626"
+  },
+  "token": {
+    "address": "0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357"
+  },
+  "timestamp": "2025-10-02T14:30:01.522Z"
+}

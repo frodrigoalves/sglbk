@@ -49,10 +49,15 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "hardhat": "^2.22.5"
+    "hardhat": "^2.22.5",
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0"
   },
   "dependencies": {
     "@openzeppelin/contracts": "4.9.6",
+    "axios": "^1.12.2",
     "dotenv": "^16.4.5"
   },
   "directories": {

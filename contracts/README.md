@@ -3,7 +3,7 @@
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.24-blue)
 ![Hardhat](https://img.shields.io/badge/Hardhat-2.22.5-yellow)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Tests](https://img.shields.io/badge/Tests-16%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/Tests-23%20passing-brightgreen)
 
 > Sistema de contratos inteligentes para avatares digitais, herança digital e cápsulas do tempo na blockchain Ethereum.
 
@@ -15,6 +15,17 @@ O SingulAI MVP é uma plataforma inovadora que permite:
 - 🔗 **Vinculação de Carteiras** - Sistema de linking entre avatares e carteiras Ethereum
 - ⏰ **Cápsulas do Tempo** - Conteúdo bloqueado temporalmente
 - 🏛️ **Herança Digital** - Sistema de legado digital para preservação de dados
+- 💰 **Token SGL** - Token ERC20 para acesso a recursos premium
+
+## 🌐 Contratos Implantados (Sepolia Testnet)
+
+| Contrato | Endereço |
+|----------|---------|
+| MockToken (SGL) | `0xa86A95348CDe67D9bdfDDa8a15A14dc1E46e0901` |
+| AvatarBase | `0x04EbdaC786cb1e4F3aE677440D4c31B9FeEA9755` |
+| AvatarWalletLink | `0x423dB25728840e188Cf659451CFc6293fC05E725` |
+| TimeCapsule | `0xD07a81b97e3A6B3d80cfF835E1C68372Fc7Cb4C6` |
+| DigitalLegacy | `0x85863e8f20598Fa2aAb10105AFc1c5A3865ab0C8` |
 
 ## 🏗️ Arquitetura dos Contratos
 

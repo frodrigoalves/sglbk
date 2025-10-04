@@ -1,151 +1,120 @@
-# SingulAI MVP - AI Coding Guidelines
+# SingulAI MVP – AI Coding Agent Guidelines
 
 ## 🏗️ Architecture Overview
 
-**SingulAI** is a blockchain platform with 4 core smart contracts:
-- `AvatarBase.sol` - ERC721 NFT contract for digital avatars
-- `AvatarWalletLink.sol` - Links avatars to Ethereum wallets
-- `TimeCapsule.sol` - Time-locked content storage
-- `DigitalLegacy.sol` - Digital inheritance system
+**SingulAI** is a full-stack blockchain-based digital legacy platform with three main layers:
 
-**Frontend**: Vanilla JavaScript with Web3.js, served via `python -m http.server 8000`
+**Smart Contracts (Blockchain Layer):**
+- `contracts/AvatarBase.sol`: ERC721 NFT for digital avatars
+- `contracts/AvatarWalletLink.sol`: Links avatars to Ethereum wallets
+- `contracts/TimeCapsule.sol`: Time-locked content storage
+- `contracts/DigitalLegacy.sol`: Digital inheritance logic
 
-## 🔧 Critical Workflows
+**Backend API (Node.js + Express):**
+- User authentication & management (JWT-based)
+- PostgreSQL database integration
+- Wallet generation and management
+- Email verification system
+- Contract address configuration
 
-### Contract Development
-```bash
-# Test all contracts
-npm test
+**Frontend (Pure JavaScript):**
+- Vanilla JS with Web3.js for blockchain interaction
+- Multi-page application: login, register, dashboard
+- Dark theme UI with Portuguese language
+- Served via `python -m http.server 8000` from `frontend/`
 
-# Deploy to Sepolia testnet
-npm run deploy:sepolia
+## 🔧 Critical Developer Workflows
 
-# Verify deployed contracts
-npx hardhat verify <CONTRACT_ADDRESS> --network sepolia
-```
+**Full Stack Startup (Windows):**
+- Quick start: Run `start-services.bat` (starts backend + frontend)
+- Manual: `cd backend && npm run dev` then `cd frontend && python -m http.server 8000`
 
-### Frontend Development
-```bash
-# Serve frontend locally
-cd frontend && python -m http.server 8000
+**Contract Development:**
+- Test all contracts: `npm test`
+- Deploy to Sepolia: `npm run deploy:sepolia`
+- Verify contract: `npx hardhat verify <CONTRACT_ADDRESS> --network sepolia`
+- **Critical**: Update contract addresses in both `backend/.env` and `frontend/singulai-mvp.js`
 
-# Update contract addresses in frontend after deployment
-# Edit CONTRACTS object in singulai-mvp.js with new addresses
-```
+**Backend Development:**
+- Development server: `cd backend && npm run dev` (port 3000)
+- Database setup: `npm run db:setup` (requires PostgreSQL running)
+- Health check: `http://localhost:3000/api/health`
 
-## 📋 Code Patterns
+**Frontend Development:**
+- Serve locally: `cd frontend && python -m http.server 8000`
+- Entry point: `http://localhost:8000/login.html`
+- **After every contract deployment, update** the `CONTRACTS` object in `frontend/singulai-mvp.js`
 
-### Contract Structure
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+**Docker Deployment:**
+- Local: `docker-compose up -d` (PostgreSQL + Backend)
+- Production: Uses nginx proxy and SSL certificates
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+## 📋 Project-Specific Patterns & Conventions
 
-contract ContractName {
-    // State variables
-    mapping(uint256 => data) public dataStore;
-    
-    // Events with indexed parameters
-    event ActionPerformed(uint256 indexed id, address indexed user);
-    
-    // Functions
-    function performAction() external {
-        // Implementation
-        emit ActionPerformed(id, msg.sender);
-    }
-}
-```
+**Solidity Contracts:**
+- Use OpenZeppelin base contracts
+- All state-changing functions must emit events with indexed parameters (IDs, addresses)
+- Example event: `event ActionPerformed(uint256 indexed id, address indexed user);`
 
-### Test Structure
-```javascript
-describe("ContractName", function () {
-  let contract;
-  let owner, addr1, addr2;
+**Testing:**
+- Use Hardhat and ethers.js
+- Always deploy fresh contracts in `beforeEach`
+- Test both success and failure cases; verify event emission
 
-  beforeEach(async function () {
-    [owner, addr1, addr2] = await ethers.getSigners();
-    const Contract = await ethers.getContractFactory("ContractName");
-    contract = await Contract.deploy();
-    await contract.waitForDeployment();
-  });
+**Backend API:**
+- JWT authentication with email verification
+- PostgreSQL database with `users` table for authentication and wallet storage
+- Environment variables for contract addresses (must sync with frontend)
+- RESTful endpoints for user management and blockchain integration
 
-  it("Should perform action correctly", async function () {
-    // Test implementation
-  });
-});
-```
+**Frontend:**
+- All contract addresses are centralized in the `CONTRACTS` object in `singulai-mvp.js`
+- Never hardcode addresses elsewhere; always update after deployment
+- MetaMask is required for all blockchain actions
+- UI is dark-themed, Inter font, Portuguese language
 
-### Frontend Integration
-```javascript
-// Contract configuration pattern
-const CONTRACTS = {
-    CONTRACT_NAME: {
-        address: '0x...',
-        abi: [
-            "function functionName(type param) external returns (type)"
-        ]
-    }
-};
+**Database Schema:**
+- `users`: Authentication, wallet addresses, email verification
+- Auto-generated wallets with mnemonic storage
+- PostgreSQL with UUID extension enabled
 
-// Web3 interaction
-async function interactWithContract() {
-    const contract = new web3.eth.Contract(CONTRACTS.CONTRACT_NAME.abi, CONTRACTS.CONTRACT_NAME.address);
-    const result = await contract.methods.functionName(param).send({ from: accounts[0] });
-}
-```
+**Integration Points:**
+- MetaMask: wallet connection, transaction signing
+- Etherscan: contract verification
+- Infura: Sepolia RPC endpoint
+- Web3.js: all blockchain calls
+- PostgreSQL: user data persistence
+- JWT: session management
 
-## 🎯 Project Conventions
+## 🚀 Deployment & Integration
 
-### Contract Addresses
-- **Always update** `frontend/singulai-mvp.js` CONTRACTS object after deployment
-- **Never hardcode** addresses in production code
-- Use environment variables for deployment scripts
-
-### Events & Logging
-- **Emit events** for all state-changing operations
-- **Index critical parameters** (IDs, addresses) for efficient querying
-- Follow naming: `ActionPerformed(uint256 indexed id, address indexed user)`
-
-### Testing
-- **16 tests** currently passing across 3 contracts
-- Use `beforeEach` for contract deployment setup
-- Test both success and failure scenarios
-- Verify event emissions with `.to.emit()`
-
-### UI/UX
-- **Dark theme** with Inter font family
-- **Responsive grid layout** (main content + 320px sidebar)
-- **Portuguese language** throughout interface
-- **MetaMask integration** required for all blockchain interactions
-
-## 🚀 Deployment Process
-
-1. **Configure environment**: Copy `.env.example` to `.env`
-2. **Get test ETH**: Use Sepolia faucet for deployment gas
-3. **Deploy contracts**: `npm run deploy:sepolia`
-4. **Update frontend**: Edit contract addresses in `singulai-mvp.js`
-5. **Verify contracts**: `npx hardhat verify <address> --network sepolia`
-6. **Test integration**: Serve frontend and test MetaMask connection
+1. Copy `.env.example` to `.env` and configure
+2. Get Sepolia test ETH
+3. Deploy contracts: `npm run deploy:sepolia`
+4. Update frontend contract addresses
+5. Verify contracts on Etherscan
+6. Serve frontend and test MetaMask connection
 
 ## ⚠️ Common Pitfalls
 
-- **Contract addresses**: Frontend must be updated after each deployment
-- **Network configuration**: Always use Sepolia for testing, never mainnet
-- **Gas estimation**: Test transactions thoroughly before production
-- **MetaMask setup**: Ensure Sepolia network is added to wallet
+- **Frontend contract addresses must be updated after every deployment**
+- **Backend .env must also be updated with new contract addresses**
+- Always use Sepolia for testing (never mainnet)
+- MetaMask must be on Sepolia network
+- PostgreSQL must be running before starting backend
+- Test gas estimation before production
 
-## 🔗 Integration Points
+## 📚 Key Files & Directories
 
-- **MetaMask**: Wallet connection and transaction signing
-- **Etherscan**: Contract verification and transaction monitoring
-- **Infura**: RPC endpoint for Sepolia network
-- **Web3.js**: Frontend blockchain interaction library
+- `contracts/` – Solidity smart contracts
+- `backend/server.js` – Node.js API server with authentication
+- `database/init.sql` – PostgreSQL schema and table creation
+- `frontend/singulai-mvp.js` – Main frontend logic and contract integration
+- `scripts/` – Deployment and utility scripts
+- `test/` – Contract test suites
+- `hardhat.config.js` – Hardhat config
+- `docker-compose.yml` – Full stack deployment configuration
+- `start-services.bat` – Windows quick start script
 
-## 📚 Key Files
-
-- `contracts/AvatarBase.sol` - Core NFT contract implementation
-- `scripts/deploy.js` - Multi-contract deployment script
-- `frontend/singulai-mvp.js` - Main frontend logic and contract integration
-- `hardhat.config.js` - Network and compiler configuration
-- `test/*.test.js` - Contract test suites
+---
+For more details, see `README.md` and in-code comments. If any section is unclear or incomplete, please request clarification or provide feedback for improvement.
